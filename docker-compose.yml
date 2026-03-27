@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:16
+    container_name: restobook-db
+    environment:
+      POSTGRES_USER: restobook
+      POSTGRES_PASSWORD: restobook123
+      POSTGRES_DB: restobook
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mongo:
+    image: mongo:7
+    container_name: restobook-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  pgdata:
+  mongodata:
