@@ -266,6 +266,56 @@ const validateHoraireUpdate = (req, res, next) => {
     next()
 }
 
+// ============================================
+// VALIDATION PLAT
+// ============================================
+
+const validatePlat = (req, res, next) => {
+    const { nom_item_menu, prix_item_menu, id_categorie } = req.body
+    const errors = []
+
+    if (!nom_item_menu || !nom_item_menu.trim()) {
+        errors.push("Le nom du plat est requis")
+    }
+
+    if (prix_item_menu === undefined || prix_item_menu === null) {
+        errors.push("Le prix est requis")
+    } else if (typeof prix_item_menu !== 'number' || prix_item_menu <= 0) {
+        errors.push("Le prix doit être un nombre positif")
+    }
+
+    if (!id_categorie || !Number.isInteger(id_categorie)) {
+        errors.push("La catégorie est requise")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
+const validatePlatUpdate = (req, res, next) => {
+    const { nom_item_menu, prix_item_menu } = req.body
+    const errors = []
+
+    if (!nom_item_menu || !nom_item_menu.trim()) {
+        errors.push("Le nom du plat est requis")
+    }
+
+    if (prix_item_menu === undefined || prix_item_menu === null) {
+        errors.push("Le prix est requis")
+    } else if (typeof prix_item_menu !== 'number' || prix_item_menu <= 0) {
+        errors.push("Le prix doit être un nombre positif")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
 module.exports = { 
     validateClient, 
     validateClientUpdate, 
@@ -275,5 +325,7 @@ module.exports = {
     validateTableUpdate,
     validateCategorie,
     validateCategorieUpdate,
-    validateHoraireUpdate
+    validateHoraireUpdate,
+    validatePlat,
+    validatePlatUpdate
 }
