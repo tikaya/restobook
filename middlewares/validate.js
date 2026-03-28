@@ -238,6 +238,34 @@ const validateCategorieUpdate = (req, res, next) => {
     next()
 }
 
+// ============================================
+// VALIDATION HORAIRE
+// ============================================
+
+const validateHoraireUpdate = (req, res, next) => {
+    const { heure_ouverture, heure_fermeture, est_ferme } = req.body
+    const errors = []
+
+    if (est_ferme === undefined || typeof est_ferme !== 'boolean') {
+        errors.push("est_ferme est requis et doit être true ou false")
+    }
+
+    if (est_ferme === false) {
+        if (!heure_ouverture) {
+            errors.push("L'heure d'ouverture est requise quand le restaurant est ouvert")
+        }
+        if (!heure_fermeture) {
+            errors.push("L'heure de fermeture est requise quand le restaurant est ouvert")
+        }
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
 module.exports = { 
     validateClient, 
     validateClientUpdate, 
@@ -246,5 +274,6 @@ module.exports = {
     validateTable,
     validateTableUpdate,
     validateCategorie,
-    validateCategorieUpdate
+    validateCategorieUpdate,
+    validateHoraireUpdate
 }
