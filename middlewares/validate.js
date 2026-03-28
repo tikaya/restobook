@@ -190,11 +190,61 @@ const validateTableUpdate = (req, res, next) => {
     next()
 }
 
+// ============================================
+// VALIDATION CATEGORIE
+// ============================================
+
+const validateCategorie = (req, res, next) => {
+    const { nom_categorie } = req.body
+    const errors = []
+
+    if (!nom_categorie || !nom_categorie.trim()) {
+        errors.push("Le nom de la catégorie est requis")
+    }
+
+    // ordre_affichage_categorie est optionnel (DEFAULT 0 en BDD)
+    // mais s'il est fourni, il doit être un entier >= 0
+    if (req.body.ordre_affichage_categorie !== undefined) {
+        if (!Number.isInteger(req.body.ordre_affichage_categorie) || req.body.ordre_affichage_categorie < 0) {
+            errors.push("L'ordre d'affichage doit être un entier positif ou zéro")
+        }
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
+const validateCategorieUpdate = (req, res, next) => {
+    const { nom_categorie } = req.body
+    const errors = []
+
+    if (!nom_categorie || !nom_categorie.trim()) {
+        errors.push("Le nom de la catégorie est requis")
+    }
+
+    if (req.body.ordre_affichage_categorie !== undefined) {
+        if (!Number.isInteger(req.body.ordre_affichage_categorie) || req.body.ordre_affichage_categorie < 0) {
+            errors.push("L'ordre d'affichage doit être un entier positif ou zéro")
+        }
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
 module.exports = { 
     validateClient, 
     validateClientUpdate, 
     validateEmploye, 
     validateEmployeUpdate,
     validateTable,
-    validateTableUpdate
+    validateTableUpdate,
+    validateCategorie,
+    validateCategorieUpdate
 }
