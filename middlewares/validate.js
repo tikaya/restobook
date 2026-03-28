@@ -132,9 +132,69 @@ const validateEmployeUpdate = (req, res, next) => {
     next()
 }
 
+// ============================================
+// VALIDATION TABLE RESTO
+// ============================================
+
+const validateTable = (req, res, next) => {
+    const { numero_table, capacite_table, emplacement_table } = req.body
+    const errors = []
+
+    if (!numero_table && numero_table !== 0) {
+        errors.push("Le numéro de table est requis")
+    } else if (!Number.isInteger(numero_table) || numero_table <= 0) {
+        errors.push("Le numéro de table doit être un entier positif")
+    }
+
+    if (!capacite_table && capacite_table !== 0) {
+        errors.push("La capacité est requise")
+    } else if (!Number.isInteger(capacite_table) || capacite_table <= 0) {
+        errors.push("La capacité doit être un entier positif")
+    }
+
+    if (!emplacement_table || !['interieur', 'terrasse', 'salon_prive'].includes(emplacement_table)) {
+        errors.push("L'emplacement doit être 'interieur', 'terrasse' ou 'salon_prive'")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
+const validateTableUpdate = (req, res, next) => {
+    const { numero_table, capacite_table, emplacement_table } = req.body
+    const errors = []
+
+    if (!numero_table && numero_table !== 0) {
+        errors.push("Le numéro de table est requis")
+    } else if (!Number.isInteger(numero_table) || numero_table <= 0) {
+        errors.push("Le numéro de table doit être un entier positif")
+    }
+
+    if (!capacite_table && capacite_table !== 0) {
+        errors.push("La capacité est requise")
+    } else if (!Number.isInteger(capacite_table) || capacite_table <= 0) {
+        errors.push("La capacité doit être un entier positif")
+    }
+
+    if (!emplacement_table || !['interieur', 'terrasse', 'salon_prive'].includes(emplacement_table)) {
+        errors.push("L'emplacement doit être 'interieur', 'terrasse' ou 'salon_prive'")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
 module.exports = { 
     validateClient, 
     validateClientUpdate, 
     validateEmploye, 
-    validateEmployeUpdate 
+    validateEmployeUpdate,
+    validateTable,
+    validateTableUpdate
 }

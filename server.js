@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000
 
 const clientRoutes = require('./routes/client')
 const employeRoutes = require('./routes/employe')
+const tableRoutes = require('./routes/table')
 
 // 1. Maillons communs
 app.use(express.json())
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 // 3. Sous-pipelines
 app.use('/clients', clientRoutes)
 app.use('/employes',employeRoutes)
+app.use('/tables', tableRoutes)
 
 // 4. Gardien (toujours à la fin)
 app.use((err, req, res, next) => {
