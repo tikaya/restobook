@@ -29,6 +29,9 @@ const tableController = {
             const newTable = await tableService.createTable(data);
             res.status(201).json(newTable);
         }catch(error) {
+            if(error.code === '23505') {
+               return res.status(409).json({ error: 'Le numéro de table existe déjà' });
+            }
             next(error);
         }
     },
@@ -41,6 +44,9 @@ const tableController = {
             res.json(updatedTable);
 
         }catch(error) {
+            if(error.code === '23505') {
+                return res.status(409).json({ error: 'Le numéro de table existe déjà' });
+            }
             next(error);
 
         }
