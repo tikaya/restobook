@@ -378,6 +378,44 @@ const validateReservationUpdate = (req, res, next) => {
     next()
 }
 
+// ============================================
+// VALIDATION AVIS
+// ============================================
+
+const validateAvis = (req, res, next) => {
+    const { note_avis, id_client } = req.body
+    const errors = []
+
+    if (!note_avis || !Number.isInteger(note_avis) || note_avis < 1 || note_avis > 5) {
+        errors.push("La note doit être un entier entre 1 et 5")
+    }
+
+    if (!id_client || !Number.isInteger(id_client)) {
+        errors.push("Le client est requis")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
+const validateAvisModeration = (req, res, next) => {
+    const { statut_avis } = req.body
+    const errors = []
+
+    if (!statut_avis || !['approuve', 'rejete'].includes(statut_avis)) {
+        errors.push("Le statut doit être 'approuve' ou 'rejete'")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
 module.exports = { 
     validateClient, 
     validateClientUpdate, 
@@ -391,5 +429,7 @@ module.exports = {
     validatePlat,
     validatePlatUpdate,
     validateReservation,
-    validateReservationUpdate
+    validateReservationUpdate,
+    validateAvis,
+    validateAvisModeration
 }

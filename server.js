@@ -11,6 +11,7 @@ const categorieRoutes = require('./routes/categories')
 const horaireRoutes = require('./routes/horaire')
 const platRoutes = require('./routes/plats')
 const reservationRoutes = require('./routes/reservations')
+const avisRoutes = require('./routes/avis')
 
 // 1. Maillons communs
 app.use(express.json())
@@ -28,6 +29,7 @@ app.use('/categories', categorieRoutes)
 app.use('/horaires', horaireRoutes)
 app.use('/plats', platRoutes)
 app.use('/reservations', reservationRoutes)
+app.use('/avis', avisRoutes)
 
 
 // 4. Gardien (toujours à la fin)
