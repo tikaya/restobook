@@ -316,6 +316,68 @@ const validatePlatUpdate = (req, res, next) => {
     next()
 }
 
+// ============================================
+// VALIDATION RESERVATION
+// ============================================
+
+const validateReservation = (req, res, next) => {
+    const { date_reservation, heure_reservation, nb_personnes, id_client, id_table } = req.body
+    const errors = []
+
+    if (!date_reservation) {
+        errors.push("La date est requise")
+    }
+
+    if (!heure_reservation) {
+        errors.push("L'heure est requise")
+    }
+
+    if (!nb_personnes || !Number.isInteger(nb_personnes) || nb_personnes <= 0) {
+        errors.push("Le nombre de personnes doit être un entier positif")
+    }
+
+    if (!id_client || !Number.isInteger(id_client)) {
+        errors.push("Le client est requis")
+    }
+
+    if (!id_table || !Number.isInteger(id_table)) {
+        errors.push("La table est requise")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
+const validateReservationUpdate = (req, res, next) => {
+    const { date_reservation, heure_reservation, nb_personnes, statut_reservation } = req.body
+    const errors = []
+
+    if (!date_reservation) {
+        errors.push("La date est requise")
+    }
+
+    if (!heure_reservation) {
+        errors.push("L'heure est requise")
+    }
+
+    if (!nb_personnes || !Number.isInteger(nb_personnes) || nb_personnes <= 0) {
+        errors.push("Le nombre de personnes doit être un entier positif")
+    }
+
+    if (statut_reservation && !['confirmee', 'annulee', 'honoree', 'no_show'].includes(statut_reservation)) {
+        errors.push("Le statut doit être 'confirmee', 'annulee', 'honoree' ou 'no_show'")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
 module.exports = { 
     validateClient, 
     validateClientUpdate, 
@@ -327,5 +389,7 @@ module.exports = {
     validateCategorieUpdate,
     validateHoraireUpdate,
     validatePlat,
-    validatePlatUpdate
+    validatePlatUpdate,
+    validateReservation,
+    validateReservationUpdate
 }
