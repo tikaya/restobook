@@ -416,6 +416,39 @@ const validateAvisModeration = (req, res, next) => {
     next()
 }
 
+// ============================================
+// VALIDATION CONTACT
+// ============================================
+
+const validateContact = (req, res, next) => {
+    const { nom_expediteur, email_expediteur, sujet_message, contenu_message } = req.body
+    const errors = []
+
+    if (!nom_expediteur || !nom_expediteur.trim()) {
+        errors.push("Le nom est requis")
+    }
+
+    if (!email_expediteur || !email_expediteur.trim()) {
+        errors.push("L'email est requis")
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email_expediteur)) {
+        errors.push("L'email n'est pas valide")
+    }
+
+    if (!sujet_message || !sujet_message.trim()) {
+        errors.push("Le sujet est requis")
+    }
+
+    if (!contenu_message || !contenu_message.trim()) {
+        errors.push("Le message est requis")
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors })
+    }
+
+    next()
+}
+
 module.exports = { 
     validateClient, 
     validateClientUpdate, 
@@ -431,5 +464,6 @@ module.exports = {
     validateReservation,
     validateReservationUpdate,
     validateAvis,
-    validateAvisModeration
+    validateAvisModeration,
+    validateContact
 }
