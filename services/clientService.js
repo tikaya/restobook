@@ -1,5 +1,6 @@
 //Importons le module clientModel pour accéder aux méthodes de la base de données
 const clientModel = require('../models/clientModel');
+const bcrypt = require('bcrypt');
 
 const clientservice = {
 
@@ -23,7 +24,12 @@ const clientservice = {
         error.status = 400;
         throw error;
         }
-         // On ajoutera bcrypt ici plus tard
+         // Hash du mot de passe avant de le stocker
+         const salt = await bcrypt.genSalt(10);
+
+         // Hashons le mdp_client concretement
+           data.mdp_client = await bcrypt.hash(data.mdp_client,salt );
+
         return await clientModel.create(data);
     },
 

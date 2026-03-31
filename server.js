@@ -13,6 +13,8 @@ const platRoutes = require('./routes/plats')
 const reservationRoutes = require('./routes/reservations')
 const avisRoutes = require('./routes/avis')
 const contactRoutes = require('./routes/contact')
+const authRoutes = require('./routes/auth')
+
 
 // 1. Maillons communs
 app.use(express.json())
@@ -23,6 +25,7 @@ app.get('/', (req, res) => {
 })
 
 // 3. Sous-pipelines
+app.use('/auth', authRoutes)
 app.use('/clients', clientRoutes)
 app.use('/employes',employeRoutes)
 app.use('/tables', tableRoutes)

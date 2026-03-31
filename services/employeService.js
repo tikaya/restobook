@@ -1,6 +1,9 @@
 // Importons le module du modèle employe
 const employeModel = require('../models/employeModel');
 
+// Importons via via la fonction require le l'ojet bcrypt pour le hash des mots de passe
+const bcrypt = require('bcrypt');
+
 // Objet employeService avec des méthodes pour la logique métier liée aux employés
 const employeService = {
     getAllEmployes: async () => {
@@ -23,7 +26,12 @@ const employeService = {
             error.status = 400;
             throw error;
         }
-        // On ajoutera bcrypt ici plus tard
+        // Génerons le salt pour le hash du mot de passe
+        const salt  = await bcrypt.genSalt(10);
+
+        // Hashons le mot de passe de l'employé
+        data.mdp_employe = await bcrypt.hash(data.mdp_employe, salt);
+        
         return await employeModel.create(data);
     },
 
