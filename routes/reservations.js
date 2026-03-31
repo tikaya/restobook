@@ -6,14 +6,17 @@ const { validateReservation, validateReservationUpdate } = require('../middlewar
 // Importons Objet function express pour creer un router
 const express = require('express');
 
+// Ajoutons les middlewares authentification et controle d'accès
+const { verifyToken, requireRole} = require('../middlewares/auth')
+
 //Créons l'objet sous pipeline pour les routes de réservation
 const router = express.Router();
 
 // Définissons les routes pour les réservations
-router.get('/', reservationController.getAll);
-router.get('/:id', reservationController.getById);
-router.post('/', validateReservation, reservationController.create);
-router.put('/:id', validateReservationUpdate, reservationController.update);
-router.delete('/:id', reservationController.delete);
+router.get('/',verifyToken,requireRole('gerant','serveur') , reservationController.getAll);
+router.get('/:id',verifyToken, reservationController.getById);
+router.post('/',verifyToken, validateReservation, reservationController.create);
+router.put('/:id',verifyToken, validateReservationUpdate, reservationController.update);
+router.delete('/:id',verifyToken,requireRole('gerant'), reservationController.delete);
 
 module.exports = router;

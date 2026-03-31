@@ -4,6 +4,8 @@ const horairesController = require('../controllers/horairesController');
 //Importons les fonctions de validation des données pour les horaires
 const {  validateHoraireUpdate } = require('../middlewares/validate');
 
+const { verifyToken, requireRole} = require('../middlewares/auth')
+
 // Importons objet function Express pour créer un routeur
 const express =  require('express');
 
@@ -13,6 +15,6 @@ const router = express.Router();
 //Ajoutons les maillons de la chaîne de traitement des requetes HTTP liées aux horaires
 router.get('/', horairesController.getHoraires);
 router.get('/:id', horairesController.getHorairesById);
-router.put('/:id', validateHoraireUpdate, horairesController.updateHoraires);
+router.put('/:id',verifyToken, requireRole("gerant"),validateHoraireUpdate, horairesController.updateHoraires);
 
 module.exports = router;

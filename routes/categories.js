@@ -3,6 +3,10 @@ const categorieController = require('../controllers/categorieController');
 
 //Importons les midlleware de validation pour les catégories
 const { validateCategorie, validateCategorieUpdate } = require('../middlewares/validate');
+
+// Importons les middlewares authentification et de controle d'accès
+const { verifyToken, requireRole} = require('../middlewares/auth')
+
 //Importons la fonction objet express 
 const express = require('express');
 
@@ -12,9 +16,9 @@ const router = express.Router();
 //AJoutons les maillons au sous pipeline , les routes pour les catégories
 router.get('/', categorieController.getAllCategories);
 router.get('/:id', categorieController.getCategorieById);
-router.post('/', validateCategorie, categorieController.createCategorie);
-router.put('/:id', validateCategorieUpdate, categorieController.updateCategorie);
-router.delete('/:id', categorieController.deleteCategorie);
+router.post('/',verifyToken,requireRole('gerant'), validateCategorie, categorieController.createCategorie);
+router.put('/:id', verifyToken,requireRole('gerant'),validateCategorieUpdate, categorieController.updateCategorie);
+router.delete('/:id',verifyToken,requireRole('gerant'), categorieController.deleteCategorie);
 
 //Exportons le module router pour l'utiliser dans app.js
 module.exports = router;
