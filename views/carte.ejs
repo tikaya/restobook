@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+
+    <section class="hero" style="padding: 3.5rem 2rem;">
+        <div class="hero-content" style="max-width:600px;">
+            <h1 style="font-size: clamp(2rem, 4vw, 3rem);">Notre Carte</h1>
+            <div class="hero-divider"></div>
+            <p class="hero-subtitle">Des produits frais, de saison, cuisinés avec passion</p>
+        </div>
+    </section>
+
+    <!-- Filtres par catégorie -->
+    <section style="background: var(--creme); padding: 2rem 2rem 0;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="filter-btn active" onclick="filterPlats('all')">Tous</button>
+            <% categories.forEach(cat => { %>
+                <button class="filter-btn" onclick="filterPlats(<%= cat.id_categorie %>)">
+                    <%= cat.nom_categorie %>
+                </button>
+            <% }) %>
+        </div>
+    </section>
+
+    <!-- Plats -->
+    <section style="background: var(--creme); padding: 3rem 2rem 5rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <% categories.forEach(cat => { %>
+                <div class="cat-section" data-cat="<%= cat.id_categorie %>">
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--bordeaux); margin-bottom: 0.5rem;">
+                        <%= cat.nom_categorie %>
+                    </h2>
+                    <div style="width: 40px; height: 2px; background: var(--or); margin-bottom: 2rem;"></div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                        <% plats.filter(p => p.id_categorie === cat.id_categorie).forEach(plat => { %>
+                            <div class="card reveal" style="padding: 0; overflow: hidden;">
+                                <div style="background: var(--creme-dark); height: 160px; display: flex; align-items: center; justify-content: center;">
+                                    <span style="font-size: 2rem; opacity: 0.3;">🍽️</span>
+                                </div>
+                                <div style="padding: 1.5rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--brun);">
+                                            <%= plat.nom_item_menu %>
+                                        </h3>
+                                        <span style="color: var(--bordeaux); font-weight: 700; font-size: 1.1rem; white-space: nowrap; margin-left: 1rem;">
+                                            <%= parseFloat(plat.prix_item_menu).toFixed(2) %> €
+                                        </span>
+                                    </div>
+                                    <% if (plat.description_item_menu) { %>
+                                        <p style="color: var(--brun-light); font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.75rem;">
+                                            <%= plat.description_item_menu %>
+                                        </p>
+                                    <% } %>
+                                    <% if (plat.allergenes_item_menu) { %>
+                                        <p style="font-size: 0.75rem; color: var(--or-dark);">
+                                            ⚠️ <%= plat.allergenes_item_menu %>
+                                        </p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </section>
+
+    <section class="cta-band">
+        <div class="cta-band-content reveal">
+            <h2>Un plat vous tente ?</h2>
+            <p>Réservez votre table et venez le déguster</p>
+            <a href="/reservation" class="btn-primary" style="width:auto; display:inline-block">Réserver une table</a>
+        </div>
+    </section>
+
+    <style>
+        .filter-btn {
+            background: white;
+            border: 1px solid var(--creme-dark);
+            padding: 0.6rem 1.5rem;
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--brun-light);
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-btn:hover { border-color: var(--or); color: var(--bordeaux); }
+
+        .filter-btn.active {
+            background: var(--bordeaux);
+            color: white;
+            border-color: var(--bordeaux);
+        }
+    </style>
+
+    <script>
+        function filterPlats(catId) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.cat-section').forEach(section => {
+                if (catId === 'all') {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = section.dataset.cat == catId ? 'block' : 'none';
+                }
+            });
+        }
+    </script>
+
+<%- include('partials/footer') %>

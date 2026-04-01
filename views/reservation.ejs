@@ -1,0 +1,143 @@
+<%- include('partials/header') %>
+
+    <section class="hero" style="padding: 3.5rem 2rem;">
+        <div class="hero-content" style="max-width:600px;">
+            <h1 style="font-size: clamp(2rem, 4vw, 3rem);">Réserver une table</h1>
+            <div class="hero-divider"></div>
+            <p class="hero-subtitle">Quelques clics pour une expérience inoubliable</p>
+        </div>
+    </section>
+
+    <section style="background: var(--creme); padding: 4rem 2rem;">
+        <div style="max-width: 650px; margin: 0 auto;">
+            <div class="card">
+                <h2 class="card-title">Votre réservation</h2>
+                <div class="card-underline"></div>
+
+                <div id="message" style="display:none; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;"></div>
+
+                <form id="reservation-form" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label class="form-label">Nom *</label>
+                            <input type="text" name="nom" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Prénom *</label>
+                            <input type="text" name="prenom" class="form-input" required>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label class="form-label">Email *</label>
+                            <input type="email" name="email" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Téléphone *</label>
+                            <input type="tel" name="telephone" class="form-input" required>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label class="form-label">Date *</label>
+                            <input type="date" name="date_reservation" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Heure *</label>
+                            <input type="time" name="heure_reservation" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Personnes *</label>
+                            <input type="number" name="nb_personnes" class="form-input" min="1" max="20" value="2" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Demandes spéciales</label>
+                        <textarea name="demandes_speciales" class="form-input" rows="3" placeholder="Allergie, anniversaire, terrasse..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem; border: none; cursor: pointer;">
+                        Réserver une table
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--brun);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.4rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--creme-dark);
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            color: var(--brun);
+            background: var(--creme);
+            transition: border-color 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--bordeaux);
+        }
+    </style>
+
+    <script>
+        document.getElementById('reservation-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const msg = document.getElementById('message');
+
+            const data = {
+                date_reservation: form.date_reservation.value,
+                heure_reservation: form.heure_reservation.value,
+                nb_personnes: parseInt(form.nb_personnes.value),
+                demandes_speciales: form.demandes_speciales.value,
+                id_client: 1,
+                id_table: 1
+            };
+
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch('/reservations', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': token ? 'Bearer ' + token : ''
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+
+                if (res.ok) {
+                    msg.style.display = 'block';
+                    msg.style.background = '#e8f8f0';
+                    msg.style.color = '#0a8754';
+                    msg.style.border = '1px solid #0a8754';
+                    msg.innerHTML = 'Merci pour votre réservation. Nous avons hâte de vous accueillir !';
+                    form.reset();
+                } else {
+                    msg.style.display = 'block';
+                    msg.style.background = '#fff0f0';
+                    msg.style.color = '#c0392b';
+                    msg.style.border = '1px solid #c0392b';
+                    msg.innerHTML = result.error || result.errors?.join('<br>') || 'Erreur';
+                }
+            } catch (err) {
+                msg.style.display = 'block';
+                msg.style.background = '#fff0f0';
+                msg.style.color = '#c0392b';
+                msg.innerHTML = 'Erreur de connexion au serveur';
+            }
+        });
+    </script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,94 @@
+<%- include('partials/header') %>
+
+    <section class="hero" style="padding: 3.5rem 2rem;">
+        <div class="hero-content" style="max-width:600px;">
+            <h1 style="font-size: clamp(2rem, 4vw, 3rem);">Avis clients</h1>
+            <div class="hero-divider"></div>
+            <p class="hero-subtitle">Ce que nos clients pensent de nous</p>
+        </div>
+    </section>
+
+    <section class="section-avis">
+        <div class="section-header">
+            <div class="rating-global">
+                <div class="stars-display">★★★★☆</div>
+                <p class="rating-text"><%= avis.length %> avis vérifiés</p>
+            </div>
+        </div>
+
+        <!-- Filtres par note -->
+        <div style="max-width: 1200px; margin: 0 auto 2rem; display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="filter-btn active" onclick="filterAvis('all')">Tous</button>
+            <button class="filter-btn" onclick="filterAvis(5)">★★★★★</button>
+            <button class="filter-btn" onclick="filterAvis(4)">★★★★☆</button>
+            <button class="filter-btn" onclick="filterAvis(3)">★★★☆☆</button>
+            <button class="filter-btn" onclick="filterAvis(2)">★★☆☆☆</button>
+            <button class="filter-btn" onclick="filterAvis(1)">★☆☆☆☆</button>
+        </div>
+
+        <div class="avis-grid">
+            <% const colors = ['#722F37', '#2D6A4F', '#5B3A8C', '#C9A84C', '#1a5276']; %>
+            <% avis.forEach((a, i) => { %>
+                <div class="avis-card reveal" data-note="<%= a.note_avis %>">
+                    <div class="avis-header">
+                        <div class="avis-author">
+                            <div class="avatar" style="background: <%= colors[i % colors.length] %>">
+                                <%= a.id_client %>
+                            </div>
+                            <div>
+                                <div class="author-name">Client #<%= a.id_client %></div>
+                                <div class="author-stars">
+                                    <% for(let s = 0; s < 5; s++) { %>
+                                        <%= s < a.note_avis ? '★' : '☆' %>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="avis-date"><%= new Date(a.date_avis).toLocaleDateString('fr-FR') %></span>
+                    </div>
+                    <% if (a.commentaire_avis) { %>
+                        <p class="avis-text">« <%= a.commentaire_avis %> »</p>
+                    <% } %>
+                </div>
+            <% }) %>
+        </div>
+
+        <% if (avis.length === 0) { %>
+            <p style="text-align: center; color: var(--brun-light); font-style: italic; margin-top: 2rem;">
+                Aucun avis pour le moment.
+            </p>
+        <% } %>
+    </section>
+
+    <style>
+        .filter-btn {
+            background: white;
+            border: 1px solid var(--creme-dark);
+            padding: 0.5rem 1.2rem;
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--brun-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover { border-color: var(--or); color: var(--bordeaux); }
+        .filter-btn.active { background: var(--bordeaux); color: white; border-color: var(--bordeaux); }
+    </style>
+
+    <script>
+        function filterAvis(note) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.avis-card').forEach(card => {
+                if (note === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.dataset.note == note ? 'block' : 'none';
+                }
+            });
+        }
+    </script>
+
+<%- include('partials/footer') %>

@@ -17,6 +17,8 @@ const avisRoutes = require('./routes/avis')
 const contactRoutes = require('./routes/contact')
 const authRoutes = require('./routes/auth')
 const logRoutes = require('./routes/log')
+const pageController = require('./controllers/pageController');
+
 
 // Configuration EJS
 app.set('view engine', 'ejs')
@@ -26,11 +28,14 @@ app.use(express.static('public'))
 // 1. Maillons communs
 app.use(express.json())
 
-// 2. Page d'accueil
+// 2. Page d'accueil 
+app.get('/', pageController.accueil)
+app.get('/carte', pageController.carte)
+app.get('/reservation', pageController.reservation)
+app.get('/avis', pageController.avis)
+app.get('/contact', pageController.contact)
+app.get('/mentions-legales', pageController.mentionslegales)
 
-app.get('/', (req, res) => {
-    res.render('index')
-})
 
 // 3. Sous-pipelines
 app.use('/auth', authRoutes)

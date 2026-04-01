@@ -1,0 +1,57 @@
+<footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand">Le Gourmet Parisien</div>
+                <div class="footer-info">
+                    12 rue des Archives, 75004 Paris<br>
+                    📞 01 23 45 67 89<br><br>
+                    Une cuisine raffinée au cœur du Marais, fondée par Sophie et Marc.
+                </div>
+            </div>
+            <div>
+                <div class="footer-col-title">Navigation</div>
+                <ul class="footer-links">
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/carte">Notre Carte</a></li>
+                    <li><a href="/reservation">Réserver</a></li>
+                    <li><a href="/avis">Avis</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/mentions-legales">Mentions légales</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Suivez-nous</div>
+                <div class="social-btns">
+                    <div class="social-btn">fb</div>
+                    <div class="social-btn">ig</div>
+                    <div class="social-btn">tw</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Le Gourmet Parisien — Tous droits réservés
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        reveals.forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
