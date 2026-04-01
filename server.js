@@ -1,5 +1,7 @@
 const express = require('express')
+
 require('dotenv').config()
+require('./mongoDb');
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -14,6 +16,7 @@ const reservationRoutes = require('./routes/reservations')
 const avisRoutes = require('./routes/avis')
 const contactRoutes = require('./routes/contact')
 const authRoutes = require('./routes/auth')
+const logRoutes = require('./routes/log')
 
 // Configuration EJS
 app.set('view engine', 'ejs')
@@ -40,7 +43,7 @@ app.use('/plats', platRoutes)
 app.use('/reservations', reservationRoutes)
 app.use('/avis', avisRoutes)
 app.use('/contact', contactRoutes)
-
+app.use('/logs',logRoutes)
 
 // 4. Gardien (toujours à la fin)
 app.use((err, req, res, next) => {

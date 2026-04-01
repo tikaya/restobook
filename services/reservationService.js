@@ -1,6 +1,6 @@
 // Importons le module reservationModel pour interagir avec les methodes de la base de données
 const reservationModel = require('../models/reservationModel');
-
+const logService = require('../services/logService');
 // Créons un objet contenant un pléthore de méthode pour gérer les réservations
 const reservationService = {
     // Voir tous les reservations 
@@ -28,6 +28,7 @@ const reservationService = {
             error.status = 500;
             throw error;
         }
+        await logService.log('CREATION_RESERVATION', data.id_client, { id_table: data.id_table, date: data.date_reservation }, null);
         return newReservation;
     },
 
@@ -39,6 +40,7 @@ const reservationService = {
             error.status = 404;
             throw error;
         }
+        await logService.log('MODIFICATION_RESERVATION', null, { id_reservation: id, statut: data.statut_reservation }, null);
         return updatedReservation;
     },
 
@@ -50,6 +52,7 @@ const reservationService = {
             error.status = 404;
             throw error;
         }
+        await logService.log('ANNULATION_RESERVATION', null, { id_reservation: id }, null);
         return reservation;
     }
 }

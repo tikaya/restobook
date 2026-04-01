@@ -3,53 +3,62 @@ const jwt = require('jsonwebtoken');
 const clientModel = require('../models/clientModel');
 const employeModel = require('../models/employeModel');
 const emailService = require('../services/emailService');
+const logService = require('../services/logService')
 
 const crypto = require('crypto');
+const clientservice = require('./clientService');
 
 const authService = {
-    loginClient: async (email, mdp) => {
-        const client = await clientModel.findByEmail(email);
-        if (!client) {
-            const error = new Error('Email ou mot de passe incorrect');
-            error.status = 401;
-            throw error;
-        }
+loginClient: async (email, mdp) => {
+    const client = await clientModel.findByEmail(email);
+    if (!client) {
+        await logService.log('TENTATIVE_CONNEXION_ECHOUEE', null, { email }, null);
+        const error = new Error('Email ou mot de passe incorrect');
+        error.status = 401;
+        throw error;
+    }
 
-        const match = await bcrypt.compare(mdp, client.mdp_client);
+    // 1. D'abord vérifier le mot de passe
+    const match = await bcrypt.compare(mdp, client.mdp_client);
+    if (!match) {
+        await logService.log('TENTATIVE_CONNEXION_ECHOUEE', null, { email }, null);
+        const error = new Error('Email ou mot de passe incorrect');
+        error.status = 401;
+        throw error;
+    }
 
-        if (client.doit_changer_mdp_client) {
+    // 2. Ensuite vérifier s'il doit changer son mdp
+    if (client.doit_changer_mdp_client) {
         return {
-        mustChangePassword: true,
-        tempToken: jwt.sign(
-            { id: client.id_client, email: client.email_client, role: 'client', mustChange: true },
-            process.env.JWT_SECRET,
-            { expiresIn: '15m' }  // Token court — juste pour changer le mdp
-        )
-    };
-}
-        if (!match) {
-            const error = new Error('Email ou mot de passe incorrect');
-            error.status = 401;
-            throw error;
-        }
-
-        const token = jwt.sign(
-            { id: client.id_client, email: client.email_client, role: 'client' },
-            process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN }
-        );
-
-        return {
-            token,
-            user: {
-                id: client.id_client,
-                email: client.email_client,
-                nom: client.nom_client,
-                prenom: client.prenom_client,
-                role: 'client'
-            }
+            mustChangePassword: true,
+            tempToken: jwt.sign(
+                { id: client.id_client, email: client.email_client, role: 'client', mustChange: true },
+                process.env.JWT_SECRET,
+                { expiresIn: '15m' }
+            )
         };
-    },
+    }
+
+    // 3. Connexion normale
+    const token = jwt.sign(
+        { id: client.id_client, email: client.email_client, role: 'client' },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
+    await logService.log('CONNEXION_CLIENT', client.id_client, { email }, null);
+
+    return {
+        token,
+        user: {
+            id: client.id_client,
+            email: client.email_client,
+            nom: client.nom_client,
+            prenom: client.prenom_client,
+            role: 'client'
+        }
+    };
+},
 
     loginEmploye: async (email, mdp) => {
         const employe = await employeModel.findByEmail(email);
@@ -102,8 +111,11 @@ const authService = {
         // Ajoutons le mdp hashé dans la base de données 
         await clientModel.updatePassword(client.id_client,hashedpassword);
 
+        await logService.log('RESET_MDP', client.id_client, { email }, null);
+
         // Envoyons le mouveaud e passe temporaire au client
         await emailService.sendNewPassword(email,tempPassword)
+
 
         return  { message: 'Un nouveau mot de passe a été envoyé par email' };
     },
