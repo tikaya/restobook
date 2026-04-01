@@ -3,6 +3,7 @@ const categorieService = require('../services/categorieService');
 const platService = require('../services/platService');
 const avisService = require('../services/avisService');
 
+
 //L'objet contenant les methode (midllewares terminaux) rendant des vue au client 
 const pageController = {
     accueil: async(req,res , next) => {
@@ -50,6 +51,20 @@ const pageController = {
         try{
             res.render('reservation',{title:"Réserver"})
         }catch(error){
+            next(error)
+        }
+    },
+    connection: async(req,res,next) => {
+        try {
+            res.render("login",{title:'Connection'})
+        }catch(error) {
+            next(error)
+        }
+    },
+    inscription: async(req,res,next) => {
+        try{
+            res.render('inscription',{title:"Inscription"})
+        }catch(error) {
             next(error)
         }
     }

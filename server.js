@@ -36,6 +36,13 @@ app.get('/avis', pageController.avis)
 app.get('/contact', pageController.contact)
 app.get('/mentions-legales', pageController.mentionslegales)
 
+// 2.1 Page de connection 
+app.get('/login',pageController.connection)
+
+// 2.2 Page d'inscription 
+app.get('/inscription',pageController.inscription)
+
+
 
 // 3. Sous-pipelines
 app.use('/auth', authRoutes)

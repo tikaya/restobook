@@ -1,6 +1,7 @@
 // Importons le module platService pour accéder à la logique métier liée aux plats
 const platService = require('../services/platService');
 
+
 // Créons l'objet platController qui contiendra les méthodes pour gérer les requêtes HTTP liées aux plats
 const platController = {
     // Récupérons tous les plats

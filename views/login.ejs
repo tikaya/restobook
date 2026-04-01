@@ -1,0 +1,203 @@
+<%- include('partials/header') %>
+
+    <section class="hero" style="padding: 3.5rem 2rem;">
+        <div class="hero-content" style="max-width:600px;">
+            <h1 style="font-size: clamp(2rem, 4vw, 3rem);">Connexion</h1>
+            <div class="hero-divider"></div>
+            <p class="hero-subtitle">Accédez à votre espace personnel</p>
+        </div>
+    </section>
+
+    <section style="background: var(--creme); padding: 4rem 2rem;">
+        <div style="max-width: 500px; margin: 0 auto;">
+
+            <!-- Onglets Client / Employé -->
+            <div style="display: flex; margin-bottom: 0; border-radius: 4px 4px 0 0; overflow: hidden;">
+                <button id="tab-client" class="tab-btn tab-active" onclick="switchTab('client')">Client</button>
+                <button id="tab-employe" class="tab-btn" onclick="switchTab('employe')">Employé</button>
+            </div>
+
+            <div class="card" style="border-radius: 0 0 4px 4px; margin-top: 0;">
+                <div id="message" style="display:none; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;"></div>
+
+                <!-- Formulaire Client -->
+                <form id="form-client" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                    <div>
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email_client" class="form-input" placeholder="votre@email.com" required>
+                    </div>
+                    <div>
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" name="mdp_client" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">
+                        Se connecter
+                    </button>
+                    <div style="text-align: center; margin-top: 0.5rem;">
+                        <a href="/forgot-password" style="color: var(--bordeaux); font-size: 0.85rem; text-decoration: none; border-bottom: 1px solid var(--bordeaux);">
+                            Mot de passe oublié ?
+                        </a>
+                    </div>
+                    <div style="text-align: center; padding-top: 1rem; border-top: 1px solid var(--creme-dark);">
+                        <p style="color: var(--brun-light); font-size: 0.85rem;">Pas encore de compte ?</p>
+                        <a href="/inscription" style="color: var(--or-dark); font-weight: 700; text-decoration: none; font-size: 0.9rem;">
+                            Créer un compte →
+                        </a>
+                    </div>
+                </form>
+
+                <!-- Formulaire Employé -->
+                <form id="form-employe" style="display: none; flex-direction: column; gap: 1.2rem;">
+                    <div>
+                        <label class="form-label">Email professionnel</label>
+                        <input type="email" name="email_employe" class="form-input" placeholder="prenom@restobook.fr" required>
+                    </div>
+                    <div>
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" name="mdp_employe" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">
+                        Se connecter
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--brun);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.4rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--creme-dark);
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            color: var(--brun);
+            background: var(--creme);
+            transition: border-color 0.2s;
+        }
+        .form-input:focus { outline: none; border-color: var(--bordeaux); }
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--creme-dark);
+            color: var(--brun-light);
+        }
+        .tab-active {
+            background: var(--bordeaux);
+            color: white;
+        }
+    </style>
+
+    <script>
+        function switchTab(type) {
+            document.getElementById('message').style.display = 'none';
+            if (type === 'client') {
+                document.getElementById('form-client').style.display = 'flex';
+                document.getElementById('form-employe').style.display = 'none';
+                document.getElementById('tab-client').classList.add('tab-active');
+                document.getElementById('tab-employe').classList.remove('tab-active');
+            } else {
+                document.getElementById('form-client').style.display = 'none';
+                document.getElementById('form-employe').style.display = 'flex';
+                document.getElementById('tab-client').classList.remove('tab-active');
+                document.getElementById('tab-employe').classList.add('tab-active');
+            }
+        }
+
+        function showMsg(ok, text) {
+            const msg = document.getElementById('message');
+            msg.style.display = 'block';
+            msg.style.background = ok ? '#e8f8f0' : '#fff0f0';
+            msg.style.color = ok ? '#0a8754' : '#c0392b';
+            msg.style.border = '1px solid ' + (ok ? '#0a8754' : '#c0392b');
+            msg.innerHTML = text;
+        }
+
+        // Login Client
+        document.getElementById('form-client').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            try {
+                const res = await fetch('/auth/login/client', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email_client: form.email_client.value,
+                        mdp_client: form.mdp_client.value
+                    })
+                });
+                const data = await res.json();
+
+                if (data.mustChangePassword) {
+                    localStorage.setItem('tempToken', data.tempToken);
+                    showMsg(false, 'Vous devez changer votre mot de passe.');
+                    setTimeout(() => window.location.href = '/change-password', 2000);
+                    return;
+                }
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showMsg(true, 'Connexion réussie ! Redirection...');
+                    setTimeout(() => window.location.href = '/espace-client', 1500);
+                } else {
+                    showMsg(false, data.error || 'Erreur de connexion');
+                }
+            } catch (err) {
+                showMsg(false, 'Erreur de connexion au serveur');
+            }
+        });
+
+        // Login Employé
+        document.getElementById('form-employe').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            try {
+                const res = await fetch('/auth/login/employe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email_employe: form.email_employe.value,
+                        mdp_employe: form.mdp_employe.value
+                    })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showMsg(true, 'Connexion réussie ! Redirection...');
+                    const role = data.user.role;
+                    if (role === 'gerant') {
+                        setTimeout(() => window.location.href = '/espace-admin', 1500);
+                    } else {
+                        setTimeout(() => window.location.href = '/espace-serveur', 1500);
+                    }
+                } else {
+                    showMsg(false, data.error || 'Erreur de connexion');
+                }
+            } catch (err) {
+                showMsg(false, 'Erreur de connexion au serveur');
+            }
+        });
+    </script>
+
+<%- include('partials/footer') %>
