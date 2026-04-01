@@ -15,13 +15,18 @@ const avisRoutes = require('./routes/avis')
 const contactRoutes = require('./routes/contact')
 const authRoutes = require('./routes/auth')
 
+// Configuration EJS
+app.set('view engine', 'ejs')
+app.set('views', './views')
+app.use(express.static('public'))
 
 // 1. Maillons communs
 app.use(express.json())
 
 // 2. Page d'accueil
+
 app.get('/', (req, res) => {
-    res.json({ message: "Bienvenue sur RestoBook!" })
+    res.render('index')
 })
 
 // 3. Sous-pipelines

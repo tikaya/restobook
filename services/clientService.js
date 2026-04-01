@@ -1,6 +1,7 @@
 //Importons le module clientModel pour accéder aux méthodes de la base de données
 const clientModel = require('../models/clientModel');
 const bcrypt = require('bcrypt');
+const emailService = require('./emailService');
 
 const clientservice = {
 
@@ -30,7 +31,14 @@ const clientservice = {
          // Hashons le mdp_client concretement
            data.mdp_client = await bcrypt.hash(data.mdp_client,salt );
 
-        return await clientModel.create(data);
+        const newClient = await clientModel.create(data);
+
+        // Envoyons un message de confirmation d'inscription au client 
+         emailService.sendSignupEmail(data.email_client,data.prenom_client).catch(
+            err =>console.error("Erreur lors de l'envoi de email:",err.message )
+         )
+
+        return newClient;
     },
 
     updateClient: async (id,data) => {

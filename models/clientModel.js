@@ -135,6 +135,27 @@ const clientModel = {
         return result.rows[0] || null;
     },
 
+    /** 
+     * Mettre à jour le mot de passe oublié par le client
+     * Entrée : Produit cartésien id (Number) -l'identifiant du client
+     * SQL    : UPDATE client SET mdp_client = newPassword , changer_mdp_client = TRUE
+     * Sortie : l'objet {id_client} ou null sinon trouvé
+     
+     */
+    updatePassword : async (id,hashedPassword) => {
+        const result = await pool.query(
+            `UPDATE client
+             SET mdp_client = $1,
+             doit_changer_mdp_client = TRUE
+             WHERE id_client = $2 AND compte_supprime = FALSE
+             RETURNING id_client
+              `,
+              [hashedPassword,id]
+        )
+        return result.rows[0] || null
+    },
+    
+
      /**
      * Supprimer un client (soft delete — RGPD)
      * 
@@ -165,6 +186,17 @@ const clientModel = {
         return result.rows[0] || null;
         
      },
+
+     resetMustChangePassword: async (id) => {
+    const result = await pool.query(
+        `UPDATE client 
+        SET doit_changer_mdp_client = FALSE
+        WHERE id_client = $1
+        RETURNING id_client`,
+        [id]
+    );
+    return result.rows[0] || null;
+},
   
 }
 module.exports = clientModel;

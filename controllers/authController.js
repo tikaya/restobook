@@ -22,7 +22,26 @@ const authController =  {
             next(error);
     }   
 
+    },
+
+forgotPassword: async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const result = await authService.forgotPassword(email);
+        res.json(result);
+    } catch (error) {
+        next(error);
     }
+},
+    changePassword: async (req, res, next) => {
+    try {
+        const { new_password } = req.body;
+        const result = await authService.changePassword(req.user.id, new_password);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+}
 
 }
 
