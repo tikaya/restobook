@@ -40,12 +40,17 @@ loginClient: async (email, mdp) => {
     }
 
     // 3. Connexion normale
-    const token = jwt.sign(
-        { id: client.id_client, email: client.email_client, role: 'client' },
-        process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
-
+const token = jwt.sign(
+    { 
+        id: client.id_client, 
+        email: client.email_client, 
+        role: 'client',
+        nom: client.nom_client,      // ✅ ajouter
+        prenom: client.prenom_client  // ✅ ajouter
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN }
+);
     await logService.log('CONNEXION_CLIENT', client.id_client, { email }, null);
 
     return {
@@ -75,11 +80,18 @@ loginClient: async (email, mdp) => {
             throw error;
         }
 
-        const token = jwt.sign(
-            { id: employe.id_employe, email: employe.email_employe, role: employe.role_employe },
-            process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN }
-        );
+       // authService.js — loginEmploye
+const token = jwt.sign(
+    { 
+        id: employe.id_employe, 
+        email: employe.email_employe, 
+        role: employe.role_employe,
+        nom: employe.nom_employe,       // ✅ ajouter
+        prenom: employe.prenom_employe  // ✅ ajouter
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN }
+);
 
         return {
             token,

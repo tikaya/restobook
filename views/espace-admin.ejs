@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — RestoBook Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bordeaux: #6B1A2A; --bordeaux-dark: #401018; --bordeaux-light: #8B2A3A;
+      --bordeaux-pale: #f5eaec; --or: #C9A84C; --or-light: #fdf6e3;
+      --creme: #FAF6F0; --creme-dark: #EDE5D8; --brun: #3D2B1F; --brun-light: #7A5C4A;
+      --blanc: #FFFFFF; --vert: #2e7d32; --vert-pale: #e8f5e9;
+      --rouge: #c62828; --rouge-pale: #fdecea; --orange: #e65100; --orange-pale: #fff3e0;
+      --bleu: #1565c0; --bleu-pale: #e3f2fd;
+      --radius: 12px; --radius-sm: 8px;
+      --shadow: 0 2px 16px rgba(61,43,31,0.08);
+      --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--brun); background: var(--creme); }
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    .sidebar { width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50; }
+    .sidebar-logo { padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--creme-dark); }
+    .sidebar-logo-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--bordeaux); line-height: 1; }
+    .sidebar-logo-text span { color: var(--or); }
+    .sidebar-logo-sub { font-size: 0.7rem; color: var(--brun-light); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .sidebar-nav { flex: 1; padding: 1rem 0; overflow-y: auto; }
+    .sidebar-section { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brun-light); opacity: 0.5; padding: 0.75rem 1.5rem 0.25rem; }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem; text-decoration: none; color: var(--brun-light); font-size: 0.85rem; transition: all 0.15s; border-left: 3px solid transparent; }
+    .sidebar-link:hover { background: var(--creme); color: var(--brun); }
+    .sidebar-link.active { background: var(--bordeaux-pale); color: var(--bordeaux); font-weight: 600; border-left-color: var(--bordeaux); }
+    .sidebar-badge { margin-left: auto; background: var(--bordeaux); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 50px; min-width: 20px; text-align: center; }
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--creme-dark); }
+    .sidebar-footer-label { font-size: 0.7rem; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .sidebar-footer-name { font-size: 0.88rem; font-weight: 700; color: var(--brun); }
+    .sidebar-footer-email { font-size: 0.75rem; color: var(--brun-light); margin-top: 0.1rem; word-break: break-all; }
+    .sidebar-footer-role { font-size: 0.72rem; color: var(--bordeaux); font-weight: 600; margin-top: 0.2rem; }
+    .btn-logout { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; cursor: pointer; width: 100%; }
+    .btn-logout:hover { background: var(--rouge-pale); color: var(--rouge); border-color: rgba(198,40,40,0.2); }
+
+    .admin-main { flex: 1; margin-left: 230px; }
+    .topbar { background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
+    .topbar-left { display: flex; align-items: center; gap: 1rem; }
+    .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; }
+    .topbar-date { font-size: 0.78rem; opacity: 0.5; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+    .topbar-avatar { width: 36px; height: 36px; background: var(--or); color: var(--bordeaux-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+    .topbar-name { font-size: 0.85rem; opacity: 0.85; }
+
+    .admin-content { padding: 2rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--bordeaux); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--creme-dark); margin-left: 0.5rem; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .kpi-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); position: relative; overflow: hidden; transition: all 0.2s; }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+    .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
+    .kpi-card.bordeaux::before { background: var(--bordeaux); }
+    .kpi-card.or::before { background: var(--or); }
+    .kpi-card.vert::before { background: var(--vert); }
+    .kpi-card.orange::before { background: var(--orange); }
+    .kpi-icon { font-size: 1.5rem; margin-bottom: 0.75rem; display: block; }
+    .kpi-value { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--bordeaux); line-height: 1; }
+    .kpi-label { font-size: 0.75rem; color: var(--brun-light); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .kpi-sub { font-size: 0.78rem; color: var(--brun-light); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--creme-dark); }
+    .kpi-sub strong { color: var(--brun); }
+
+    .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+    .panel { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid var(--creme-dark); }
+    .panel-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--brun); font-weight: 700; }
+    .panel-link { font-size: 0.78rem; color: var(--bordeaux); text-decoration: none; font-weight: 500; opacity: 0.7; transition: opacity 0.2s; }
+    .panel-link:hover { opacity: 1; }
+
+    .panel-search { padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--creme-dark); }
+    .search-input { width: 100%; padding: 0.55rem 0.875rem; border: 1.5px solid var(--creme-dark); border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--brun); background: var(--creme); outline: none; transition: border-color 0.2s; }
+    .search-input:focus { border-color: var(--bordeaux); background: var(--blanc); }
+
+    .panel-filters { display: flex; gap: 0.4rem; padding: 0.65rem 1.5rem; border-bottom: 1px solid var(--creme-dark); flex-wrap: wrap; }
+    .filter-pill { padding: 0.25rem 0.85rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; cursor: pointer; transition: all 0.15s; }
+    .filter-pill:hover:not(.active) { border-color: var(--bordeaux); color: var(--bordeaux); }
+    .filter-pill.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
+
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table thead tr { background: var(--creme); }
+    .admin-table th { padding: 0.6rem 1rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brun-light); text-align: left; border-bottom: 1px solid var(--creme-dark); }
+    .admin-table tbody tr { border-bottom: 1px solid var(--creme-dark); transition: background 0.1s; }
+    .admin-table tbody tr:last-child { border-bottom: none; }
+    .admin-table tbody tr:hover { background: var(--creme); }
+    .admin-table td { padding: 0.7rem 1rem; font-size: 0.82rem; vertical-align: middle; }
+    .res-row.hidden { display: none; }
+
+    .badge { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 50px; font-size: 0.68rem; font-weight: 600; }
+    .badge-confirmee  { background: var(--bleu-pale);   color: var(--bleu); }
+    .badge-honoree    { background: var(--vert-pale);   color: var(--vert); }
+    .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
+    .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
+    .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
+    .badge-today      { background: var(--bordeaux); color: #fff; font-size: 0.6rem; padding: 0.1rem 0.4rem; margin-left: 0.3rem; }
+
+    .btn-arrive { display: inline-flex; align-items: center; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); padding: 0.28rem 0.6rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-arrive:hover { background: var(--vert); color: #fff; }
+    .btn-noshow { display: inline-flex; align-items: center; background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(230,81,0,0.2); padding: 0.28rem 0.6rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-noshow:hover { background: var(--orange); color: #fff; }
+
+    .alert-bar { background: var(--orange-pale); color: var(--orange); padding: 0.65rem 1.5rem; font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; border-top: 1px solid rgba(230,81,0,0.15); }
+
+    .quick-actions { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.25rem; }
+    .quick-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-sm); text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; transition: all 0.2s; border: none; cursor: pointer; width: 100%; text-align: left; }
+    .quick-btn-primary { background: var(--bordeaux); color: #fff; }
+    .quick-btn-primary:hover { background: var(--bordeaux-light); transform: translateX(3px); }
+    .quick-btn-secondary { background: var(--or-light); color: var(--brun); border: 1px solid rgba(201,168,76,0.3); }
+    .quick-btn-secondary:hover { background: var(--or); transform: translateX(3px); }
+    .quick-btn-outline { background: var(--blanc); color: var(--brun-light); border: 1px solid var(--creme-dark); }
+    .quick-btn-outline:hover { border-color: var(--bordeaux); color: var(--bordeaux); transform: translateX(3px); }
+
+    .log-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--creme-dark); transition: background 0.1s; }
+    .log-item:last-child { border-bottom: none; }
+    .log-item:hover { background: var(--creme); }
+    .log-time { font-size: 0.7rem; color: var(--brun-light); white-space: nowrap; min-width: 38px; margin-top: 0.1rem; }
+    .log-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
+    .log-connexion    { background: var(--vert-pale);   color: var(--vert); }
+    .log-creation     { background: var(--bleu-pale);   color: var(--bleu); }
+    .log-modification { background: var(--orange-pale); color: var(--orange); }
+    .log-suppression  { background: var(--rouge-pale);  color: var(--rouge); }
+    .log-detail { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.2rem; }
+
+    .avis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1.25rem; }
+    .avis-card { background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); padding: 1rem; transition: all 0.2s; }
+    .avis-card:hover { box-shadow: var(--shadow-soft); }
+    .avis-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+    .avis-author { display: flex; align-items: center; gap: 0.5rem; }
+    .avis-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; flex-shrink: 0; }
+    .avis-name { font-weight: 600; font-size: 0.82rem; color: var(--brun); }
+    .avis-stars { font-size: 0.72rem; color: var(--or); }
+    .avis-date { font-size: 0.68rem; color: var(--brun-light); }
+    .avis-comment { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: var(--brun-light); line-height: 1.5; margin-bottom: 0.75rem; border-left: 2px solid var(--creme-dark); padding-left: 0.65rem; }
+    .avis-actions { display: flex; gap: 0.4rem; }
+    .btn-approve { flex: 1; padding: 0.4rem; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .btn-approve:hover { background: var(--vert); color: #fff; }
+    .btn-reject { flex: 1; padding: 0.4rem; background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.15); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .btn-reject:hover { background: var(--rouge); color: #fff; }
+
+    .empty-cell { text-align: center; padding: 2rem; color: var(--brun-light); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
+
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--vert); }
+    .toast.error   { background: var(--rouge); }
+    .toast.warning { background: var(--orange); }
+
+    .admin-footer { text-align: center; padding: 1.25rem 2rem; color: var(--brun-light); font-size: 0.75rem; border-top: 1px solid var(--creme-dark); font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+    @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1024px) { .sidebar { display: none; } .admin-main { margin-left: 0; } .main-grid { grid-template-columns: 1fr; } .avis-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<%
+  var pendingCount   = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
+  var todayStr       = new Date().toLocaleDateString('fr-FR');
+  var todayRes       = reservations.filter(function(r) { return r.date_reservation && new Date(r.date_reservation).toLocaleDateString('fr-FR') === todayStr; });
+  var todayCouverts  = todayRes.reduce(function(s, r) { return s + r.nb_personnes; }, 0);
+  var noshow         = reservations.filter(function(r) { return r.statut_reservation === 'no_show'; }).length;
+  var noshowRate     = reservations.length > 0 ? Math.round(noshow / reservations.length * 100) : 0;
+  var avisApprouves  = avis.filter(function(a) { return a.statut_avis === 'approuve'; });
+  var sommeNotes     = avisApprouves.reduce(function(s, a) { return s + (Number(a.note_avis) || 0); }, 0);
+  var avgNote        = avisApprouves.length > 0 ? (sommeNotes / avisApprouves.length).toFixed(1) : '—';
+  var displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+  var displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+  var upcoming       = reservations.filter(function(r) { return r.statut_reservation === 'confirmee'; }).slice(0, 8);
+  var speciales      = reservations.filter(function(r) { return r.demandes_speciales && r.statut_reservation === 'confirmee'; });
+  var pending        = avis.filter(function(a) { return a.statut_avis === 'en_attente'; });
+  var colors         = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276'];
+%>
+
+<div class="admin-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text"><span>Resto</span>Book</div>
+      <div class="sidebar-logo-sub">Espace administrateur</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Navigation</div>
+      <a href="/espace-admin" class="sidebar-link active">Dashboard</a>
+      <a href="/espace-admin/reservations" class="sidebar-link">
+        Reservations
+        <span class="sidebar-badge"><%= reservations.length %></span>
+      </a>
+      <a href="/espace-admin/menu" class="sidebar-link">Menu / Carte</a>
+      <a href="/espace-admin/tables" class="sidebar-link">Tables</a>
+      <a href="/espace-admin/avis" class="sidebar-link">
+        Avis
+        <% if (pendingCount > 0) { %>
+          <span class="sidebar-badge"><%= pendingCount %></span>
+        <% } %>
+      </a>
+      <div class="sidebar-section" style="margin-top:0.5rem;">Gestion</div>
+      <a href="/espace-admin/comptes" class="sidebar-link">Comptes</a>
+      <a href="/espace-admin/logs" class="sidebar-link">Journalisation</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-label">Connecte en tant que</div>
+      <div class="sidebar-footer-name"><%= displayName %></div>
+      <div class="sidebar-footer-email"><%= user.email %></div>
+      <div class="sidebar-footer-role">Gerant · Administrateur</div>
+      <a href="/logout" class="btn-logout">Se deconnecter</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        
+        <div class="topbar-left">
+    <span class="topbar-title">Dashboard</span>
+    <a href="/" style="
+        color: rgba(255,255,255,0.5);
+        font-size: 0.78rem;
+        text-decoration: none;
+        border: 1px solid rgba(255,255,255,0.15);
+        padding: 0.3rem 0.75rem;
+        border-radius: 3px;
+        transition: all 0.2s;
+        margin-left: 0.5rem;
+    " onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.4)'"
+       onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.borderColor='rgba(255,255,255,0.15)'">
+        &#8592; Retour au site
+    </a>
+</div>
+        <span class="topbar-date">
+          <%= new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
+        </span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-avatar"><%= displayInitial %></div>
+        <span class="topbar-name"><%= displayName %></span>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <p class="section-title">Vue d'ensemble</p>
+      <div class="kpi-grid">
+        <div class="kpi-card bordeaux">
+          <span class="kpi-icon">&#128197;</span>
+          <div class="kpi-value"><%= todayRes.length %></div>
+          <div class="kpi-label">Reservations aujourd'hui</div>
+          <div class="kpi-sub"><strong><%= todayCouverts %></strong> couvert<%= todayCouverts > 1 ? 's' : '' %> attendus</div>
+        </div>
+        <div class="kpi-card or">
+          <span class="kpi-icon">&#128203;</span>
+          <div class="kpi-value"><%= reservations.length %></div>
+          <div class="kpi-label">Reservations totales</div>
+          <div class="kpi-sub">
+            <strong><%= reservations.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length %></strong> confirmees ·
+            <strong><%= reservations.filter(function(r){ return r.statut_reservation === 'en_attente'; }).length %></strong> en attente
+          </div>
+        </div>
+        <div class="kpi-card vert">
+          <span class="kpi-icon">&#11088;</span>
+          <div class="kpi-value"><%= avgNote %></div>
+          <div class="kpi-label">Note moyenne (approuves)</div>
+          <div class="kpi-sub"><strong><%= avisApprouves.length %></strong> avis approuves · <strong><%= pendingCount %></strong> en attente</div>
+        </div>
+        <div class="kpi-card orange">
+          <span class="kpi-icon">&#128683;</span>
+          <div class="kpi-value"><%= noshowRate %>%</div>
+          <div class="kpi-label">Taux no-show</div>
+          <div class="kpi-sub"><strong><%= noshow %></strong> no-show sur <strong><%= reservations.length %></strong></div>
+        </div>
+      </div>
+
+      <p class="section-title">Reservations</p>
+      <div class="main-grid">
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Prochaines reservations confirmees</span>
+            <a href="/espace-admin/reservations" class="panel-link">Voir toutes</a>
+          </div>
+          <div class="panel-search">
+            <input type="text" class="search-input" id="search-input" placeholder="Rechercher un client..." oninput="filterTable()">
+          </div>
+          <div class="panel-filters">
+            <span class="filter-pill active" onclick="setFilter('all',this)">Toutes</span>
+            <span class="filter-pill" onclick="setFilter('today',this)">Aujourd'hui (<%= todayRes.length %>)</span>
+            <span class="filter-pill" onclick="setFilter('confirmee',this)">Confirmees</span>
+            <span class="filter-pill" onclick="setFilter('honoree',this)">Honorees</span>
+            <span class="filter-pill" onclick="setFilter('no_show',this)">No-show</span>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Client</th><th>Date</th><th>Heure</th><th>Pers.</th>
+                <th>Table</th><th>Demandes</th><th>Statut</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="res-body">
+              <% if (reservations.length === 0) { %>
+                <tr><td colspan="8" class="empty-cell">Aucune reservation</td></tr>
+              <% } %>
+              <% reservations.forEach(function(r) {
+                var rDateLocale = new Date(r.date_reservation).toLocaleDateString('fr-FR');
+                var isToday = rDateLocale === todayStr;
+                var clientNom = (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client;
+              %>
+                <tr class="res-row"
+                    data-statut="<%= r.statut_reservation %>"
+                    data-today="<%= isToday %>"
+                    data-search="<%= clientNom.toLowerCase() + ' ' + rDateLocale %>">
+                  <td style="font-weight:600;">
+                    <%= clientNom %>
+                    <% if (isToday) { %><span class="badge badge-today">Auj.</span><% } %>
+                  </td>
+                  <td><%= new Date(r.date_reservation).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' }) %></td>
+                  <td style="font-weight:600;"><%= r.heure_reservation ? r.heure_reservation.slice(0,5) : '—' %></td>
+                  <td style="text-align:center;"><%= r.nb_personnes %></td>
+                  <td>Table <%= r.numero_table || r.id_table %></td>
+                  <td style="font-size:0.78rem;color:var(--brun-light);">
+                    <% if (r.demandes_speciales) { %>
+                      &#9888; <%= r.demandes_speciales.substring(0,20) %><%= r.demandes_speciales.length > 20 ? '…' : '' %>
+                    <% } else { %>—<% } %>
+                  </td>
+                  <td>
+                    <span class="badge badge-<%= r.statut_reservation %>">
+                      <% if (r.statut_reservation === 'confirmee')      { %>Confirmee
+                      <% } else if (r.statut_reservation === 'honoree') { %>Honoree
+                      <% } else if (r.statut_reservation === 'no_show') { %>No-show
+                      <% } else if (r.statut_reservation === 'annulee') { %>Annulee
+                      <% } else { %>En attente<% } %>
+                    </span>
+                  </td>
+                  <td>
+                    <% if (r.statut_reservation === 'confirmee') { %>
+                      <div style="display:flex;gap:0.3rem;">
+                        <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>,'honoree')">Arrive</button>
+                        <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>,'no_show')">No-show</button>
+                      </div>
+                    <% } else { %>—<% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <% if (speciales.length > 0) { %>
+            <div class="alert-bar">
+              &#9888; <%= speciales.length %> reservation<%= speciales.length > 1 ? 's' : '' %> avec demande<%= speciales.length > 1 ? 's' : '' %> speciale<%= speciales.length > 1 ? 's' : '' %>
+            </div>
+          <% } %>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Actions rapides</span>
+            </div>
+            <div class="quick-actions">
+              <a href="/reservation"         class="quick-btn quick-btn-primary">Nouvelle reservation</a>
+              <a href="/espace-admin/menu"   class="quick-btn quick-btn-secondary">Gerer la carte</a>
+              <a href="/espace-admin/tables" class="quick-btn quick-btn-outline">Gerer les tables</a>
+              <a href="/espace-admin/avis"   class="quick-btn quick-btn-outline">Moderer les avis</a>
+              <a href="/espace-admin/comptes" class="quick-btn quick-btn-outline">Gerer les comptes</a>
+            </div>
+          </div>
+
+          <div class="panel" style="flex:1;">
+            <div class="panel-header">
+              <span class="panel-title">Activite recente</span>
+              <a href="/espace-admin/logs" class="panel-link">Tous</a>
+            </div>
+            <div id="logs-container">
+              <div class="log-item">
+                <span class="log-time">—</span>
+                <div><span class="log-badge log-creation">Chargement...</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if (pendingCount > 0) { %>
+        <p class="section-title">Avis en attente de moderation</p>
+        <div class="panel" style="margin-bottom:1.5rem;">
+          <div class="panel-header">
+            <span class="panel-title">
+              Moderation des avis
+              <span style="background:var(--bordeaux);color:#fff;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:50px;margin-left:0.4rem;"><%= pendingCount %></span>
+            </span>
+            <a href="/espace-admin/avis" class="panel-link">Voir tous</a>
+          </div>
+          <div class="avis-grid">
+            <% pending.slice(0, 3).forEach(function(a, i) {
+              var avisNom = (a.prenom_client && a.nom_client) ? a.prenom_client + ' ' + a.nom_client : 'Client #' + a.id_client;
+              var avisInitiale = a.prenom_client ? a.prenom_client[0].toUpperCase() : 'C';
+              var avisNote = Number(a.note_avis) || 0;
+            %>
+              <div class="avis-card" id="avis-<%= a.id_avis %>">
+                <div class="avis-card-top">
+                  <div class="avis-author">
+                    <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>">
+                      <%= avisInitiale %>
+                    </div>
+                    <div>
+                      <div class="avis-name"><%= avisNom %></div>
+                      <div class="avis-stars">
+                        <% for(var s=0;s<5;s++){%><%= s < avisNote ? '★' : '☆' %><% } %>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="avis-date"><%= new Date(a.date_avis).toLocaleDateString('fr-FR') %></span>
+                </div>
+                <p class="avis-comment">« <%= a.commentaire_avis || 'Aucun commentaire.' %> »</p>
+                <div class="avis-actions">
+                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>, 'approuve')">Approuver</button>
+                  <button class="btn-reject"  onclick="moderateAvis(<%= a.id_avis %>, 'rejete')">Rejeter</button>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% } %>
+
+    </div>
+
+    <div class="admin-footer">
+      RestoBook Manager v1.0 — Panel Administrateur — 2026 Le Gourmet Parisien
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function getToken() {
+    return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
+  }
+
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(function() { t.className = 'toast'; }, 3000);
+  }
+
+  var currentFilter = 'all';
+  var searchVal = '';
+
+  function setFilter(f, el) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-pill').forEach(function(p) { p.classList.remove('active'); });
+    el.classList.add('active');
+    applyFilters();
+  }
+
+  function filterTable() {
+    searchVal = document.getElementById('search-input').value.toLowerCase();
+    applyFilters();
+  }
+
+  function applyFilters() {
+    document.querySelectorAll('.res-row').forEach(function(row) {
+      var show = true;
+      if (currentFilter === 'today')     show = row.dataset.today === 'true';
+      else if (currentFilter !== 'all')  show = row.dataset.statut === currentFilter;
+      if (searchVal) show = show && row.dataset.search.includes(searchVal);
+      row.classList.toggle('hidden', !show);
+    });
+  }
+
+  async function updateStatut(id, statut) {
+    try {
+      var res = await fetch('/reservations/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify({ statut_reservation: statut })
+      });
+      if (!res.ok) throw new Error();
+      showToast(statut === 'honoree' ? 'Client marque arrive !' : 'Client marque no-show.', statut === 'honoree' ? 'success' : 'warning');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(e) { showToast('Erreur lors de la mise a jour.', 'error'); }
+  }
+
+  async function loadLogs() {
+    try {
+      var res = await fetch('/logs', {
+        headers: { 'Authorization': 'Bearer ' + getToken() }
+      });
+      if (!res.ok) return;
+      var logs = await res.json();
+      var container = document.getElementById('logs-container');
+      container.innerHTML = '';
+      var typeMap = {
+        'CONNEXION_CLIENT':            { badge: 'log-connexion',    label: 'Connexion reussie' },
+        'TENTATIVE_CONNEXION_ECHOUEE': { badge: 'log-suppression',  label: 'Connexion echouee' },
+        'CREATION_RESERVATION':        { badge: 'log-creation',     label: 'Reservation creee' },
+        'MODIFICATION_RESERVATION':    { badge: 'log-modification', label: 'Reservation modifiee' },
+        'ANNULATION_RESERVATION':      { badge: 'log-suppression',  label: 'Reservation annulee' },
+        'RESET_MDP':                   { badge: 'log-modification', label: 'Reset mot de passe' },
+      };
+      if (logs.length === 0) {
+        container.innerHTML = '<div class="empty-cell">Aucune activite enregistree</div>';
+        return;
+      }
+      logs.slice(0, 8).forEach(function(log) {
+        var time   = new Date(log.horodatage).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        var type   = typeMap[log.type_action] || { badge: 'log-creation', label: log.type_action };
+        var detail = log.details ? JSON.stringify(log.details).substring(0, 55) : '';
+        container.innerHTML += '<div class="log-item"><span class="log-time">' + time + '</span><div><span class="log-badge ' + type.badge + '">' + type.label + '</span>' + (detail ? '<div class="log-detail">' + detail + '</div>' : '') + '</div></div>';
+      });
+    } catch(e) { console.error('Erreur logs:', e); }
+  }
+
+  async function moderateAvis(id, statut) {
+    try {
+      var res = await fetch('/avis/' + id + '/moderate', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify({ statut_avis: statut })
+      });
+      if (!res.ok) throw new Error();
+      var card = document.getElementById('avis-' + id);
+      if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
+      showToast(statut === 'approuve' ? 'Avis approuve !' : 'Avis rejete.', statut === 'approuve' ? 'success' : 'warning');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(e) { showToast('Erreur lors de la moderation.', 'error'); }
+  }
+
+  loadLogs();
+</script>
+</body>
+</html>

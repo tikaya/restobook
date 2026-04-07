@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon espace — Le Gourmet Parisien</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bordeaux: #6B1A2A;
+      --bordeaux-light: #8B2A3A;
+      --bordeaux-pale: #f5eaec;
+      --or: #C9A84C;
+      --or-light: #fdf6e3;
+      --creme: #FAF6F0;
+      --creme-dark: #EDE5D8;
+      --brun: #3D2B1F;
+      --brun-light: #7A5C4A;
+      --blanc: #FFFFFF;
+      --vert: #2e7d32;
+      --vert-pale: #e8f5e9;
+      --rouge: #c62828;
+      --rouge-pale: #fdecea;
+      --orange: #e65100;
+      --orange-pale: #fff3e0;
+      --bleu: #1565c0;
+      --bleu-pale: #e3f2fd;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(61,43,31,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--creme); color: var(--brun); min-height: 100vh; }
+
+    /* ── Header ── */
+    .client-header {
+      background: var(--bordeaux);
+      height: 60px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(61,43,31,0.2);
+    }
+    .header-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--or);
+      text-decoration: none;
+    }
+    .header-nav { display: flex; align-items: center; gap: 1.75rem; }
+    .header-nav a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .header-nav a:hover { color: var(--or); }
+    .header-user { display: flex; align-items: center; gap: 0.75rem; }
+    .header-avatar {
+      width: 34px; height: 34px;
+      background: var(--or);
+      color: var(--bordeaux);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .header-username { color: rgba(255,255,255,0.8); font-size: 0.82rem; }
+    .header-logout {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+      margin-left: 0.25rem;
+    }
+    .header-logout:hover { color: #fff; }
+
+    /* ── Welcome ── */
+    .welcome-banner {
+      background: var(--bordeaux);
+      padding: 2.5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(201,168,76,0.1), transparent);
+    }
+    .welcome-banner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: var(--creme);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .welcome-content { position: relative; z-index: 1; }
+    .welcome-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--or);
+      margin-bottom: 0.5rem;
+      opacity: 0.85;
+    }
+    .welcome-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+    .welcome-title em { font-style: italic; color: var(--or); }
+    .welcome-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+      font-style: italic;
+    }
+
+    /* ── Content ── */
+    .client-content { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Cards ── */
+    .dash-card {
+      background: var(--blanc);
+      border: 1px solid var(--creme-dark);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .dash-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(61,43,31,0.12); }
+    .dash-card-full { grid-column: 1 / -1; }
+
+    .dash-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid var(--creme-dark);
+    }
+    .dash-card-icon { font-size: 1.1rem; }
+    .dash-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--brun);
+      flex: 1;
+    }
+    .dash-card-badge {
+      background: var(--bordeaux-pale);
+      color: var(--bordeaux);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 50px;
+    }
+    .dash-card-body { padding: 1.25rem 1.5rem; }
+
+    /* ── Réservation item ── */
+    .res-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid var(--creme-dark);
+      transition: background 0.15s;
+    }
+    .res-item:last-child { border-bottom: none; }
+    .res-item:hover { background: var(--creme); }
+    .res-item-left { display: flex; align-items: center; gap: 0.9rem; }
+    .res-date-box {
+      background: var(--bordeaux);
+      color: #fff;
+      border-radius: 8px;
+      padding: 0.35rem 0.6rem;
+      text-align: center;
+      min-width: 46px;
+      flex-shrink: 0;
+    }
+    .res-date-day { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; line-height: 1; }
+    .res-date-month { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
+    .res-info { line-height: 1.5; }
+    .res-heure { font-weight: 600; font-size: 0.85rem; color: var(--brun); }
+    .res-detail { font-size: 0.75rem; color: var(--brun-light); }
+    .res-demande { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:var(--or); }
+
+    .badge {
+      font-size: 0.68rem; font-weight: 600;
+      padding: 0.22rem 0.65rem;
+      border-radius: 50px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .badge-confirmee  { background: var(--vert-pale);   color: var(--vert); }
+    .badge-honoree    { background: var(--bleu-pale);   color: var(--bleu); }
+    .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
+    .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
+    .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
+
+    /* ── Profil ── */
+    .profil-item {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--creme-dark);
+    }
+    .profil-item:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .profil-label { font-size: 0.68rem; font-weight: 500; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+    .profil-value { font-weight: 600; font-size: 0.9rem; color: var(--brun); }
+
+    /* ── Étoiles ── */
+    .star-rating { display: flex; gap: 0.3rem; margin-bottom: 0.25rem; }
+    .star-btn {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--creme-dark);
+      transition: color 0.15s, transform 0.15s;
+      background: none; border: none; padding: 0; line-height: 1;
+    }
+    .star-btn.active { color: var(--or); }
+    .star-btn:hover  { transform: scale(1.15); }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 0.9rem; }
+    .form-label {
+      display: block;
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--brun-light);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.65rem 0.875rem;
+      border: 1.5px solid var(--creme-dark);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      color: var(--brun);
+      background: var(--creme);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      resize: vertical;
+    }
+    .form-input:focus {
+      border-color: var(--bordeaux);
+      background: var(--blanc);
+      box-shadow: 0 0 0 3px rgba(107,26,42,0.08);
+    }
+
+    /* ── Boutons ── */
+    .btn {
+      display: block; width: 100%;
+      padding: 0.7rem;
+      border: none; border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; text-align: center; text-decoration: none;
+      transition: all 0.2s;
+      margin-bottom: 0.6rem;
+    }
+    .btn:last-child { margin-bottom: 0; }
+    .btn-primary { background: var(--bordeaux); color: #fff; }
+    .btn-primary:hover { background: var(--bordeaux-light); transform: translateY(-1px); }
+    .btn-outline { background: var(--blanc); color: var(--bordeaux); border: 1.5px solid var(--bordeaux); }
+    .btn-outline:hover { background: var(--bordeaux); color: #fff; }
+    .btn-danger { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
+    .btn-danger:hover { background: var(--rouge); color: #fff; }
+    .btn-gold { background: var(--or); color: var(--bordeaux); font-weight: 700; }
+    .btn-gold:hover { background: #d4b050; transform: translateY(-1px); }
+
+    /* ── Feedback ── */
+    .feedback-msg {
+      display: none;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem; font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .feedback-msg.success { background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); }
+    .feedback-msg.error   { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
+
+    /* ── Empty state ── */
+    .empty-state { text-align: center; padding: 2.5rem 1.5rem; color: var(--brun-light); }
+    .empty-state-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+    .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(61,43,31,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 1000; align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--blanc);
+      border-radius: var(--radius);
+      padding: 2rem; width: 100%; max-width: 420px;
+      box-shadow: 0 20px 60px rgba(61,43,31,0.25);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--bordeaux);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--creme-dark);
+    }
+    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+    .modal-actions .btn { margin-bottom: 0; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--brun); color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem; z-index: 9999;
+      transform: translateY(80px); opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--vert); }
+    .toast.error   { background: var(--rouge); }
+
+    /* ── Footer ── */
+    .client-footer {
+      text-align: center; padding: 1.5rem 2rem;
+      color: var(--brun-light); font-size: 0.75rem;
+      border-top: 1px solid var(--creme-dark);
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+    }
+    .client-footer a { color: var(--or); text-decoration: none; }
+
+    /* ── Boutons actions réservation ── */
+    .res-actions-btns {
+      display: flex;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+    .btn-res-edit {
+      display: flex; align-items: center; gap: 0.3rem;
+      background: var(--bordeaux-pale); color: var(--bordeaux);
+      border: 1px solid rgba(107,26,42,0.15);
+      padding: 0.35rem 0.65rem; border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-res-edit:hover { background: var(--bordeaux); color: #fff; }
+    .btn-res-cancel {
+      display: flex; align-items: center; gap: 0.3rem;
+      background: var(--rouge-pale); color: var(--rouge);
+      border: 1px solid rgba(198,40,40,0.15);
+      padding: 0.35rem 0.65rem; border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-res-cancel:hover { background: var(--rouge); color: #fff; }
+
+    @media (max-width: 768px) {
+      .header-nav { display: none; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .res-actions-btns { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="client-header">
+  <a href="/" class="header-logo">Le Gourmet Parisien</a>
+  <nav class="header-nav">
+    <a href="/">Accueil</a>
+    <a href="/carte">Notre Carte</a>
+    <a href="/reservation">Réserver</a>
+    <a href="/avis">Avis</a>
+  </nav>
+  <div class="header-user">
+    <div class="header-avatar"><%= user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase() %></div>
+    <span class="header-username"><%= user.prenom || user.email.split('@')[0] %></span>
+    <a href="/logout" class="header-logout" title="Déconnexion">⏻</a>
+  </div>
+</header>
+
+<!-- Welcome -->
+<section class="welcome-banner">
+  <div class="welcome-content">
+    <p class="welcome-eyebrow">Espace personnel</p>
+    <h1 class="welcome-title">Bonjour, <em><%= user.prenom || user.email.split('@')[0] %></em> 👋</h1>
+    <p class="welcome-sub">Gérez vos réservations et votre profil</p>
+  </div>
+</section>
+
+<!-- Content -->
+<div class="client-content">
+  <div class="dashboard-grid">
+
+    <!-- Prochaines réservations -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-icon">📅</span>
+        <span class="dash-card-title">Prochaines réservations</span>
+        <span class="dash-card-badge" id="upcoming-count">—</span>
+      </div>
+      <div id="reservations-list">
+        <div class="empty-state"><span class="empty-state-icon">⏳</span><p>Chargement...</p></div>
+      </div>
+      <div style="padding:1rem 1.5rem; border-top:1px solid var(--creme-dark);">
+        <a href="/reservation" class="btn btn-gold">+ Nouvelle réservation</a>
+      </div>
+    </div>
+
+    <!-- Laisser un avis -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-icon">⭐</span>
+        <span class="dash-card-title">Laisser un avis</span>
+      </div>
+      <div class="dash-card-body">
+        <div class="feedback-msg" id="avis-msg"></div>
+        <form id="avis-form">
+          <div class="form-group">
+            <label class="form-label">Votre note</label>
+            <div class="star-rating" id="star-rating">
+              <button type="button" class="star-btn active" data-val="1">★</button>
+              <button type="button" class="star-btn active" data-val="2">★</button>
+              <button type="button" class="star-btn active" data-val="3">★</button>
+              <button type="button" class="star-btn active" data-val="4">★</button>
+              <button type="button" class="star-btn active" data-val="5">★</button>
+            </div>
+            <input type="hidden" id="note-val" value="5">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Commentaire</label>
+            <textarea name="commentaire_avis" class="form-input" rows="3" placeholder="Racontez votre expérience..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Envoyer mon avis</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Mon profil -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-icon">👤</span>
+        <span class="dash-card-title">Mon profil</span>
+      </div>
+      <div class="dash-card-body">
+        <div class="profil-item">
+          <div class="profil-label">Prénom</div>
+          <div class="profil-value" id="profil-prenom"><%= user.prenom || '—' %></div>
+        </div>
+        <div class="profil-item">
+          <div class="profil-label">Nom</div>
+          <div class="profil-value" id="profil-nom"><%= user.nom || '—' %></div>
+        </div>
+        <div class="profil-item">
+          <div class="profil-label">Email</div>
+          <div class="profil-value"><%= user.email %></div>
+        </div>
+        <div class="profil-item">
+          <div class="profil-label">Rôle</div>
+          <div class="profil-value">Client</div>
+        </div>
+        <div style="margin-top:1.25rem;">
+          <button class="btn btn-outline" onclick="openModalProfil()">✏️ Modifier mon profil</button>
+          <button class="btn btn-outline" onclick="openModalPassword()">🔑 Changer mon mot de passe</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RGPD -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-icon">🔒</span>
+        <span class="dash-card-title">Données & RGPD</span>
+      </div>
+      <div class="dash-card-body">
+        <p style="font-family:'Cormorant Garamond',serif; font-size:0.95rem; color:var(--brun-light); font-style:italic; line-height:1.6; margin-bottom:1.25rem;">
+          Conformément au RGPD, vous pouvez demander la suppression définitive de votre compte et de toutes vos données personnelles. Cette action est irréversible.
+        </p>
+        <button class="btn btn-danger" onclick="confirmDelete()">🗑️ Supprimer mon compte</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Historique -->
+  <div class="dash-card dash-card-full">
+    <div class="dash-card-header">
+      <span class="dash-card-icon">📋</span>
+      <span class="dash-card-title">Historique de mes réservations</span>
+      <span class="dash-card-badge" id="history-count">—</span>
+    </div>
+    <div id="historique-list">
+      <div class="empty-state"><span class="empty-state-icon">⏳</span><p>Chargement...</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="client-footer">
+  Le Gourmet Parisien — © 2026 — <a href="/">Retour au site</a>
+</div>
+
+<!-- Modal profil -->
+<div class="modal-overlay" id="modal-profil">
+  <div class="modal">
+    <h3 class="modal-title">✏️ Modifier mon profil</h3>
+    <form id="form-profil">
+      <div class="form-group">
+        <label class="form-label">Prénom *</label>
+        <input type="text" name="prenom_client" id="edit-prenom" class="form-input" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nom *</label>
+        <input type="text" name="nom_client" id="edit-nom" class="form-input" required>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary" style="flex:1;">✓ Enregistrer</button>
+        <button type="button" class="btn btn-outline" style="flex:0.5;" onclick="closeModal('modal-profil')">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal mot de passe -->
+<div class="modal-overlay" id="modal-password">
+  <div class="modal">
+    <h3 class="modal-title">🔑 Changer mon mot de passe</h3>
+    <div class="feedback-msg" id="pwd-msg"></div>
+    <form id="form-password">
+      <div class="form-group">
+        <label class="form-label">Nouveau mot de passe *</label>
+        <input type="password" name="new_password" class="form-input" placeholder="Min. 8 car., maj., chiffre, symbole" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirmer *</label>
+        <input type="password" name="confirm_password" class="form-input" required>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary" style="flex:1;">✓ Changer</button>
+        <button type="button" class="btn btn-outline" style="flex:0.5;" onclick="closeModal('modal-password')">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal modifier réservation -->
+<div class="modal-overlay" id="modal-edit-res">
+  <div class="modal">
+    <h3 class="modal-title">✏️ Modifier ma réservation</h3>
+    <div class="feedback-msg" id="edit-res-msg"></div>
+    <form id="form-edit-res">
+      <input type="hidden" id="edit-res-id">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+        <div class="form-group">
+          <label class="form-label">Date *</label>
+          <input type="date" name="date_reservation" id="edit-res-date" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Heure *</label>
+          <input type="time" name="heure_reservation" id="edit-res-heure" class="form-input" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre de personnes *</label>
+        <input type="number" name="nb_personnes" id="edit-res-nb" class="form-input" min="1" max="20" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Demandes spéciales</label>
+        <textarea name="demandes_speciales" id="edit-res-demandes" class="form-input" rows="2" placeholder="Allergie, anniversaire..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary" style="flex:1;">✓ Enregistrer</button>
+        <button type="button" class="btn btn-outline" style="flex:0.5;" onclick="closeModal('modal-edit-res')">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Helpers ──────────────────────────────────────────────
+  function getToken() {
+    return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
+  }
+  function getUser() {
+    try {
+      const raw = document.cookie.split('; ').find(c => c.startsWith('user='))?.split('=').slice(1).join('=');
+      return raw ? JSON.parse(decodeURIComponent(raw)) : null;
+    } catch { return null; }
+  }
+  function authHeaders() {
+    return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
+  }
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+  function showFeedback(id, ok, text) {
+    const el = document.getElementById(id);
+    el.className = 'feedback-msg ' + (ok ? 'success' : 'error');
+    el.style.display = 'block';
+    el.innerHTML = (ok ? '✓ ' : '✗ ') + text;
+  }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+  document.querySelectorAll('.modal-overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); });
+  });
+
+  const user = getUser();
+
+  // ── Étoiles ───────────────────────────────────────────────
+  let selectedNote = 5;
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    btn.addEventListener('mouseover', () => {
+      const val = parseInt(btn.dataset.val);
+      document.querySelectorAll('.star-btn').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.val) <= val);
+      });
+    });
+    btn.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.star-btn').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.val) <= selectedNote);
+      });
+    });
+    btn.addEventListener('click', () => {
+      selectedNote = parseInt(btn.dataset.val);
+      document.getElementById('note-val').value = selectedNote;
+      document.querySelectorAll('.star-btn').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.val) <= selectedNote);
+      });
+    });
+  });
+
+  // ── Réservations ─────────────────────────────────────────
+  async function loadReservations() {
+    try {
+     const res = await fetch('/reservations/mes-reservations', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+console.log('Status:', res.status); // ← ajoute cette ligne
+const body = await res.clone().json(); // ← et celle-ci
+console.log('Body:', body);
+if (!res.ok) throw new Error();
+      const mine = await res.json(); // déjà filtrées par le backend
+      const now  = new Date();
+
+      const upcoming = mine.filter(r => new Date(r.date_reservation) >= now && r.statut_reservation === 'confirmee');
+      const past     = mine.filter(r => new Date(r.date_reservation) < now || r.statut_reservation !== 'confirmee');
+
+      document.getElementById('upcoming-count').textContent = upcoming.length;
+      document.getElementById('history-count').textContent  = past.length;
+
+      // Prochaines
+      const listEl = document.getElementById('reservations-list');
+      listEl.innerHTML = upcoming.length === 0
+        ? `<div class="empty-state"><span class="empty-state-icon">📅</span><p>Aucune réservation à venir</p></div>`
+        : upcoming.map(r => {
+            const d     = new Date(r.date_reservation);
+            const heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
+            // Encodage sécurisé des demandes spéciales pour l'attribut data
+            const demandesEncoded = encodeURIComponent(r.demandes_speciales || '');
+            return `<div class="res-item">
+              <div class="res-item-left">
+                <div class="res-date-box">
+                  <div class="res-date-day">${d.toLocaleDateString('fr-FR',{day:'2-digit'})}</div>
+                  <div class="res-date-month">${d.toLocaleDateString('fr-FR',{month:'short'})}</div>
+                </div>
+                <div class="res-info">
+                  <div class="res-heure">🕐 ${heure}</div>
+                  <div class="res-detail">👥 ${r.nb_personnes} personne${r.nb_personnes>1?'s':''} · Table ${r.numero_table||r.id_table}</div>
+                  ${r.demandes_speciales ? `<div class="res-demande">"${r.demandes_speciales}"</div>` : ''}
+                </div>
+              </div>
+              <div class="res-actions-btns">
+                <button class="btn-res-edit"
+                  onclick="openModalEditRes(
+                    ${r.id_reservation},
+                    '${r.date_reservation ? r.date_reservation.split('T')[0] : ''}',
+                    '${heure}',
+                    ${r.nb_personnes},
+                    '${demandesEncoded}'
+                  )">✏️ Modifier</button>
+                <button class="btn-res-cancel" onclick="cancelRes(${r.id_reservation})">✗ Annuler</button>
+              </div>
+            </div>`;
+          }).join('');
+
+      // Historique
+      const histEl  = document.getElementById('historique-list');
+      const badgeMap = { honoree:'badge-honoree', annulee:'badge-annulee', no_show:'badge-no_show', en_attente:'badge-en_attente', confirmee:'badge-confirmee' };
+      const labelMap = { honoree:'✅ Honorée', annulee:'❌ Annulée', no_show:'🚫 No-show', en_attente:'⏳ En attente', confirmee:'🔵 Confirmée' };
+
+      histEl.innerHTML = past.length === 0
+        ? `<div class="empty-state"><span class="empty-state-icon">📋</span><p>Aucune réservation passée</p></div>`
+        : past.map(r => {
+            const d     = new Date(r.date_reservation);
+            const heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
+            const date  = d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+            return `<div class="res-item">
+              <div class="res-item-left">
+                <div class="res-date-box">
+                  <div class="res-date-day">${d.toLocaleDateString('fr-FR',{day:'2-digit'})}</div>
+                  <div class="res-date-month">${d.toLocaleDateString('fr-FR',{month:'short'})}</div>
+                </div>
+                <div class="res-info">
+                  <div class="res-heure">${date}</div>
+                  <div class="res-detail">🕐 ${heure} · 👥 ${r.nb_personnes} personne${r.nb_personnes>1?'s':''}</div>
+                </div>
+              </div>
+              <span class="badge ${badgeMap[r.statut_reservation]||'badge-confirmee'}">${labelMap[r.statut_reservation]||r.statut_reservation}</span>
+            </div>`;
+          }).join('');
+
+   } catch(err) {
+  console.error('Erreur loadReservations:', err);
+  document.getElementById('reservations-list').innerHTML = `<div class="empty-state"><p>Impossible de charger les réservations.</p></div>`;
+}
+  }
+
+  // ── Avis ─────────────────────────────────────────────────
+  document.getElementById('avis-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    try {
+      const res = await fetch('/avis', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({
+          note_avis:        selectedNote,
+          commentaire_avis: form.commentaire_avis.value.trim(),
+          id_client:        user?.id
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showFeedback('avis-msg', true, 'Merci ! Votre avis sera validé par notre équipe.');
+        form.reset();
+        selectedNote = 5;
+        document.querySelectorAll('.star-btn').forEach(s => s.classList.add('active'));
+      } else {
+        showFeedback('avis-msg', false, data.error || 'Erreur lors de l\'envoi.');
+      }
+    } catch { showFeedback('avis-msg', false, 'Erreur de connexion.'); }
+  });
+
+  // ── Modifier profil ──────────────────────────────────────
+  function openModalProfil() {
+    document.getElementById('edit-prenom').value = user?.prenom || '';
+    document.getElementById('edit-nom').value    = user?.nom    || '';
+    document.getElementById('modal-profil').classList.add('show');
+  }
+  document.getElementById('form-profil').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.target;
+    try {
+      const res = await fetch('/clients/' + user.id, {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify({ nom_client: f.nom_client.value.trim(), prenom_client: f.prenom_client.value.trim() })
+      });
+      if (res.ok) {
+        showToast('Profil mis à jour !');
+        document.getElementById('profil-prenom').textContent = f.prenom_client.value.trim();
+        document.getElementById('profil-nom').textContent    = f.nom_client.value.trim();
+        closeModal('modal-profil');
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Erreur', 'error');
+      }
+    } catch { showToast('Erreur de connexion.', 'error'); }
+  });
+
+  // ── Mot de passe ─────────────────────────────────────────
+  function openModalPassword() {
+    document.getElementById('form-password').reset();
+    document.getElementById('pwd-msg').style.display = 'none';
+    document.getElementById('modal-password').classList.add('show');
+  }
+  document.getElementById('form-password').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.target;
+    if (f.new_password.value !== f.confirm_password.value) {
+      showFeedback('pwd-msg', false, 'Les mots de passe ne correspondent pas.');
+      return;
+    }
+    try {
+      const res = await fetch('/auth/change-password', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ new_password: f.new_password.value })
+      });
+      if (res.ok) { showToast('Mot de passe changé !'); closeModal('modal-password'); }
+      else { const err = await res.json(); showFeedback('pwd-msg', false, err.error || 'Erreur.'); }
+    } catch { showFeedback('pwd-msg', false, 'Erreur de connexion.'); }
+  });
+
+  // ── Modifier réservation ─────────────────────────────────
+  function openModalEditRes(id, date, heure, nb, demandesEncoded) {
+    document.getElementById('edit-res-id').value       = id;
+    document.getElementById('edit-res-date').value     = date;
+    document.getElementById('edit-res-heure').value    = heure;
+    document.getElementById('edit-res-nb').value       = nb;
+    document.getElementById('edit-res-demandes').value = decodeURIComponent(demandesEncoded);
+    // Date min = aujourd'hui
+    document.getElementById('edit-res-date').min = new Date().toISOString().split('T')[0];
+    document.getElementById('edit-res-msg').style.display = 'none';
+    document.getElementById('modal-edit-res').classList.add('show');
+  }
+
+  document.getElementById('form-edit-res').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f  = e.target;
+    const id = document.getElementById('edit-res-id').value;
+    try {
+      const res = await fetch('/reservations/' + id, {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify({
+          date_reservation:   f.date_reservation.value,
+          heure_reservation:  f.heure_reservation.value,
+          nb_personnes:       parseInt(f.nb_personnes.value),
+          demandes_speciales: f.demandes_speciales.value.trim()
+        })
+      });
+      if (res.ok) {
+        showToast('Réservation modifiée !');
+        closeModal('modal-edit-res');
+        loadReservations(); // Rechargement sans reload de page
+      } else {
+        const err = await res.json();
+        showFeedback('edit-res-msg', false, err.error || (err.errors && err.errors[0]) || 'Erreur.');
+      }
+    } catch { showFeedback('edit-res-msg', false, 'Erreur de connexion.'); }
+  });
+
+  // ── Annuler réservation ──────────────────────────────────
+  async function cancelRes(id) {
+    if (!confirm('Annuler cette réservation ? Cette action est définitive.')) return;
+    try {
+      const res = await fetch('/reservations/' + id, {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify({ statut_reservation: 'annulee' })
+      });
+      if (res.ok) {
+        showToast('Réservation annulée.');
+        loadReservations();
+      } else {
+        showToast('Erreur lors de l\'annulation.', 'error');
+      }
+    } catch { showToast('Erreur de connexion.', 'error'); }
+  }
+
+  // ── Supprimer compte ─────────────────────────────────────
+  function confirmDelete() {
+    if (!confirm('Supprimer définitivement votre compte ? Cette action est irréversible.')) return;
+    fetch('/clients/' + user.id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } })
+      .then(res => { if (res.ok) window.location.href = '/logout'; else showToast('Erreur.', 'error'); })
+      .catch(() => showToast('Erreur de connexion.', 'error'));
+  }
+
+  loadReservations();
+</script>
+
+</body>
+</html>

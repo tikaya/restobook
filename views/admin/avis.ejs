@@ -1,0 +1,227 @@
+<%- include('../partials/admin-layout', { active: 'avis' }) %>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bordeaux: #6B1A2A; --bordeaux-light: #8B2A3A; --bordeaux-pale: #f5eaec;
+    --or: #C9A84C; --or-light: #fdf6e3;
+    --creme: #FAF6F0; --creme-dark: #EDE5D8;
+    --brun: #3D2B1F; --brun-light: #7A5C4A; --blanc: #FFFFFF;
+    --vert: #2e7d32; --vert-pale: #e8f5e9;
+    --rouge: #c62828; --rouge-pale: #fdecea;
+    --orange: #e65100; --orange-pale: #fff3e0;
+    --radius: 12px; --radius-sm: 8px;
+    --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .avis-page { font-family: 'DM Sans', sans-serif; background: var(--creme); min-height: 100vh; padding: 2rem; color: var(--brun); }
+  .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--creme-dark); }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--bordeaux); line-height: 1; }
+  .page-header p { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brun-light); margin-top: 0.3rem; font-style: italic; }
+  .stats-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.8rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; }
+  .stat-chip strong { color: var(--bordeaux); font-weight: 600; }
+  .filters { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .filter-btn { padding: 0.4rem 1rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
+  .avis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+  .avis-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.5rem; transition: all 0.25s ease; position: relative; overflow: hidden; }
+  .avis-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
+  .avis-card.statut-en_attente::before { background: var(--orange); }
+  .avis-card.statut-approuve::before   { background: var(--vert); }
+  .avis-card.statut-rejete::before     { background: var(--rouge); }
+  .avis-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+  .avis-card.hidden { display: none; }
+  .avis-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .avis-client { display: flex; align-items: center; gap: 0.6rem; }
+  .avis-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--bordeaux-pale); color: var(--bordeaux); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .avis-client-info { line-height: 1.3; }
+  .avis-client-name { font-weight: 600; font-size: 0.875rem; color: var(--brun); }
+  .avis-date { font-size: 0.72rem; color: var(--brun-light); }
+  .badge-statut { font-size: 0.7rem; font-weight: 500; padding: 0.22rem 0.7rem; border-radius: 50px; letter-spacing: 0.03em; white-space: nowrap; }
+  .badge-en_attente { background: var(--orange-pale); color: var(--orange); }
+  .badge-approuve   { background: var(--vert-pale);   color: var(--vert); }
+  .badge-rejete     { background: var(--rouge-pale);  color: var(--rouge); }
+  .avis-stars { display: flex; gap: 2px; margin-bottom: 0.35rem; }
+  .star { font-size: 1rem; }
+  .star.full  { color: var(--or); }
+  .star.empty { color: var(--creme-dark); }
+  .avis-note-label { font-size: 0.72rem; color: var(--brun-light); margin-bottom: 0.75rem; }
+  .avis-commentaire { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brun-light); line-height: 1.6; font-style: italic; min-height: 3em; margin-bottom: 1rem; padding: 0.75rem; background: var(--creme); border-radius: var(--radius-sm); border-left: 3px solid var(--creme-dark); }
+  .avis-commentaire.vide { opacity: 0.6; }
+  .avis-id { font-size: 0.7rem; color: var(--brun-light); opacity: 0.5; margin-bottom: 0.75rem; }
+  .avis-actions { display: flex; gap: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--creme-dark); }
+  .btn-approve { flex: 1; display: flex; align-items: center; justify-content: center; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); padding: 0.5rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .btn-approve:hover { background: var(--vert); color: #fff; }
+  .btn-reject { flex: 1; display: flex; align-items: center; justify-content: center; background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(230,81,0,0.2); padding: 0.5rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .btn-reject:hover { background: var(--orange); color: #fff; }
+  .btn-delete { display: flex; align-items: center; justify-content: center; background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.15); padding: 0.5rem 0.65rem; border-radius: var(--radius-sm); font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+  .btn-delete:hover { background: var(--rouge); color: #fff; }
+  .empty-state { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--brun-light); }
+  .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+  .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { background: var(--vert); }
+  .toast.error   { background: var(--rouge); }
+  .toast.warning { background: var(--orange); }
+</style>
+
+<%
+  var nbTotal      = avis.length;
+  var nbAttente    = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
+  var nbApprouve   = avis.filter(function(a) { return a.statut_avis === 'approuve'; }).length;
+  var nbRejete     = avis.filter(function(a) { return a.statut_avis === 'rejete'; }).length;
+  var avisApprouves = avis.filter(function(a) { return a.statut_avis === 'approuve'; });
+  var sommeNotes   = avisApprouves.reduce(function(s, a) { return s + (Number(a.note_avis) || 0); }, 0);
+  var moyenneStr   = avisApprouves.length > 0 ? (sommeNotes / avisApprouves.length).toFixed(1) : null;
+%>
+
+<div class="avis-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Gestion des avis</h1>
+      <p>Moderez les avis clients de votre etablissement</p>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-chip"><strong><%= nbTotal %></strong> avis au total</div>
+    <div class="stat-chip"><strong><%= nbAttente %></strong> en attente</div>
+    <div class="stat-chip"><strong><%= nbApprouve %></strong> approuves</div>
+    <div class="stat-chip"><strong><%= nbRejete %></strong> rejetes</div>
+    <% if (moyenneStr !== null) { %>
+      <div class="stat-chip"><strong><%= moyenneStr %></strong> / 5 moyenne (approuves)</div>
+    <% } %>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterAvis('all', this)">Tous (<%= nbTotal %>)</button>
+    <button class="filter-btn" onclick="filterAvis('en_attente', this)">En attente (<%= nbAttente %>)</button>
+    <button class="filter-btn" onclick="filterAvis('approuve', this)">Approuves (<%= nbApprouve %>)</button>
+    <button class="filter-btn" onclick="filterAvis('rejete', this)">Rejetes (<%= nbRejete %>)</button>
+  </div>
+
+  <div class="avis-grid" id="avis-grid">
+
+    <% if (nbTotal === 0) { %>
+      <div class="empty-state">
+        <span>&#128172;</span>
+        <p>Aucun avis pour le moment.</p>
+      </div>
+    <% } %>
+
+    <%
+      avis.forEach(function(a) {
+        var note       = Number(a.note_avis) || 0;
+        var nomComplet = (a.prenom_client && a.nom_client)
+          ? a.prenom_client + ' ' + a.nom_client
+          : 'Client #' + a.id_client;
+        var initiale   = a.prenom_client ? a.prenom_client[0].toUpperCase() : 'C';
+    %>
+      <div class="avis-card statut-<%= a.statut_avis %>" id="card-<%= a.id_avis %>" data-statut="<%= a.statut_avis %>">
+
+        <div class="avis-card-top">
+          <div class="avis-client">
+            <div class="avis-avatar"><%= initiale %></div>
+            <div class="avis-client-info">
+              <div class="avis-client-name"><%= nomComplet %></div>
+              <div class="avis-date">
+                <%= new Date(a.date_avis).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' }) %>
+              </div>
+            </div>
+          </div>
+          <span class="badge-statut badge-<%= a.statut_avis %>">
+            <% if (a.statut_avis === 'en_attente') { %>En attente
+            <% } else if (a.statut_avis === 'approuve') { %>Approuve
+            <% } else { %>Rejete<% } %>
+          </span>
+        </div>
+
+        <div class="avis-stars">
+          <% for (var s = 0; s < 5; s++) { %>
+            <span class="star <%= s < note ? 'full' : 'empty' %>">&#9733;</span>
+          <% } %>
+        </div>
+        <div class="avis-note-label"><%= note %> / 5</div>
+
+        <div class="avis-commentaire <%= !a.commentaire_avis ? 'vide' : '' %>">
+          <%= a.commentaire_avis || 'Aucun commentaire laisse.' %>
+        </div>
+
+        <div class="avis-id">Avis #<%= a.id_avis %></div>
+
+        <div class="avis-actions">
+          <% if (a.statut_avis === 'en_attente') { %>
+            <button class="btn-approve" onclick="moderate(<%= a.id_avis %>, 'approuve')">Approuver</button>
+            <button class="btn-reject"  onclick="moderate(<%= a.id_avis %>, 'rejete')">Rejeter</button>
+          <% } else if (a.statut_avis === 'rejete') { %>
+            <button class="btn-approve" onclick="moderate(<%= a.id_avis %>, 'approuve')">Approuver</button>
+          <% } else if (a.statut_avis === 'approuve') { %>
+            <button class="btn-reject"  onclick="moderate(<%= a.id_avis %>, 'rejete')">Rejeter</button>
+          <% } %>
+          <button class="btn-delete" onclick="deleteAvis(<%= a.id_avis %>)" title="Supprimer">&#128465;</button>
+        </div>
+
+      </div>
+    <% }); %>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function getToken() {
+    return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
+  }
+
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(function() { t.className = 'toast'; }, 3000);
+  }
+
+  function filterAvis(statut, btn) {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.avis-card').forEach(function(card) {
+      card.classList.toggle('hidden', statut !== 'all' && card.dataset.statut !== statut);
+    });
+  }
+
+  async function moderate(id, statut) {
+    try {
+      var res = await fetch('/avis/' + id + '/moderate', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify({ statut_avis: statut })
+      });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast(statut === 'approuve' ? 'Avis approuve !' : 'Avis rejete.', statut === 'approuve' ? 'success' : 'warning');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(err) { showToast(err.message, 'error'); }
+  }
+
+  async function deleteAvis(id) {
+    if (!confirm('Supprimer definitivement cet avis ?')) return;
+    try {
+      var res = await fetch('/avis/' + id, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + getToken() }
+      });
+      if (!res.ok && res.status !== 204) throw new Error('Erreur lors de la suppression');
+      var card = document.getElementById('card-' + id);
+      if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
+      showToast('Avis supprime.');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(err) { showToast(err.message, 'error'); }
+  }
+</script>
+
+<%- include('../partials/admin-footer') %>

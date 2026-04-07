@@ -2,17 +2,21 @@ const jwt = require('jsonwebtoken');
 
 // Vérifier que le token est valide
 const verifyToken = (req, res, next) => {
+    // ✅ Header d'abord, puis cookie comme fallback
     const header = req.headers.authorization;
+    const tokenFromHeader = header && header.startsWith('Bearer ')
+        ? header.split(' ')[1]
+        : null;
+    const tokenFromCookie = req.cookies?.token;
+    const token = tokenFromHeader || tokenFromCookie;
 
-    if (!header || !header.startsWith('Bearer ')) {
+    if (!token) {
         return res.status(401).json({ error: 'Token manquant' });
     }
 
-    const token = header.split(' ')[1];
-
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;  // Enrichissement — ajoute { id, email, role } à req
+        req.user = decoded;
         next();
     } catch (error) {
         return res.status(401).json({ error: 'Token invalide ou expiré' });

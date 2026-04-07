@@ -53,7 +53,16 @@ const reservationController = {
         } catch (error) {
             next(error);
         }
+    },
+
+    getMesReservations: async (req, res, next) => {
+    try {
+        const reservations = await reservationService.getReservationsByClient(req.user.id);
+        res.json(reservations);
+    } catch (error) {
+        next(error);
     }
+}
 }
 
 module.exports = reservationController;

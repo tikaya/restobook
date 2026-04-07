@@ -1,0 +1,699 @@
+<%- include('../partials/admin-layout', { active: 'menu' }) %>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bordeaux: #6B1A2A;
+    --bordeaux-light: #8B2A3A;
+    --bordeaux-pale: #f5eaec;
+    --or: #C9A84C;
+    --or-light: #e8d5a3;
+    --creme: #FAF6F0;
+    --creme-dark: #EDE5D8;
+    --brun: #3D2B1F;
+    --brun-light: #7A5C4A;
+    --blanc: #FFFFFF;
+    --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
+    --shadow-card: 0 2px 12px rgba(61,43,31,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .menu-page {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--creme);
+    min-height: 100vh;
+    padding: 2rem;
+    color: var(--brun);
+  }
+
+  /* ── Header ── */
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--creme-dark);
+  }
+  .page-header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--bordeaux);
+    line-height: 1;
+  }
+  .page-header-left p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--brun-light);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bordeaux);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .btn-primary:hover {
+    background: var(--bordeaux-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(107,26,42,0.3);
+  }
+
+  /* ── Stats Bar ── */
+  .stats-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-chip {
+    background: var(--blanc);
+    border: 1px solid var(--creme-dark);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    color: var(--brun-light);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .stat-chip strong { color: var(--bordeaux); font-weight: 600; }
+
+  /* ── Category Section ── */
+  .category-block { margin-bottom: 2.5rem; }
+  .category-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .category-label h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--bordeaux);
+    font-weight: 700;
+  }
+  .category-label .cat-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--creme-dark), transparent);
+  }
+  .cat-count {
+    font-size: 0.72rem;
+    background: var(--bordeaux-pale);
+    color: var(--bordeaux);
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    font-weight: 500;
+  }
+
+  /* ── Cards Grid ── */
+  .plats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .plat-card {
+    background: var(--blanc);
+    border: 1px solid var(--creme-dark);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .plat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--bordeaux);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .plat-card:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+    border-color: var(--bordeaux-pale);
+  }
+  .plat-card:hover::before { opacity: 1; }
+
+  .plat-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+  }
+  .plat-nom {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--brun);
+    line-height: 1.3;
+    flex: 1;
+    margin-right: 0.75rem;
+  }
+  .plat-prix {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--bordeaux);
+    white-space: nowrap;
+  }
+
+  .plat-desc {
+    font-size: 0.8rem;
+    color: var(--brun-light);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    min-height: 2.4em;
+  }
+
+  .plat-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--creme-dark);
+  }
+
+  .plat-allergenes {
+    font-size: 0.72rem;
+    color: var(--brun-light);
+    background: var(--creme);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .badge-dispo {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.22rem 0.65rem;
+    border-radius: 50px;
+    letter-spacing: 0.03em;
+  }
+  .badge-oui { background: #e8f5e9; color: #2e7d32; }
+  .badge-non { background: #fdecea; color: #c62828; }
+
+  .plat-actions {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+  .btn-edit {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    background: var(--bordeaux-pale);
+    color: var(--bordeaux);
+    border: 1px solid rgba(107,26,42,0.15);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-edit:hover { background: var(--bordeaux); color: #fff; }
+  .btn-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fdecea;
+    color: #c62828;
+    border: 1px solid rgba(198,40,40,0.15);
+    padding: 0.5rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-delete:hover { background: #c62828; color: #fff; }
+
+  /* ── Empty ── */
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--brun-light);
+  }
+  .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+  .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(61,43,31,0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: var(--blanc);
+    border-radius: var(--radius);
+    padding: 2rem;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(61,43,31,0.25);
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--bordeaux);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--creme-dark);
+  }
+
+  .form-group { margin-bottom: 1rem; }
+  .form-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--brun-light);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .form-input {
+    width: 100%;
+    border: 1.5px solid var(--creme-dark);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.875rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    color: var(--brun);
+    background: var(--creme);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    resize: vertical;
+  }
+  .form-input:focus {
+    border-color: var(--bordeaux);
+    background: var(--blanc);
+    box-shadow: 0 0 0 3px rgba(107,26,42,0.08);
+  }
+  select.form-input { cursor: pointer; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.875rem;
+    background: var(--creme);
+    border: 1.5px solid var(--creme-dark);
+    border-radius: var(--radius-sm);
+  }
+  .toggle-group label { font-size: 0.875rem; color: var(--brun); cursor: pointer; }
+  input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--bordeaux); cursor: pointer; }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .btn-submit {
+    flex: 1;
+    background: var(--bordeaux);
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--bordeaux-light); }
+  .btn-cancel {
+    background: var(--creme);
+    color: var(--brun-light);
+    border: 1.5px solid var(--creme-dark);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-cancel:hover { border-color: var(--brun-light); color: var(--brun); }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--brun);
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-card);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { background: #2e7d32; }
+  .toast.error   { background: #c62828; }
+</style>
+
+<div class="menu-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>🍽️ Gestion du menu</h1>
+      <p>Administrez vos plats par catégorie</p>
+    </div>
+    <button class="btn-primary" onclick="openModalAdd()">
+      <span>＋</span> Ajouter un plat
+    </button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-chip">
+      🍴 <strong><%= plats.length %></strong> plats au total
+    </div>
+    <div class="stat-chip">
+      ✅ <strong><%= plats.filter(p => p.disponible_item_menu).length %></strong> disponibles
+    </div>
+    <div class="stat-chip">
+      📂 <strong><%= categories.length %></strong> catégories
+    </div>
+  </div>
+
+  <!-- Par catégorie -->
+  <% if (plats.length === 0) { %>
+    <div class="empty-state">
+      <span>🍽️</span>
+      <p>Aucun plat enregistré pour le moment.</p>
+    </div>
+  <% } %>
+
+  <% categories.forEach(cat => { %>
+    <% const platsDeCat = plats.filter(p => p.id_categorie === cat.id_categorie); %>
+    <% if (platsDeCat.length > 0) { %>
+      <div class="category-block">
+        <div class="category-label">
+          <h2><%= cat.nom_categorie %></h2>
+          <span class="cat-count"><%= platsDeCat.length %> plat<%= platsDeCat.length > 1 ? 's' : '' %></span>
+          <div class="cat-line"></div>
+        </div>
+
+        <div class="plats-grid">
+          <% platsDeCat.forEach(p => { %>
+            <div class="plat-card" id="card-<%= p.id_item_menu %>">
+              <div class="plat-card-top">
+                <span class="plat-nom"><%= p.nom_item_menu %></span>
+                <span class="plat-prix"><%= parseFloat(p.prix_item_menu).toFixed(2) %> €</span>
+              </div>
+
+              <p class="plat-desc"><%= p.description_item_menu || 'Aucune description.' %></p>
+
+              <div class="plat-meta">
+                <span class="plat-allergenes" title="<%= p.allergenes_item_menu || '' %>">
+                  <% if (p.allergenes_item_menu) { %>⚠️ <%= p.allergenes_item_menu %><% } else { %>Pas d'allergènes<% } %>
+                </span>
+                <span class="badge-dispo <%= p.disponible_item_menu ? 'badge-oui' : 'badge-non' %>">
+                  <%= p.disponible_item_menu ? '● Disponible' : '● Indisponible' %>
+                </span>
+              </div>
+
+              <div class="plat-actions">
+                <button class="btn-edit" onclick="openModalEdit(
+                  <%= p.id_item_menu %>,
+                  `<%= (p.nom_item_menu || '').replace(/`/g, '\\`') %>`,
+                  `<%= (p.description_item_menu || '').replace(/`/g, '\\`') %>`,
+                  <%= p.prix_item_menu %>,
+                  <%= p.id_categorie %>,
+                  `<%= (p.allergenes_item_menu || '').replace(/`/g, '\\`') %>`,
+                  <%= p.disponible_item_menu %>
+                )">✏️ Modifier</button>
+                <button class="btn-delete" onclick="deletePlat(<%= p.id_item_menu %>)" title="Supprimer">🗑</button>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+  <% }) %>
+</div>
+
+<!-- ===== MODAL AJOUTER ===== -->
+<div class="modal-overlay" id="modal-add">
+  <div class="modal">
+    <h3 class="modal-title">➕ Ajouter un plat</h3>
+    <form id="form-add" onsubmit="submitAdd(event)">
+
+      <div class="form-group">
+        <label class="form-label">Nom *</label>
+        <input type="text" name="nom_item_menu" class="form-input" required placeholder="Ex : Bœuf bourguignon">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description_item_menu" class="form-input" rows="2" placeholder="Courte description…"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Prix (€) *</label>
+          <input type="number" name="prix_item_menu" class="form-input" step="0.01" min="0.01" required placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catégorie *</label>
+          <select name="id_categorie" class="form-input">
+            <% categories.forEach(c => { %>
+              <option value="<%= c.id_categorie %>"><%= c.nom_categorie %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Allergènes</label>
+        <input type="text" name="allergenes_item_menu" class="form-input" placeholder="gluten, lait, œuf…">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Disponibilité</label>
+        <div class="toggle-group">
+          <input type="checkbox" name="disponible_item_menu" id="add-dispo" checked>
+          <label for="add-dispo">Plat disponible à la commande</label>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-submit">✓ Ajouter le plat</button>
+        <button type="button" class="btn-cancel" onclick="closeModal('modal-add')">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== MODAL MODIFIER ===== -->
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal">
+    <h3 class="modal-title">✏️ Modifier un plat</h3>
+    <form id="form-edit" onsubmit="submitEdit(event)">
+      <input type="hidden" name="id_item_menu" id="edit-id">
+
+      <div class="form-group">
+        <label class="form-label">Nom *</label>
+        <input type="text" name="nom_item_menu" id="edit-nom" class="form-input" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description_item_menu" id="edit-desc" class="form-input" rows="2"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Prix (€) *</label>
+          <input type="number" name="prix_item_menu" id="edit-prix" class="form-input" step="0.01" min="0.01" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catégorie *</label>
+          <select name="id_categorie" id="edit-cat" class="form-input">
+            <% categories.forEach(c => { %>
+              <option value="<%= c.id_categorie %>"><%= c.nom_categorie %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Allergènes</label>
+        <input type="text" name="allergenes_item_menu" id="edit-allergenes" class="form-input" placeholder="gluten, lait, œuf…">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Disponibilité</label>
+        <div class="toggle-group">
+          <input type="checkbox" name="disponible_item_menu" id="edit-dispo">
+          <label for="edit-dispo">Plat disponible à la commande</label>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-submit">✓ Enregistrer</button>
+        <button type="button" class="btn-cancel" onclick="closeModal('modal-edit')">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Utilitaires ──────────────────────────────────────────
+  function getToken() {
+    return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
+  }
+
+  function authHeaders() {
+    return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  // Fermeture en cliquant à côté du modal
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.classList.remove('show');
+    });
+  });
+
+  // ── Ajouter ──────────────────────────────────────────────
+  function openModalAdd() {
+    document.getElementById('form-add').reset();
+    document.getElementById('modal-add').classList.add('show');
+  }
+
+  async function submitAdd(e) {
+    e.preventDefault();
+    const f = e.target;
+    const body = {
+      nom_item_menu:           f.nom_item_menu.value.trim(),
+      description_item_menu:   f.description_item_menu.value.trim(),
+      prix_item_menu:          parseFloat(f.prix_item_menu.value),
+      id_categorie:            parseInt(f.id_categorie.value),
+      allergenes_item_menu:    f.allergenes_item_menu.value.trim(),
+      disponible_item_menu:    f.disponible_item_menu.checked
+    };
+    try {
+      const res = await fetch('/plats', { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast('Plat ajouté avec succès !');
+      closeModal('modal-add');
+      setTimeout(() => location.reload(), 800);
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  // ── Modifier ─────────────────────────────────────────────
+  function openModalEdit(id, nom, desc, prix, catId, allergenes, dispo) {
+    document.getElementById('edit-id').value        = id;
+    document.getElementById('edit-nom').value       = nom;
+    document.getElementById('edit-desc').value      = desc;
+    document.getElementById('edit-prix').value      = prix;
+    document.getElementById('edit-cat').value       = catId;
+    document.getElementById('edit-allergenes').value = allergenes;
+    document.getElementById('edit-dispo').checked   = dispo;
+    document.getElementById('modal-edit').classList.add('show');
+  }
+
+  async function submitEdit(e) {
+    e.preventDefault();
+    const f  = e.target;
+    const id = f.id_item_menu.value;
+    const body = {
+      nom_item_menu:           f.nom_item_menu.value.trim(),
+      description_item_menu:   f.description_item_menu.value.trim(),
+      prix_item_menu:          parseFloat(f.prix_item_menu.value),
+      id_categorie:            parseInt(f.id_categorie.value),
+      allergenes_item_menu:    f.allergenes_item_menu.value.trim(),
+      disponible_item_menu:    f.disponible_item_menu.checked
+    };
+    try {
+      const res = await fetch('/plats/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
+      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast('Plat mis à jour !');
+      closeModal('modal-edit');
+      setTimeout(() => location.reload(), 800);
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  // ── Supprimer ────────────────────────────────────────────
+  async function deletePlat(id) {
+    if (!confirm('Supprimer ce plat définitivement ?')) return;
+    try {
+      const res = await fetch('/plats/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } });
+      if (!res.ok && res.status !== 204) throw new Error('Erreur lors de la suppression');
+      const card = document.getElementById('card-' + id);
+      if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
+      showToast('Plat supprimé.');
+      setTimeout(() => location.reload(), 900);
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+</script>
+
+<%- include('../partials/admin-footer') %>

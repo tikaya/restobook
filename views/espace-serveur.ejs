@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Serveur — RestoBook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bordeaux: #6B1A2A; --bordeaux-dark: #401018; --bordeaux-light: #8B2A3A;
+      --bordeaux-pale: #f5eaec; --or: #C9A84C; --or-light: #fdf6e3;
+      --creme: #FAF6F0; --creme-dark: #EDE5D8; --brun: #3D2B1F; --brun-light: #7A5C4A;
+      --blanc: #FFFFFF; --vert: #2e7d32; --vert-pale: #e8f5e9;
+      --rouge: #c62828; --rouge-pale: #fdecea;
+      --orange: #e65100; --orange-pale: #fff3e0;
+      --bleu: #1565c0; --bleu-pale: #e3f2fd;
+      --radius: 12px; --radius-sm: 8px;
+      --shadow: 0 2px 16px rgba(61,43,31,0.08);
+      --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--brun); background: var(--creme); }
+    .layout { display: flex; min-height: 100vh; }
+
+    .sidebar { width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50; }
+    .sidebar-logo { padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--creme-dark); }
+    .sidebar-logo-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--bordeaux); line-height: 1; }
+    .sidebar-logo-text span { color: var(--or); }
+    .sidebar-logo-sub { font-size: 0.7rem; color: var(--brun-light); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .sidebar-nav { flex: 1; padding: 1rem 0; }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem; text-decoration: none; color: var(--brun-light); font-size: 0.85rem; transition: all 0.15s; border-left: 3px solid transparent; }
+    .sidebar-link:hover { background: var(--creme); color: var(--brun); }
+    .sidebar-link.active { background: var(--bordeaux-pale); color: var(--bordeaux); font-weight: 600; border-left-color: var(--bordeaux); }
+    .sidebar-badge { margin-left: auto; background: var(--bordeaux); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 50px; min-width: 20px; text-align: center; }
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--creme-dark); }
+    .sidebar-footer-label { font-size: 0.7rem; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .sidebar-footer-name  { font-size: 0.88rem; font-weight: 700; color: var(--brun); }
+    .sidebar-footer-email { font-size: 0.75rem; color: var(--brun-light); margin-top: 0.1rem; word-break: break-all; }
+    .sidebar-footer-role  { font-size: 0.72rem; color: var(--bordeaux); font-weight: 600; margin-top: 0.2rem; }
+    .btn-logout { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; cursor: pointer; width: 100%; }
+    .btn-logout:hover { background: var(--rouge-pale); color: var(--rouge); border-color: rgba(198,40,40,0.2); }
+
+    .admin-main { flex: 1; margin-left: 230px; }
+    .topbar { background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
+    .topbar-left { display: flex; align-items: center; gap: 1rem; }
+    .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; }
+    .topbar-date { font-size: 0.78rem; opacity: 0.5; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+    .topbar-avatar { width: 36px; height: 36px; background: var(--or); color: var(--bordeaux-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+    .topbar-name { font-size: 0.85rem; opacity: 0.85; }
+
+    .admin-content { padding: 2rem; }
+
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--bordeaux); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--creme-dark); margin-left: 0.5rem; }
+
+    .stats-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.5rem 1.1rem; font-size: 0.82rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; box-shadow: var(--shadow); }
+    .stat-chip strong { color: var(--bordeaux); font-weight: 700; }
+
+    .panel { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 1.5rem; }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid var(--creme-dark); }
+    .panel-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--brun); font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    .panel-link { font-size: 0.78rem; color: var(--bordeaux); text-decoration: none; font-weight: 500; opacity: 0.7; transition: opacity 0.2s; }
+    .panel-link:hover { opacity: 1; }
+
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table thead tr { background: var(--creme); }
+    .admin-table th { padding: 0.6rem 1rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brun-light); text-align: left; border-bottom: 1px solid var(--creme-dark); }
+    .admin-table tbody tr { border-bottom: 1px solid var(--creme-dark); transition: background 0.1s; }
+    .admin-table tbody tr:last-child { border-bottom: none; }
+    .admin-table tbody tr:hover { background: var(--creme); }
+    .admin-table td { padding: 0.75rem 1rem; font-size: 0.82rem; vertical-align: middle; }
+
+    .badge { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 50px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.03em; white-space: nowrap; }
+    .badge-confirmee  { background: var(--bleu-pale);   color: var(--bleu); }
+    .badge-honoree    { background: var(--vert-pale);   color: var(--vert); }
+    .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
+    .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
+    .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
+
+    .btn-arrive { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); padding: 0.35rem 0.7rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-arrive:hover { background: var(--vert); color: #fff; }
+    .btn-noshow { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(230,81,0,0.2); padding: 0.35rem 0.7rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-noshow:hover { background: var(--orange); color: #fff; }
+
+    .alert-bar { background: var(--orange-pale); color: var(--orange); padding: 0.65rem 1.5rem; font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; border-top: 1px solid rgba(230,81,0,0.15); }
+
+    .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--creme-dark); font-size: 0.85rem; }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item-nom { font-weight: 600; color: var(--brun); }
+    .menu-item-cat { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.1rem; }
+    .menu-item-prix { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--bordeaux); }
+    .badge-indispo { background: var(--rouge-pale); color: var(--rouge); font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 50px; margin-left: 0.5rem; }
+
+    .avis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; padding: 1.25rem; }
+    .avis-card { background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); padding: 1.25rem; transition: all 0.2s; position: relative; }
+    .avis-card::before { content: '❝'; position: absolute; top: 0.75rem; right: 1rem; font-size: 2rem; color: var(--or); opacity: 0.15; font-family: 'Playfair Display', serif; line-height: 1; }
+    .avis-card:hover { box-shadow: var(--shadow-soft); }
+    .avis-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+    .avis-author { display: flex; align-items: center; gap: 0.6rem; }
+    .avis-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; flex-shrink: 0; }
+    .avis-name { font-weight: 600; font-size: 0.82rem; color: var(--brun); }
+    .avis-stars { font-size: 0.75rem; color: var(--or); letter-spacing: 0.05em; }
+    .avis-date { font-size: 0.68rem; color: var(--brun-light); }
+    .avis-comment { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--brun-light); line-height: 1.6; margin-bottom: 0.85rem; border-left: 2px solid var(--creme-dark); padding-left: 0.65rem; }
+    .avis-actions { display: flex; gap: 0.4rem; }
+    .btn-approve { flex: 1; padding: 0.45rem; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .btn-approve:hover { background: var(--vert); color: #fff; }
+    .btn-reject  { flex: 1; padding: 0.45rem; background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.15); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .btn-reject:hover { background: var(--rouge); color: #fff; }
+
+    .empty-cell { text-align: center; padding: 2.5rem; color: var(--brun-light); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
+
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.82rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--vert); }
+    .toast.error   { background: var(--rouge); }
+    .toast.warning { background: var(--orange); }
+
+    .admin-footer { text-align: center; padding: 1.25rem 2rem; color: var(--brun-light); font-size: 0.75rem; border-top: 1px solid var(--creme-dark); font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+    @media (max-width: 1024px) { .sidebar { display: none; } .admin-main { margin-left: 0; } .avis-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <%
+    // ── TOUS les calculs en haut — zéro problème de scope ──
+    const pendingCount    = avis.filter(a => a.statut_avis === 'en_attente').length;
+    const today           = new Date().toLocaleDateString('fr-FR');
+    const todayRes        = reservations.filter(r =>
+      r.date_reservation &&
+      new Date(r.date_reservation).toLocaleDateString('fr-FR') === today
+    );
+    const todayConfirmees = todayRes.filter(r => r.statut_reservation === 'confirmee');
+    const todayCouverts   = todayRes.reduce((s, r) => s + r.nb_personnes, 0);
+    const upcoming        = reservations
+      .filter(r => r.statut_reservation === 'confirmee' && new Date(r.date_reservation) >= new Date())
+      .slice(0, 10);
+    const speciales       = todayRes.filter(r => r.demandes_speciales && r.statut_reservation === 'confirmee');
+    const indispos        = plats ? plats.filter(p => !p.disponible_item_menu) : [];
+    const pending         = avis.filter(a => a.statut_avis === 'en_attente');
+
+    // Nom affiché — dispo si nom+prenom ajoutés dans le token JWT (authService.loginEmploye)
+    const displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+    const displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+  %>
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text"><span>Resto</span>Book</div>
+      <div class="sidebar-logo-sub">Espace serveur</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/espace-serveur" class="sidebar-link active">📊 Dashboard</a>
+      <a href="/espace-serveur/reservations" class="sidebar-link">
+        📅 Réservations
+        <span class="sidebar-badge"><%= reservations.filter(r => r.statut_reservation === 'confirmee').length %></span>
+      </a>
+      <a href="/espace-serveur/menu" class="sidebar-link">🍽️ Menu / Carte</a>
+      <a href="/espace-serveur/avis" class="sidebar-link">
+        ⭐ Avis
+        <% if (pendingCount > 0) { %>
+          <span class="sidebar-badge"><%= pendingCount %></span>
+        <% } %>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-label">Connecté en tant que</div>
+      <div class="sidebar-footer-name"><%= displayName %></div>
+      <div class="sidebar-footer-email"><%= user.email %></div>
+      <div class="sidebar-footer-role">Serveur</div>
+      <a href="/logout" class="btn-logout">⏻ Se déconnecter</a>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="admin-main">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <span class="topbar-title">Espace Serveur</span>
+        <span class="topbar-date">
+          <%= new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
+        </span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-avatar"><%= displayInitial %></div>
+        <span class="topbar-name"><%= displayName %></span>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat-chip">📅 <strong><%= todayRes.length %></strong> réservation<%= todayRes.length > 1 ? 's' : '' %> aujourd'hui</div>
+        <div class="stat-chip">👥 <strong><%= todayCouverts %></strong> couvert<%= todayCouverts > 1 ? 's' : '' %> attendus</div>
+        <div class="stat-chip">✅ <strong><%= todayConfirmees.length %></strong> à honorer</div>
+        <% if (indispos.length > 0) { %>
+          <div class="stat-chip" style="border-color:rgba(198,40,40,0.3); color:var(--rouge);">
+            ⚠️ <strong><%= indispos.length %></strong> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %>
+          </div>
+        <% } %>
+        <% if (pendingCount > 0) { %>
+          <div class="stat-chip">⭐ <strong><%= pendingCount %></strong> avis en attente</div>
+        <% } %>
+      </div>
+
+      <!-- Réservations du jour -->
+      <p class="section-title">Réservations du jour</p>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">
+            📅 Service du jour
+            <span style="background:var(--bordeaux);color:#fff;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:50px;"><%= todayRes.length %></span>
+          </span>
+          <a href="/espace-serveur/reservations" class="panel-link">Voir toutes →</a>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Heure</th><th>Client</th><th>Pers.</th>
+              <th>Table</th><th>Demandes spéciales</th><th>Statut</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (todayRes.length === 0) { %>
+              <tr><td colspan="7" class="empty-cell">Aucune réservation aujourd'hui 🎉</td></tr>
+            <% } else { %>
+              <% todayRes.forEach(r => { %>
+                <tr id="res-<%= r.id_reservation %>">
+                  <td style="font-weight:600;"><%= r.heure_reservation ? r.heure_reservation.slice(0,5) : '—' %></td>
+                  <td style="font-weight:600;">
+                    <%= (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client %>
+                  </td>
+                  <td style="text-align:center;"><%= r.nb_personnes %></td>
+                  <td>Table <%= r.numero_table || r.id_table %></td>
+                  <td style="font-size:0.78rem; color:var(--brun-light);">
+                    <% if (r.demandes_speciales) { %><span style="color:var(--orange);">⚠️</span> <%= r.demandes_speciales %><% } else { %>—<% } %>
+                  </td>
+                  <td>
+                    <span class="badge badge-<%= r.statut_reservation %>">
+                      <% if (r.statut_reservation === 'confirmee')      { %>🔵 Confirmée
+                      <% } else if (r.statut_reservation === 'honoree') { %>✅ Honorée
+                      <% } else if (r.statut_reservation === 'no_show') { %>🚫 No-show
+                      <% } else if (r.statut_reservation === 'annulee') { %>❌ Annulée
+                      <% } else { %><%= r.statut_reservation %><% } %>
+                    </span>
+                  </td>
+                  <td>
+                    <% if (r.statut_reservation === 'confirmee') { %>
+                      <div style="display:flex;gap:0.4rem;">
+                        <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>, 'honoree')">✓ Arrivé</button>
+                        <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>, 'no_show')">✗ No-show</button>
+                      </div>
+                    <% } else { %>—<% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+        <% if (speciales.length > 0) { %>
+          <div class="alert-bar">
+            ⚠️ <%= speciales.length %> réservation<%= speciales.length > 1 ? 's' : '' %> avec demande<%= speciales.length > 1 ? 's' : '' %> spéciale<%= speciales.length > 1 ? 's' : '' %> — vérifiez avant le service !
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Prochaines réservations -->
+      <p class="section-title">Prochaines réservations</p>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">📋 Réservations confirmées à venir</span>
+          <a href="/espace-serveur/reservations" class="panel-link">Voir toutes →</a>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr><th>Date</th><th>Heure</th><th>Client</th><th>Pers.</th><th>Table</th><th>Demandes</th><th>Statut</th></tr>
+          </thead>
+          <tbody>
+            <% if (upcoming.length === 0) { %>
+              <tr><td colspan="7" class="empty-cell">Aucune réservation à venir</td></tr>
+            <% } else { %>
+              <% upcoming.forEach(r => { %>
+                <tr>
+                  <td><%= new Date(r.date_reservation).toLocaleDateString('fr-FR', { day:'2-digit', month:'long' }) %></td>
+                  <td style="font-weight:600;"><%= r.heure_reservation ? r.heure_reservation.slice(0,5) : '—' %></td>
+                  <td><%= (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client %></td>
+                  <td style="text-align:center;"><%= r.nb_personnes %></td>
+                  <td>Table <%= r.numero_table || r.id_table %></td>
+                  <td style="font-size:0.78rem; color:var(--brun-light);">
+                    <% if (r.demandes_speciales) { %>⚠️ <%= r.demandes_speciales.substring(0,25) %><%= r.demandes_speciales.length > 25 ? '…' : '' %><% } else { %>—<% } %>
+                  </td>
+                  <td><span class="badge badge-confirmee">🔵 Confirmée</span></td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Menu & plats indisponibles -->
+      <p class="section-title">Menu & plats indisponibles</p>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">🍽️ État du menu ce soir</span>
+          <a href="/espace-serveur/menu" class="panel-link">Voir tout →</a>
+        </div>
+        <% if (!plats || plats.length === 0) { %>
+          <div class="empty-cell">Aucun plat enregistré</div>
+        <% } else { %>
+          <% if (indispos.length > 0) { %>
+            <div class="alert-bar">⚠️ <%= indispos.length %> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %> ce soir — à signaler aux clients</div>
+          <% } %>
+          <%
+            // Indisponibles en premier, puis disponibles — limité à 8
+            const platsAffiches = [
+              ...indispos,
+              ...plats.filter(p => p.disponible_item_menu)
+            ].slice(0, 8);
+          %>
+          <% platsAffiches.forEach(p => { %>
+            <%
+              const cat    = categories ? categories.find(c => c.id_categorie === p.id_categorie) : null;
+              const nomCat = cat ? cat.nom_categorie : '';
+            %>
+            <div class="menu-item">
+              <div>
+                <div class="menu-item-nom">
+                  <%= p.nom_item_menu %>
+                  <% if (!p.disponible_item_menu) { %><span class="badge-indispo">Indisponible</span><% } %>
+                </div>
+                <div class="menu-item-cat"><%= nomCat %></div>
+              </div>
+              <span class="menu-item-prix">
+                <%= p.prix_item_menu ? parseFloat(p.prix_item_menu).toFixed(2) : '—' %> €
+              </span>
+            </div>
+          <% }) %>
+          <% if (plats.length > 8) { %>
+            <div style="padding:0.75rem 1.5rem; text-align:center;">
+              <a href="/espace-serveur/menu" style="font-size:0.8rem; color:var(--bordeaux); text-decoration:none; font-weight:500;">
+                Voir la carte complète (<%= plats.length %> plats) →
+              </a>
+            </div>
+          <% } %>
+        <% } %>
+      </div>
+
+      <!-- Avis en attente -->
+      <% if (pendingCount > 0) { %>
+        <p class="section-title">Modération des avis</p>
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">
+              ⭐ Avis en attente
+              <span style="background:var(--bordeaux);color:#fff;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:50px;"><%= pendingCount %></span>
+            </span>
+            <a href="/espace-serveur/avis" class="panel-link">Voir tous →</a>
+          </div>
+          <% const colors = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276']; %>
+          <div class="avis-grid">
+            <% pending.slice(0, 3).forEach((a, i) => { %>
+              <div class="avis-card" id="avis-<%= a.id_avis %>">
+                <div class="avis-card-top">
+                  <div class="avis-author">
+                    <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>">
+                      <%= String(a.id_client).charAt(0).toUpperCase() %>
+                    </div>
+                    <div>
+                      <div class="avis-name">Client #<%= a.id_client %></div>
+                      <div class="avis-stars"><% for(let s=0;s<5;s++){%><%= s < a.note_avis ? '★' : '☆' %><% } %></div>
+                    </div>
+                  </div>
+                  <span class="avis-date"><%= new Date(a.date_avis).toLocaleDateString('fr-FR', { day:'numeric', month:'short' }) %></span>
+                </div>
+                <p class="avis-comment">« <%= a.commentaire_avis || 'Aucun commentaire.' %> »</p>
+                <div class="avis-actions">
+                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>, 'approuve')">✓ Approuver</button>
+                  <button class="btn-reject"  onclick="moderateAvis(<%= a.id_avis %>, 'rejete')">✗ Rejeter</button>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+
+    </div>
+
+    <div class="admin-footer">RestoBook Manager — Espace Serveur — © 2026 Le Gourmet Parisien</div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function getToken() {
+    return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
+  }
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = (type === 'success' ? '✓ ' : type === 'warning' ? '⚠ ' : '✗ ') + msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  async function updateStatut(id, statut) {
+    try {
+      const res = await fetch('/reservations/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify({ statut_reservation: statut })
+      });
+      if (!res.ok) throw new Error();
+      showToast(statut === 'honoree' ? 'Client marqué arrivé !' : 'Client marqué no-show.', statut === 'honoree' ? 'success' : 'warning');
+      setTimeout(() => location.reload(), 900);
+    } catch { showToast('Erreur lors de la mise à jour.', 'error'); }
+  }
+
+  async function moderateAvis(id, statut) {
+    try {
+      const res = await fetch('/avis/' + id + '/moderate', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify({ statut_avis: statut })
+      });
+      if (!res.ok) throw new Error();
+      const card = document.getElementById('avis-' + id);
+      if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
+      showToast(statut === 'approuve' ? 'Avis approuvé !' : 'Avis rejeté.');
+      setTimeout(() => location.reload(), 900);
+    } catch { showToast('Erreur lors de la modération.', 'error'); }
+  }
+</script>
+
+</body>
+</html>

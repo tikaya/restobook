@@ -1,0 +1,25 @@
+        </div><!-- /.content -->
+    </main>
+</div><!-- /.layout -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function getToken() {
+    return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
+  }
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(function() { t.className = 'toast'; }, 3000);
+  }
+</script>
+
+<div class="admin-footer">
+  RestoBook Manager v1.0 — Panel Administrateur — 2026 Le Gourmet Parisien
+</div>
+
+</body>
+</html>

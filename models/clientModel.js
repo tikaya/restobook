@@ -174,18 +174,20 @@ const clientModel = {
      *    (pour les réservations passées, la comptabilité, etc.)
      *    tout en rendant le compte inaccessible
      */
-
-     softDelete: async (id) => {
-        const result = await pool.query(
-            `UPDATE client
-            SET compte_supprime = TRUE
-            WHERE id_client = $1 AND compte_supprime = FALSE
-            RETURNING id_client`,
-            [id]
-        );
-        return result.rows[0] || null;
-        
-     },
+softDelete: async (id) => {
+    const result = await pool.query(
+        `UPDATE client
+         SET compte_supprime = TRUE,
+             email_client = 'supprime_' || id_client || '@deleted.local',
+             nom_client = 'Compte',
+             prenom_client = 'Supprimé',
+             telephone_client = NULL
+         WHERE id_client = $1 AND compte_supprime = FALSE
+         RETURNING id_client`,
+        [id]
+    );
+    return result.rows[0] || null;
+},
 
      resetMustChangePassword: async (id) => {
     const result = await pool.query(

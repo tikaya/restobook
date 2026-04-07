@@ -4,22 +4,15 @@ const db = require('../db');
 //Créeons un objet platModel contenant les méthodes pour interagir avec la table "plats"
 const platModel = {
     //Récupérons tous les plats
-    findAll: async () => {
-        const result = await db.query(
-            `SELECT 
-            id_item_menu,
-            nom_item_menu,
-            description_item_menu,
-            prix_item_menu,
-            image_item_menu,
-            allergenes_item_menu,
-            disponible_item_menu,
-            id_categorie
-            FROM item_menu`
-        );
-        return result.rows || [];
-    },
-
+  findAll: async () => {
+    const result = await db.query(`
+        SELECT p.*, c.nom_categorie
+        FROM item_menu p
+        LEFT JOIN categorie c ON p.id_categorie = c.id_categorie
+        ORDER BY c.ordre_affichage_categorie, p.nom_item_menu
+    `);
+    return result.rows || [];
+},
     //Récupérons un plat par son ID
     findById: async (id) =>{
         const result = await db.query(

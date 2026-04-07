@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> — RestoBook Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bordeaux: #722F37; --bordeaux-dark: #401F25; --or: #C9A84C; --or-light: #D4B96A;
+            --creme: #FAF7F2; --creme-dark: #F0EBE3; --brun: #2C2220; --brun-light: #555;
+            --succes: #0C7A38; --succes-bg: #DCF5E7; --erreur: #C02020; --erreur-bg: #FDEAEA;
+            --warning: #D4A017; --warning-bg: #FFF8E1; --info: #2E6B8A; --info-bg: #E0F0FA;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Lato',sans-serif; color:var(--brun); background:var(--creme); }
+        .layout { display:flex; min-height:100vh; }
+        .sidebar { width:220px; background:var(--creme); border-right:1px solid var(--creme-dark); position:fixed; top:0; bottom:0; display:flex; flex-direction:column; z-index:50; }
+        .sidebar-logo { padding:1.5rem 1.2rem; font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--bordeaux); }
+        .sidebar-logo span { color:var(--or); }
+        .sidebar-nav { flex:1; padding:0.5rem 0; overflow-y:auto; }
+        .sidebar-link { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 1.2rem; text-decoration:none; color:var(--brun-light); font-size:0.88rem; border-left:3px solid transparent; transition:all 0.15s; }
+        .sidebar-link:hover { background:var(--creme-dark); color:var(--brun); }
+        .sidebar-link.active { background:white; color:var(--bordeaux); font-weight:700; border-left-color:var(--bordeaux); }
+        .sidebar-badge { margin-left:auto; background:var(--or); color:var(--bordeaux-dark); font-size:0.7rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:10px; }
+        .sidebar-footer { padding:1.2rem; border-top:1px solid var(--creme-dark); font-size:0.78rem; color:var(--brun-light); }
+        .sidebar-footer strong { color:var(--bordeaux); display:block; margin-top:0.3rem; font-size:0.82rem; }
+        .sidebar-footer small { color:var(--brun-light); font-size:0.72rem; }
+        .sidebar-logout { display:block; margin-top:0.75rem; padding:0.45rem 0.75rem; background:var(--creme-dark); color:var(--brun-light); border-radius:3px; text-decoration:none; font-size:0.78rem; text-align:center; transition:all 0.2s; }
+        .sidebar-logout:hover { background:var(--erreur-bg); color:var(--erreur); }
+        .main { flex:1; margin-left:220px; }
+        .topbar { background:var(--bordeaux-dark); color:white; padding:0 2rem; height:60px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:40; }
+        .topbar-title { font-family:'Playfair Display',serif; font-size:1.2rem; }
+        .topbar-user { display:flex; align-items:center; gap:0.75rem; }
+        .topbar-avatar { width:36px; height:36px; background:var(--or); color:var(--bordeaux-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; }
+        .topbar-name { font-size:0.85rem; opacity:0.85; }
+        .topbar-logout { color:rgba(255,255,255,0.5); text-decoration:none; font-size:1.2rem; transition:color 0.2s; }
+        .topbar-logout:hover { color:white; }
+        .content { padding:2rem; }
+        .panel { background:white; border-radius:4px; box-shadow:0 1px 8px rgba(44,34,32,0.06); border:1px solid var(--creme-dark); margin-bottom:1.5rem; overflow:hidden; }
+        .panel-header { display:flex; justify-content:space-between; align-items:center; padding:1.2rem 1.5rem; border-bottom:1px solid var(--creme-dark); }
+        .panel-title { font-size:0.95rem; font-weight:700; color:var(--brun); }
+        .admin-table { width:100%; border-collapse:collapse; }
+        .admin-table thead tr { background:var(--bordeaux); color:white; }
+        .admin-table th { padding:0.7rem 1rem; font-size:0.75rem; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; text-align:left; }
+        .admin-table tbody tr { border-bottom:1px solid var(--creme-dark); transition:background 0.1s; }
+        .admin-table tbody tr:hover { background:var(--creme); }
+        .admin-table td { padding:0.75rem 1rem; font-size:0.85rem; vertical-align:middle; }
+        .badge-status { display:inline-block; padding:0.2rem 0.7rem; border-radius:3px; font-size:0.72rem; font-weight:700; }
+        .badge-confirmee { background:var(--succes-bg); color:var(--succes); }
+        .badge-annulee   { background:var(--erreur-bg); color:var(--erreur); }
+        .badge-honoree   { background:var(--info-bg);   color:var(--info); }
+        .badge-no_show   { background:var(--erreur-bg); color:var(--erreur); }
+        .badge-en_attente{ background:var(--warning-bg);color:var(--warning); }
+        .badge-approuve  { background:var(--succes-bg); color:var(--succes); }
+        .badge-rejete    { background:var(--erreur-bg); color:var(--erreur); }
+        .btn-sm { padding:0.35rem 0.7rem; border:none; border-radius:3px; font-size:0.72rem; font-weight:700; cursor:pointer; transition:opacity 0.2s; margin-right:0.3rem; font-family:'Lato',sans-serif; }
+        .btn-sm:hover { opacity:0.8; }
+        .btn-success { background:var(--succes);  color:white; }
+        .btn-warning { background:var(--warning); color:white; }
+        .btn-danger  { background:var(--erreur);  color:white; }
+        .btn-info    { background:var(--info);    color:white; }
+        .btn-add { display:inline-block; background:var(--or); color:var(--bordeaux-dark); padding:0.6rem 1.2rem; border:none; border-radius:3px; font-family:'Lato',sans-serif; font-size:0.82rem; font-weight:700; cursor:pointer; text-decoration:none; transition:background 0.2s; }
+        .btn-add:hover { background:var(--or-light); }
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:100; align-items:center; justify-content:center; }
+        .modal-overlay.show { display:flex; }
+        .modal { background:white; border-radius:4px; padding:2rem; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; }
+        .modal-title { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--bordeaux); margin-bottom:1.5rem; }
+        .form-label { display:block; font-size:0.8rem; font-weight:700; color:var(--brun); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem; }
+        .form-input { width:100%; padding:0.65rem 0.8rem; border:1px solid var(--creme-dark); border-radius:2px; font-family:'Lato',sans-serif; font-size:0.88rem; color:var(--brun); background:var(--creme); margin-bottom:1rem; }
+        .form-input:focus { outline:none; border-color:var(--bordeaux); }
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+        .admin-footer { text-align:center; padding:1.5rem; color:var(--brun-light); font-size:0.78rem; border-top:1px solid var(--creme-dark); font-style:italic; }
+        .toast { position:fixed; bottom:2rem; right:2rem; background:var(--brun); color:#fff; padding:0.75rem 1.25rem; border-radius:4px; font-size:0.85rem; z-index:9999; transform:translateY(80px); opacity:0; transition:all 0.3s ease; box-shadow:0 4px 20px rgba(0,0,0,0.15); }
+        .toast.show { transform:translateY(0); opacity:1; }
+        .toast.success { background:var(--succes); }
+        .toast.error   { background:var(--erreur); }
+        .toast.warning { background:var(--warning); }
+        @media(max-width:1024px) { .sidebar{display:none;} .main{margin-left:0;} }
+    </style>
+</head>
+<body>
+<%
+  var displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+  var displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+%>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="sidebar-logo"><span>RestoBook</span> Admin</div>
+        <nav class="sidebar-nav">
+            <a href="/espace-admin"              class="sidebar-link <%= typeof active !== 'undefined' && active === 'dashboard'    ? 'active' : '' %>">Dashboard</a>
+            <a href="/espace-admin/reservations" class="sidebar-link <%= typeof active !== 'undefined' && active === 'reservations' ? 'active' : '' %>">Reservations</a>
+            <a href="/espace-admin/menu"         class="sidebar-link <%= typeof active !== 'undefined' && active === 'menu'         ? 'active' : '' %>">Menu / Carte</a>
+            <a href="/espace-admin/tables"       class="sidebar-link <%= typeof active !== 'undefined' && active === 'tables'       ? 'active' : '' %>">Tables</a>
+            <a href="/espace-admin/avis"         class="sidebar-link <%= typeof active !== 'undefined' && active === 'avis'         ? 'active' : '' %>">Avis</a>
+            <a href="/espace-admin/comptes"      class="sidebar-link <%= typeof active !== 'undefined' && active === 'comptes'      ? 'active' : '' %>">Comptes</a>
+            <a href="/espace-admin/logs"         class="sidebar-link <%= typeof active !== 'undefined' && active === 'logs'         ? 'active' : '' %>">Journalisation</a>
+        </nav>
+        <div class="sidebar-footer">
+            Connecte en tant que
+            <strong><%= displayName %></strong>
+            <small><%= user.email %></small>
+            <small>Administrateur</small>
+            <a href="/logout" class="sidebar-logout">Se deconnecter</a>
+        </div>
+    </aside>
+    <main class="main">
+        <div class="topbar">
+            <span class="topbar-title"><%= title %></span>
+            <div class="topbar-user">
+                <div class="topbar-avatar"><%= displayInitial %></div>
+                <span class="topbar-name"><%= displayName %></span>
+                <a href="/logout" class="topbar-logout" title="Deconnexion">&#9211;</a>
+            </div>
+        </div>
+        <div class="content">

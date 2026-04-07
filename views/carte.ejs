@@ -1,113 +1,455 @@
 <%- include('partials/header') %>
 
-    <section class="hero" style="padding: 3.5rem 2rem;">
-        <div class="hero-content" style="max-width:600px;">
-            <h1 style="font-size: clamp(2rem, 4vw, 3rem);">Notre Carte</h1>
-            <div class="hero-divider"></div>
-            <p class="hero-subtitle">Des produits frais, de saison, cuisinés avec passion</p>
-        </div>
-    </section>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
-    <!-- Filtres par catégorie -->
-    <section style="background: var(--creme); padding: 2rem 2rem 0;">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <button class="filter-btn active" onclick="filterPlats('all')">Tous</button>
-            <% categories.forEach(cat => { %>
-                <button class="filter-btn" onclick="filterPlats(<%= cat.id_categorie %>)">
-                    <%= cat.nom_categorie %>
-                </button>
-            <% }) %>
-        </div>
-    </section>
+  /* ── Hero ── */
+  .carte-hero {
+    position: relative;
+    background: var(--bordeaux);
+    padding: 5rem 2rem 4rem;
+    overflow: hidden;
+    text-align: center;
+  }
+  .carte-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 50%, rgba(201,168,76,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 30%, rgba(255,255,255,0.04) 0%, transparent 50%);
+  }
+  .carte-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: var(--creme);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .carte-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .carte-hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 1rem;
+  }
+  .carte-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .carte-hero h1 em {
+    font-style: italic;
+    color: var(--or);
+  }
+  .carte-hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
 
-    <!-- Plats -->
-    <section style="background: var(--creme); padding: 3rem 2rem 5rem;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <% categories.forEach(cat => { %>
-                <div class="cat-section" data-cat="<%= cat.id_categorie %>">
-                    <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--bordeaux); margin-bottom: 0.5rem;">
-                        <%= cat.nom_categorie %>
-                    </h2>
-                    <div style="width: 40px; height: 2px; background: var(--or); margin-bottom: 2rem;"></div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-                        <% plats.filter(p => p.id_categorie === cat.id_categorie).forEach(plat => { %>
-                            <div class="card reveal" style="padding: 0; overflow: hidden;">
-                                <div style="background: var(--creme-dark); height: 160px; display: flex; align-items: center; justify-content: center;">
-                                    <span style="font-size: 2rem; opacity: 0.3;">🍽️</span>
-                                </div>
-                                <div style="padding: 1.5rem;">
-                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                                        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--brun);">
-                                            <%= plat.nom_item_menu %>
-                                        </h3>
-                                        <span style="color: var(--bordeaux); font-weight: 700; font-size: 1.1rem; white-space: nowrap; margin-left: 1rem;">
-                                            <%= parseFloat(plat.prix_item_menu).toFixed(2) %> €
-                                        </span>
-                                    </div>
-                                    <% if (plat.description_item_menu) { %>
-                                        <p style="color: var(--brun-light); font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.75rem;">
-                                            <%= plat.description_item_menu %>
-                                        </p>
-                                    <% } %>
-                                    <% if (plat.allergenes_item_menu) { %>
-                                        <p style="font-size: 0.75rem; color: var(--or-dark);">
-                                            ⚠️ <%= plat.allergenes_item_menu %>
-                                        </p>
-                                    <% } %>
-                                </div>
-                            </div>
-                        <% }) %>
-                    </div>
+  /* ── Filtres ── */
+  .filters-section {
+    background: var(--creme);
+    padding: 2.5rem 2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 20px rgba(61,43,31,0.06);
+  }
+  .filters-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--creme-dark);
+  }
+  .filter-btn {
+    background: var(--blanc, #fff);
+    border: 1.5px solid var(--creme-dark);
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--brun-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .filter-btn:hover {
+    border-color: var(--bordeaux);
+    color: var(--bordeaux);
+    transform: translateY(-1px);
+  }
+  .filter-btn.active {
+    background: var(--bordeaux);
+    color: #fff;
+    border-color: var(--bordeaux);
+    box-shadow: 0 4px 12px rgba(107,26,42,0.25);
+  }
+
+  /* ── Contenu principal ── */
+  .carte-body {
+    background: var(--creme);
+    padding: 3rem 2rem 5rem;
+  }
+  .carte-inner { max-width: 1100px; margin: 0 auto; }
+
+  /* ── Section catégorie ── */
+  .cat-section {
+    margin-bottom: 4rem;
+    animation: fadeIn 0.4s ease both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .cat-header-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--creme-dark), transparent);
+  }
+  .cat-title-wrap { text-align: center; }
+  .cat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--bordeaux);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .cat-ornament {
+    color: var(--or);
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  /* ── Grille plats ── */
+  .plats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* ── Carte plat ── */
+  .plat-card {
+    background: #fff;
+    border: 1px solid var(--creme-dark);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .plat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(107,26,42,0.12);
+    border-color: rgba(107,26,42,0.15);
+  }
+
+  /* Image placeholder élégant */
+  .plat-img {
+    height: 140px;
+    background: linear-gradient(135deg, var(--creme-dark) 0%, #e8ddd0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .plat-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(201,168,76,0.15), transparent 60%);
+  }
+  .plat-img-icon {
+    font-size: 2.5rem;
+    opacity: 0.2;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Corps de la carte */
+  .plat-body {
+    padding: 1.25rem 1.25rem 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .plat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+  .plat-nom {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--brun);
+    line-height: 1.3;
+    flex: 1;
+  }
+  .plat-prix {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--bordeaux);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .plat-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--brun-light);
+    line-height: 1.6;
+    font-style: italic;
+    flex: 1;
+    margin-bottom: 0.75rem;
+  }
+  .plat-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--creme-dark);
+    margin-top: auto;
+  }
+  .plat-allergenes {
+    font-size: 0.72rem;
+    color: #b45309;
+    background: #fef3c7;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .plat-dispo {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #2e7d32;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .plat-dispo::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #2e7d32;
+    display: inline-block;
+  }
+
+  /* ── CTA ── */
+  .carte-cta {
+    background: var(--bordeaux);
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .carte-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(201,168,76,0.1), transparent);
+  }
+  .carte-cta-content { position: relative; z-index: 1; }
+  .carte-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+  .carte-cta p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+  .carte-cta .btn-reserver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--or);
+    color: var(--bordeaux);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+  }
+  .carte-cta .btn-reserver:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201,168,76,0.5);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .plats-grid { grid-template-columns: 1fr; }
+    .cat-header { gap: 0.75rem; }
+    .cat-title { font-size: 1.3rem; }
+  }
+</style>
+
+<!-- Hero -->
+<section class="carte-hero">
+  <div class="carte-hero-content">
+    <p class="carte-hero-eyebrow">Le Gourmet Parisien</p>
+    <h1>Notre <em>Carte</em></h1>
+    <p class="carte-hero-sub">Des produits frais, de saison, cuisinés avec passion</p>
+  </div>
+</section>
+
+<!-- Filtres (sticky) -->
+<section class="filters-section">
+  <div class="filters-inner">
+    <button class="filter-btn active" onclick="filterPlats('all', this)">✦ Tout voir</button>
+    <% categories.forEach(cat => { %>
+      <button class="filter-btn" onclick="filterPlats(<%= cat.id_categorie %>, this)">
+        <%= cat.nom_categorie %>
+      </button>
+    <% }) %>
+  </div>
+</section>
+
+<!-- Plats par catégorie -->
+<section class="carte-body">
+  <div class="carte-inner">
+ 
+    <% categories.forEach(cat => { %>
+      <% const platsDecat = plats.filter(p => String(p.id_categorie) === String(cat.id_categorie) && p.disponible_item_menu); %>
+      <% if (platsDecat.length > 0) { %>
+
+        <div class="cat-section" data-cat="<%= cat.id_categorie %>">
+
+          <!-- En-tête catégorie -->
+          <div class="cat-header">
+            <div class="cat-header-line"></div>
+            <div class="cat-title-wrap">
+              <span class="cat-title"><%= cat.nom_categorie %></span>
+              <span class="cat-ornament">— ✦ —</span>
+            </div>
+            <div class="cat-header-line"></div>
+          </div>
+
+          <!-- Grille plats -->
+          <div class="plats-grid">
+            <% platsDecat.forEach(plat => { %>
+              <div class="plat-card reveal">
+
+                <!-- Image -->
+                <div class="plat-img">
+                  <span class="plat-img-icon">🍽️</span>
                 </div>
+
+                <!-- Corps -->
+                <div class="plat-body">
+                  <div class="plat-top">
+                    <h3 class="plat-nom"><%= plat.nom_item_menu %></h3>
+                    <span class="plat-prix"><%= plat.prix_item_menu ? parseFloat(plat.prix_item_menu).toFixed(2) : '—' %> €</span>
+                  </div>
+
+                  <% if (plat.description_item_menu) { %>
+                    <p class="plat-desc"><%= plat.description_item_menu %></p>
+                  <% } else { %>
+                    <p class="plat-desc" style="opacity:0.4;">Demandez à votre serveur.</p>
+                  <% } %>
+
+                  <div class="plat-footer">
+                    <% if (plat.allergenes_item_menu) { %>
+                      <span class="plat-allergenes">⚠️ <%= plat.allergenes_item_menu %></span>
+                    <% } else { %>
+                      <span></span>
+                    <% } %>
+                    <span class="plat-dispo">Disponible</span>
+                  </div>
+                </div>
+
+              </div>
             <% }) %>
+          </div>
+
         </div>
-    </section>
 
-    <section class="cta-band">
-        <div class="cta-band-content reveal">
-            <h2>Un plat vous tente ?</h2>
-            <p>Réservez votre table et venez le déguster</p>
-            <a href="/reservation" class="btn-primary" style="width:auto; display:inline-block">Réserver une table</a>
-        </div>
-    </section>
+      <% } %>
+    <% }) %>
 
-    <style>
-        .filter-btn {
-            background: white;
-            border: 1px solid var(--creme-dark);
-            padding: 0.6rem 1.5rem;
-            border-radius: 2px;
-            font-family: 'Lato', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--brun-light);
-            cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 0.05em;
-        }
+  </div>
+</section>
 
-        .filter-btn:hover { border-color: var(--or); color: var(--bordeaux); }
+<!-- CTA -->
+<section class="carte-cta">
+  <div class="carte-cta-content">
+    <h2>Un plat vous tente ?</h2>
+    <p>Réservez votre table et venez le déguster</p>
+    <a href="/reservation" class="btn-reserver">Réserver une table →</a>
+  </div>
+</section>
 
-        .filter-btn.active {
-            background: var(--bordeaux);
-            color: white;
-            border-color: var(--bordeaux);
-        }
-    </style>
+<script>
+  function filterPlats(catId, btn) {
+    // Mettre à jour les boutons actifs
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
 
-    <script>
-        function filterPlats(catId) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+    // Afficher/cacher les sections
+    document.querySelectorAll('.cat-section').forEach(section => {
+      if (catId === 'all') {
+        section.style.display = 'block';
+      } else {
+        section.style.display = String(section.dataset.cat) === String(catId) ? 'block' : 'none';
+      }
+    });
+  }
 
-            document.querySelectorAll('.cat-section').forEach(section => {
-                if (catId === 'all') {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = section.dataset.cat == catId ? 'block' : 'none';
-                }
-            });
-        }
-    </script>
+  
+</script>
+
+<script>
+  // Force reveal des cartes
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+</script>
 
 <%- include('partials/footer') %>

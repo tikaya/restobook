@@ -21,16 +21,52 @@ const reservationService = {
     },
 
     // Créer une nouvelle réservation
-    createReservation : async (data) => {
-        const newReservation = await reservationModel.create(data);
-        if(!newReservation) {
-            const error = new Error('Erreur lors de la création de la réservation');
-            error.status = 500;
-            throw error;
-        }
-        await logService.log('CREATION_RESERVATION', data.id_client, { id_table: data.id_table, date: data.date_reservation }, null);
-        return newReservation;
-    },
+ createReservation: async (data) => {
+    let table = null;
+
+    // Chercher d'abord avec l'emplacement demandé
+    if (data.emplacement_table) {
+        table = await reservationModel.findAvailableTable(
+            data.date_reservation,
+            data.heure_reservation,
+            data.nb_personnes,
+            data.emplacement_table
+        );
+    }
+
+    // Fallback : si emplacement demandé mais indispo → chercher sans contrainte
+    if (!table) {
+        table = await reservationModel.findAvailableTable(
+            data.date_reservation,
+            data.heure_reservation,
+            data.nb_personnes,
+            null // pas de contrainte emplacement
+        );
+    }
+
+    if (!table) {
+        const error = new Error('Aucune table disponible pour ce créneau');
+        error.status = 409;
+        throw error;
+    }
+
+    data.id_table = table.id_table;
+
+    const newReservation = await reservationModel.create(data);
+    if (!newReservation) {
+        const error = new Error('Erreur lors de la création de la réservation');
+        error.status = 500;
+        throw error;
+    }
+
+    await logService.log('CREATION_RESERVATION', data.id_client, { 
+        id_table: data.id_table, 
+        emplacement: table.emplacement_table,
+        date: data.date_reservation 
+    }, null);
+
+    return newReservation;
+},
 
     // Mettre à jour une réservation existante
     updateReservation: async (id, data) => {
@@ -54,7 +90,11 @@ const reservationService = {
         }
         await logService.log('ANNULATION_RESERVATION', null, { id_reservation: id }, null);
         return reservation;
-    }
+    },
+
+    getReservationsByClient: async (id_client) => {
+    return await reservationModel.findByClient(id_client);
+}
 }
 
 module.exports = reservationService;

@@ -321,7 +321,7 @@ const validatePlatUpdate = (req, res, next) => {
 // ============================================
 
 const validateReservation = (req, res, next) => {
-    const { date_reservation, heure_reservation, nb_personnes, id_client, id_table } = req.body
+    const { date_reservation, heure_reservation, nb_personnes, id_client } = req.body
     const errors = []
 
     if (!date_reservation) {
@@ -340,9 +340,10 @@ const validateReservation = (req, res, next) => {
         errors.push("Le client est requis")
     }
 
-    if (!id_table || !Number.isInteger(id_table)) {
-        errors.push("La table est requise")
-    }
+    // ✅ Ces lignes supprimées :
+    // if (!id_table || !Number.isInteger(id_table)) {
+    //     errors.push("La table est requise")
+    // }
 
     if (errors.length > 0) {
         return res.status(400).json({ errors })
@@ -355,20 +356,28 @@ const validateReservationUpdate = (req, res, next) => {
     const { date_reservation, heure_reservation, nb_personnes, statut_reservation } = req.body
     const errors = []
 
-    if (!date_reservation) {
-        errors.push("La date est requise")
+    // Optionnel — on valide seulement s'il est fourni
+    if (date_reservation !== undefined && !date_reservation) {
+        errors.push("La date n'est pas valide")
     }
 
-    if (!heure_reservation) {
-        errors.push("L'heure est requise")
+    // Optionnel — on valide seulement s'il est fourni
+    if (heure_reservation !== undefined && !heure_reservation) {
+        errors.push("L'heure n'est pas valide")
     }
 
-    if (!nb_personnes || !Number.isInteger(nb_personnes) || nb_personnes <= 0) {
-        errors.push("Le nombre de personnes doit être un entier positif")
+    // Optionnel — on valide seulement s'il est fourni
+    if (nb_personnes !== undefined) {
+        if (!Number.isInteger(nb_personnes) || nb_personnes <= 0) {
+            errors.push("Le nombre de personnes doit être un entier positif")
+        }
     }
 
-    if (statut_reservation && !['confirmee', 'annulee', 'honoree', 'no_show'].includes(statut_reservation)) {
-        errors.push("Le statut doit être 'confirmee', 'annulee', 'honoree' ou 'no_show'")
+    // Optionnel — on valide seulement s'il est fourni
+    if (statut_reservation !== undefined) {
+        if (!['confirmee', 'annulee', 'honoree', 'no_show'].includes(statut_reservation)) {
+            errors.push("Le statut doit être 'confirmee', 'annulee', 'honoree' ou 'no_show'")
+        }
     }
 
     if (errors.length > 0) {

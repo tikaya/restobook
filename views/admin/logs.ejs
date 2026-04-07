@@ -1,0 +1,422 @@
+<%- include('../partials/admin-layout', { active: 'logs' }) %>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bordeaux: #6B1A2A;
+    --bordeaux-light: #8B2A3A;
+    --bordeaux-pale: #f5eaec;
+    --or: #C9A84C;
+    --or-light: #fdf6e3;
+    --creme: #FAF6F0;
+    --creme-dark: #EDE5D8;
+    --brun: #3D2B1F;
+    --brun-light: #7A5C4A;
+    --blanc: #FFFFFF;
+    --vert: #2e7d32;
+    --vert-pale: #e8f5e9;
+    --rouge: #c62828;
+    --rouge-pale: #fdecea;
+    --orange: #e65100;
+    --orange-pale: #fff3e0;
+    --bleu: #1565c0;
+    --bleu-pale: #e3f2fd;
+    --violet: #6a1b9a;
+    --violet-pale: #f3e5f5;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .logs-page {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--creme);
+    min-height: 100vh;
+    padding: 2rem;
+    color: var(--brun);
+  }
+
+  /* ── Header ── */
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--creme-dark);
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--bordeaux);
+    line-height: 1;
+  }
+  .page-header p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--brun-light);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+  .mongo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid rgba(46,125,50,0.2);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  /* ── Stats ── */
+  .stats-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: var(--blanc);
+    border: 1px solid var(--creme-dark);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    color: var(--brun-light);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .stat-chip strong { color: var(--bordeaux); font-weight: 600; }
+
+  /* ── Filtres ── */
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    border: 1.5px solid var(--creme-dark);
+    background: var(--blanc);
+    color: var(--brun-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--bordeaux);
+    color: #fff;
+    border-color: var(--bordeaux);
+  }
+
+  /* ── Timeline ── */
+  .logs-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .logs-timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--creme-dark), transparent);
+  }
+
+  .log-item {
+    position: relative;
+    background: var(--blanc);
+    border: 1px solid var(--creme-dark);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: start;
+  }
+  .log-item:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateX(3px);
+    border-color: var(--creme-dark);
+  }
+  .log-item.hidden { display: none; }
+
+  /* Dot sur la timeline */
+  .log-item::before {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: 1.1rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--blanc);
+  }
+  .log-item.type-connexion::before      { background: var(--vert); }
+  .log-item.type-echec::before          { background: var(--rouge); }
+  .log-item.type-creation::before       { background: var(--bleu); }
+  .log-item.type-modification::before   { background: var(--orange); }
+  .log-item.type-suppression::before    { background: var(--rouge); }
+  .log-item.type-autre::before          { background: var(--violet); }
+
+  /* Badge type */
+  .log-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    align-self: start;
+  }
+  .badge-connexion    { background: var(--vert-pale);   color: var(--vert); }
+  .badge-echec        { background: var(--rouge-pale);  color: var(--rouge); }
+  .badge-creation     { background: var(--bleu-pale);   color: var(--bleu); }
+  .badge-modification { background: var(--orange-pale); color: var(--orange); }
+  .badge-suppression  { background: var(--rouge-pale);  color: var(--rouge); }
+  .badge-autre        { background: var(--violet-pale); color: var(--violet); }
+
+  /* Contenu log */
+  .log-content { min-width: 0; }
+  .log-action {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--brun);
+    margin-bottom: 0.3rem;
+  }
+  .log-details {
+    font-size: 0.75rem;
+    color: var(--brun-light);
+    font-family: 'DM Mono', 'Courier New', monospace;
+    background: var(--creme);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    margin-top: 0.3rem;
+    word-break: break-all;
+    display: inline-block;
+    max-width: 100%;
+  }
+  .log-user {
+    font-size: 0.75rem;
+    color: var(--brun-light);
+    margin-top: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  /* Heure */
+  .log-time {
+    text-align: right;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .log-time-heure {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--brun);
+  }
+  .log-time-date {
+    font-size: 0.7rem;
+    color: var(--brun-light);
+    margin-top: 0.15rem;
+  }
+
+  /* Séparateur de date */
+  .date-separator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.5rem 0 1rem;
+    padding-left: 0;
+  }
+  .date-separator span {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--bordeaux);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .date-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--creme-dark);
+  }
+
+  /* Empty */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--brun-light);
+  }
+  .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+  .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
+
+  /* Compteur résultats */
+  .results-count {
+    font-size: 0.8rem;
+    color: var(--brun-light);
+    margin-bottom: 1rem;
+  }
+  .results-count strong { color: var(--bordeaux); }
+</style>
+
+<div class="logs-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>📋 Journalisation</h1>
+      <p>Historique des 100 dernières actions sur la plateforme</p>
+    </div>
+    <div class="mongo-badge">🍃 MongoDB</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-chip">📋 <strong><%= logs.length %></strong> logs chargés</div>
+    <div class="stat-chip">✅ <strong><%= logs.filter(l => l.type_action === 'CONNEXION_CLIENT' || l.type_action === 'CONNEXION_EMPLOYE').length %></strong> connexions</div>
+    <div class="stat-chip">❌ <strong><%= logs.filter(l => l.type_action === 'TENTATIVE_CONNEXION_ECHOUEE').length %></strong> échecs</div>
+    <div class="stat-chip">➕ <strong><%= logs.filter(l => l.type_action.startsWith('CREATION')).length %></strong> créations</div>
+    <div class="stat-chip">✏️ <strong><%= logs.filter(l => l.type_action.startsWith('MODIFICATION')).length %></strong> modifications</div>
+    <div class="stat-chip">🗑️ <strong><%= logs.filter(l => l.type_action.startsWith('ANNULATION') || l.type_action.startsWith('SUPPRESSION')).length %></strong> suppressions</div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterLogs('all', this)">Tous</button>
+    <button class="filter-btn" onclick="filterLogs('connexion', this)">✅ Connexions</button>
+    <button class="filter-btn" onclick="filterLogs('echec', this)">❌ Échecs</button>
+    <button class="filter-btn" onclick="filterLogs('creation', this)">➕ Créations</button>
+    <button class="filter-btn" onclick="filterLogs('modification', this)">✏️ Modifications</button>
+    <button class="filter-btn" onclick="filterLogs('suppression', this)">🗑️ Suppressions</button>
+  </div>
+
+  <div class="results-count" id="results-count">
+    <strong><%= logs.length %></strong> résultat<%= logs.length > 1 ? 's' : '' %>
+  </div>
+
+  <!-- Timeline -->
+  <% if (logs.length === 0) { %>
+    <div class="empty-state">
+      <span>📋</span>
+      <p>Aucun log enregistré pour le moment.</p>
+    </div>
+  <% } else { %>
+
+    <div class="logs-timeline" id="logs-timeline">
+
+      <%
+        // Regroupement par date pour les séparateurs
+        let lastDate = null;
+
+        // Map des types vers leurs catégories de filtre et styles
+        const typeConfig = {
+          'CONNEXION_CLIENT':             { cat: 'connexion',    badge: 'badge-connexion',    icon: '✅', label: 'Connexion client' },
+          'CONNEXION_EMPLOYE':            { cat: 'connexion',    badge: 'badge-connexion',    icon: '✅', label: 'Connexion employé' },
+          'TENTATIVE_CONNEXION_ECHOUEE':  { cat: 'echec',        badge: 'badge-echec',        icon: '❌', label: 'Connexion échouée' },
+          'CREATION_RESERVATION':         { cat: 'creation',     badge: 'badge-creation',     icon: '➕', label: 'Réservation créée' },
+          'MODIFICATION_RESERVATION':     { cat: 'modification',  badge: 'badge-modification', icon: '✏️', label: 'Réservation modifiée' },
+          'ANNULATION_RESERVATION':       { cat: 'suppression',  badge: 'badge-suppression',  icon: '🗑️', label: 'Réservation annulée' },
+          'RESET_MDP':                    { cat: 'modification',  badge: 'badge-modification', icon: '🔑', label: 'Réinitialisation MDP' },
+        };
+
+        logs.forEach(log => {
+          const date     = new Date(log.horodatage);
+          const dateStr  = date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+          const heureStr = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          const dateKey  = date.toISOString().split('T')[0];
+
+          const config = typeConfig[log.type_action] || { cat: 'autre', badge: 'badge-autre', icon: '📌', label: log.type_action };
+          const detailsStr = log.details && Object.keys(log.details).length > 0 ? JSON.stringify(log.details) : null;
+      %>
+
+        <% if (dateKey !== lastDate) { lastDate = dateKey; %>
+          <div class="date-separator" data-date="<%= dateKey %>">
+            <span>📅 <%= dateStr %></span>
+          </div>
+        <% } %>
+
+        <div class="log-item type-<%= config.cat %>" data-cat="<%= config.cat %>">
+
+          <!-- Badge -->
+          <span class="log-badge <%= config.badge %>">
+            <%= config.icon %> <%= config.label %>
+          </span>
+
+          <!-- Contenu -->
+          <div class="log-content">
+            <div class="log-action"><%= log.type_action %></div>
+            <% if (log.id_utilisateur) { %>
+              <div class="log-user">👤 Utilisateur #<%= log.id_utilisateur %></div>
+            <% } %>
+            <% if (detailsStr) { %>
+              <span class="log-details"><%= detailsStr %></span>
+            <% } %>
+            <% if (log.ip) { %>
+              <div class="log-user">🌐 <%= log.ip %></div>
+            <% } %>
+          </div>
+
+          <!-- Heure -->
+          <div class="log-time">
+            <div class="log-time-heure"><%= heureStr %></div>
+            <div class="log-time-date"><%= date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }) %></div>
+          </div>
+
+        </div>
+
+      <% }) %>
+    </div>
+
+  <% } %>
+</div>
+
+<script>
+  function filterLogs(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    let visible = 0;
+    document.querySelectorAll('.log-item').forEach(item => {
+      const show = cat === 'all' || item.dataset.cat === cat;
+      item.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    // Cacher les séparateurs de date si tous les logs de ce jour sont cachés
+    document.querySelectorAll('.date-separator').forEach(sep => {
+      const dateKey   = sep.dataset.date;
+      // On cherche si au moins un log visible suit ce séparateur
+      let next = sep.nextElementSibling;
+      let hasVisible = false;
+      while (next && !next.classList.contains('date-separator')) {
+        if (next.classList.contains('log-item') && !next.classList.contains('hidden')) {
+          hasVisible = true;
+          break;
+        }
+        next = next.nextElementSibling;
+      }
+      sep.style.display = hasVisible ? '' : 'none';
+    });
+
+    // Mise à jour compteur
+    const count = document.getElementById('results-count');
+    count.innerHTML = '<strong>' + visible + '</strong> résultat' + (visible > 1 ? 's' : '');
+  }
+</script>
+
+<%- include('../partials/admin-footer') %>

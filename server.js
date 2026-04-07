@@ -4,6 +4,7 @@ require('dotenv').config()
 require('./mongoDb');
 
 const app = express()
+const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 3000
 
 const clientRoutes = require('./routes/client')
@@ -18,7 +19,8 @@ const contactRoutes = require('./routes/contact')
 const authRoutes = require('./routes/auth')
 const logRoutes = require('./routes/log')
 const pageController = require('./controllers/pageController');
-
+const  {verifyPageToken,requirePageRole} = require('./middlewares/authPage');
+const { verifyToken, requireRole } = require('./middlewares/auth');
 
 // Configuration EJS
 app.set('view engine', 'ejs')
@@ -27,6 +29,7 @@ app.use(express.static('public'))
 
 // 1. Maillons communs
 app.use(express.json())
+app.use(cookieParser())
 
 // 2. Page d'accueil 
 app.get('/', pageController.accueil)
@@ -42,7 +45,38 @@ app.get('/login',pageController.connection)
 // 2.2 Page d'inscription 
 app.get('/inscription',pageController.inscription)
 
+// Formulaire de changement de mot de passe oublié
+app.get('/forgot-password',pageController.forgotPassword)
 
+// Formulaire de changement de mot de passe après première connexion
+app.get('/change-password',pageController.changePassword)
+
+// Espaces protégés
+app.get('/espace-client', verifyPageToken, requirePageRole('client'), pageController.espaceClient)
+app.get('/espace-serveur', verifyPageToken, requirePageRole('serveur', 'gerant'), pageController.espaceServeur)
+app.get('/espace-admin', verifyPageToken, requirePageRole('gerant'), pageController.espaceAdmin)
+
+
+// Page admin CRUD
+app.get('/espace-admin/reservations', verifyPageToken, requirePageRole('gerant'), pageController.adminReservations)
+app.get('/espace-admin/tables',verifyPageToken,requirePageRole('gerant'),pageController.adminTables)
+app.get('/espace-admin/menu',verifyPageToken,requirePageRole('gerant'),pageController.adminMenu)
+app.get('/espace-admin/avis',verifyPageToken,requirePageRole('gerant'),pageController.adminAvis)
+app.get('/espace-admin/comptes',verifyPageToken,requirePageRole('gerant'),pageController.adminComptes)
+app.get('/espace-admin/logs',verifyPageToken,requirePageRole('gerant'),pageController.adminLogs)
+
+
+// Page serveur CRUD
+app.get('/espace-serveur/reservations',verifyPageToken,requirePageRole('serveur'),pageController.serveurReservations);
+app.get('/espace-serveur/avis',verifyPageToken,requirePageRole('serveur'),pageController.serveurAvis);
+app.get('/espace-serveur/menu',verifyPageToken,requirePageRole('serveur'),pageController.serveurMenu)
+
+
+app.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.clearCookie('user');
+    res.redirect('/');
+})
 
 // 3. Sous-pipelines
 app.use('/auth', authRoutes)

@@ -1,0 +1,466 @@
+<%- include('../partials/admin-layout', { active: 'reservations' }) %>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bordeaux: #6B1A2A;
+    --bordeaux-light: #8B2A3A;
+    --bordeaux-pale: #f5eaec;
+    --or: #C9A84C;
+    --or-light: #fdf6e3;
+    --creme: #FAF6F0;
+    --creme-dark: #EDE5D8;
+    --brun: #3D2B1F;
+    --brun-light: #7A5C4A;
+    --blanc: #FFFFFF;
+    --vert: #2e7d32;
+    --vert-pale: #e8f5e9;
+    --rouge: #c62828;
+    --rouge-pale: #fdecea;
+    --orange: #e65100;
+    --orange-pale: #fff3e0;
+    --bleu: #1565c0;
+    --bleu-pale: #e3f2fd;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .res-page {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--creme);
+    min-height: 100vh;
+    padding: 2rem;
+    color: var(--brun);
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--creme-dark);
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--bordeaux);
+    line-height: 1;
+  }
+  .page-header p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--brun-light);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: var(--blanc);
+    border: 1px solid var(--creme-dark);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    color: var(--brun-light);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .stat-chip strong { color: var(--bordeaux); font-weight: 600; }
+
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    border: 1.5px solid var(--creme-dark);
+    background: var(--blanc);
+    color: var(--brun-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--bordeaux);
+    color: #fff;
+    border-color: var(--bordeaux);
+  }
+
+  .res-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .res-card {
+    background: var(--blanc);
+    border: 1px solid var(--creme-dark);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .res-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+  }
+  .res-card.statut-confirmee::before  { background: var(--bleu); }
+  .res-card.statut-honoree::before    { background: var(--vert); }
+  .res-card.statut-annulee::before    { background: var(--rouge); }
+  .res-card.statut-no_show::before    { background: var(--orange); }
+  .res-card.statut-en_attente::before { background: var(--or); }
+  .res-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+  .res-card.hidden { display: none; }
+
+  .res-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .res-id { font-size: 0.7rem; color: var(--brun-light); opacity: 0.5; }
+
+  .badge-statut {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.22rem 0.7rem;
+    border-radius: 50px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .badge-confirmee  { background: var(--bleu-pale);   color: var(--bleu); }
+  .badge-honoree    { background: var(--vert-pale);   color: var(--vert); }
+  .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
+  .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
+  .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
+
+  .res-datetime {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .res-date-box {
+    background: var(--bordeaux);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.75rem;
+    text-align: center;
+    min-width: 56px;
+    flex-shrink: 0;
+  }
+  .res-date-day {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .res-date-month {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+  .res-time-client { line-height: 1.6; }
+  .res-heure { font-size: 1rem; font-weight: 600; color: var(--brun); }
+  .res-client {
+    font-size: 0.82rem;
+    color: var(--brun-light);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .res-client-avatar {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--bordeaux-pale);
+    color: var(--bordeaux);
+    font-size: 0.6rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .res-details {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .res-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--creme);
+    border: 1px solid var(--creme-dark);
+    border-radius: 50px;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.75rem;
+    color: var(--brun-light);
+  }
+
+  .res-demandes {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--brun-light);
+    background: var(--creme);
+    border-left: 3px solid var(--or);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .res-actions {
+    display: flex;
+    gap: 0.4rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--creme-dark);
+    flex-wrap: wrap;
+  }
+  .btn-honoree {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+    background: var(--vert-pale); color: var(--vert);
+    border: 1px solid rgba(46,125,50,0.2);
+    padding: 0.45rem 0.5rem; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-honoree:hover { background: var(--vert); color: #fff; }
+
+  .btn-noshow {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+    background: var(--orange-pale); color: var(--orange);
+    border: 1px solid rgba(230,81,0,0.2);
+    padding: 0.45rem 0.5rem; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-noshow:hover { background: var(--orange); color: #fff; }
+
+  .btn-annuler {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+    background: var(--rouge-pale); color: var(--rouge);
+    border: 1px solid rgba(198,40,40,0.15);
+    padding: 0.45rem 0.5rem; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-annuler:hover { background: var(--rouge); color: #fff; }
+
+  .btn-delete {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--creme); color: var(--brun-light);
+    border: 1px solid var(--creme-dark);
+    padding: 0.45rem 0.6rem; border-radius: var(--radius-sm);
+    font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-delete:hover { background: var(--rouge-pale); color: var(--rouge); }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center; padding: 4rem 2rem; color: var(--brun-light);
+  }
+  .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+  .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
+
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--brun); color: #fff;
+    padding: 0.75rem 1.25rem; border-radius: var(--radius-sm);
+    font-size: 0.85rem; z-index: 9999;
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 0.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .toast.show    { transform: translateY(0); opacity: 1; }
+  .toast.success { background: var(--vert); }
+  .toast.error   { background: var(--rouge); }
+  .toast.warning { background: var(--orange); }
+</style>
+
+<div class="res-page">
+
+  <div class="page-header">
+    <div>
+      <h1>📅 Gestion des réservations</h1>
+      <p>Suivez et gérez toutes les réservations de votre établissement</p>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-chip">📋 <strong><%= reservations.length %></strong> au total</div>
+    <div class="stat-chip">🔵 <strong><%= reservations.filter(r => r.statut_reservation === 'confirmee').length %></strong> confirmées</div>
+    <div class="stat-chip">✅ <strong><%= reservations.filter(r => r.statut_reservation === 'honoree').length %></strong> honorées</div>
+    <div class="stat-chip">⏳ <strong><%= reservations.filter(r => r.statut_reservation === 'en_attente').length %></strong> en attente</div>
+    <div class="stat-chip">🚫 <strong><%= reservations.filter(r => r.statut_reservation === 'no_show').length %></strong> no-show</div>
+    <div class="stat-chip">❌ <strong><%= reservations.filter(r => r.statut_reservation === 'annulee').length %></strong> annulées</div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterRes('all', this)">Toutes</button>
+    <button class="filter-btn" onclick="filterRes('confirmee', this)">🔵 Confirmées</button>
+    <button class="filter-btn" onclick="filterRes('honoree', this)">✅ Honorées</button>
+    <button class="filter-btn" onclick="filterRes('en_attente', this)">⏳ En attente</button>
+    <button class="filter-btn" onclick="filterRes('no_show', this)">🚫 No-show</button>
+    <button class="filter-btn" onclick="filterRes('annulee', this)">❌ Annulées</button>
+  </div>
+
+  <div class="res-grid" id="res-grid">
+
+    <% if (reservations.length === 0) { %>
+      <div class="empty-state">
+        <span>📅</span>
+        <p>Aucune réservation enregistrée.</p>
+      </div>
+    <% } %>
+
+    <% reservations.forEach(r => {
+      const date  = new Date(r.date_reservation);
+      const jour  = date.toLocaleDateString('fr-FR', { day: '2-digit' });
+      const mois  = date.toLocaleDateString('fr-FR', { month: 'short' });
+      const heure = r.heure_reservation ? r.heure_reservation.slice(0, 5) : '—';
+
+      // Données enrichies grâce au LEFT JOIN dans reservationModel.findAll()
+      const nomComplet  = (r.prenom_client && r.nom_client)
+                          ? r.prenom_client + ' ' + r.nom_client
+                          : 'Client #' + r.id_client;
+      const initiale    = r.prenom_client ? r.prenom_client[0].toUpperCase() : '?';
+      const numeroTable = r.numero_table  ? 'Table ' + r.numero_table : 'Table #' + r.id_table;
+    %>
+      <div class="res-card statut-<%= r.statut_reservation %>"
+           id="card-<%= r.id_reservation %>"
+           data-statut="<%= r.statut_reservation %>">
+
+        <div class="res-card-top">
+          <span class="res-id">Réservation #<%= r.id_reservation %></span>
+          <span class="badge-statut badge-<%= r.statut_reservation %>">
+            <% if (r.statut_reservation === 'confirmee')       { %>🔵 Confirmée
+            <% } else if (r.statut_reservation === 'honoree')  { %>✅ Honorée
+            <% } else if (r.statut_reservation === 'annulee')  { %>❌ Annulée
+            <% } else if (r.statut_reservation === 'no_show')  { %>🚫 No-show
+            <% } else { %>⏳ En attente<% } %>
+          </span>
+        </div>
+
+        <div class="res-datetime">
+          <div class="res-date-box">
+            <div class="res-date-day"><%= jour %></div>
+            <div class="res-date-month"><%= mois %></div>
+          </div>
+          <div class="res-time-client">
+            <div class="res-heure">🕐 <%= heure %></div>
+            <div class="res-client">
+              <span class="res-client-avatar"><%= initiale %></span>
+              <%= nomComplet %>
+            </div>
+          </div>
+        </div>
+
+        <div class="res-details">
+          <span class="res-tag">👥 <%= r.nb_personnes %> personne<%= r.nb_personnes > 1 ? 's' : '' %></span>
+          <span class="res-tag">🪑 <%= numeroTable %></span>
+        </div>
+
+        <% if (r.demandes_speciales) { %>
+          <div class="res-demandes">"<%= r.demandes_speciales %>"</div>
+        <% } %>
+
+        <div class="res-actions">
+          <% if (r.statut_reservation === 'confirmee' || r.statut_reservation === 'en_attente') { %>
+            <button class="btn-honoree" onclick="updateRes(<%= r.id_reservation %>, 'honoree')">✓ Honorée</button>
+            <button class="btn-noshow"  onclick="updateRes(<%= r.id_reservation %>, 'no_show')">🚫 No-show</button>
+            <button class="btn-annuler" onclick="updateRes(<%= r.id_reservation %>, 'annulee')">✗ Annuler</button>
+          <% } else if (r.statut_reservation === 'no_show') { %>
+            <button class="btn-honoree" style="flex:2;" onclick="updateRes(<%= r.id_reservation %>, 'honoree')">✓ Finalement honorée</button>
+          <% } %>
+          <button class="btn-delete" onclick="deleteRes(<%= r.id_reservation %>)" title="Supprimer">🗑</button>
+        </div>
+
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function getToken() {
+    return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
+  }
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = (type === 'success' ? '✓ ' : type === 'warning' ? '⚠ ' : '✗ ') + msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  function filterRes(statut, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.res-card').forEach(card => {
+      card.classList.toggle('hidden', statut !== 'all' && card.dataset.statut !== statut);
+    });
+  }
+
+  async function updateRes(id, statut) {
+    const labels = { honoree: 'Réservation honorée.', no_show: 'Client no-show.', annulee: 'Réservation annulée.' };
+    const types  = { honoree: 'success', no_show: 'warning', annulee: 'error' };
+    try {
+      const res = await fetch('/reservations/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify({ statut_reservation: statut })
+      });
+      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast(labels[statut], types[statut]);
+      setTimeout(() => location.reload(), 900);
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  async function deleteRes(id) {
+    if (!confirm('Supprimer définitivement cette réservation ?')) return;
+    try {
+      const res = await fetch('/reservations/' + id, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + getToken() }
+      });
+      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      const card = document.getElementById('card-' + id);
+      if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
+      showToast('Réservation supprimée.');
+      setTimeout(() => location.reload(), 900);
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+</script>
+
+<%- include('../partials/admin-footer') %>
