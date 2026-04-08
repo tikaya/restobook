@@ -62,6 +62,45 @@ const clientservice = {
             throw error;
         }
         return {message: 'Client supprimé avec succès (RGPD)'};
+    },
+
+    restoreClient: async (id) => {
+        // Appelons la methode restore du model
+        const clientRestore = await clientModel.restore(id)
+
+        //Si rien n'est stocké dans la variable
+
+        if(!clientRestore) {
+            // Creer un objet error
+            const error = new Error('Client non trouvé')
+            //AJoutons cette methode status a l'objet error
+            error.status = 404;
+            //Balancons l'erreur au prochain catch
+            
+            throw error
+        }
+        //Si tous c'est bien passé
+        return clientRestore
+
+    },
+    
+    deleteForceClient: async(id) => {
+        // Appelons la methode deleteForceClient du model
+        const clientDeleted = await clientModel.deleteForce(id)
+
+        // Soit la suppression à echouée
+        if(!clientDeleted) {
+            // On crèe l'objet erreur 
+            const error = new Error('Client introuvable !')
+            // Ajoutons la propriété status à la valeur 404
+            error.status = 404
+            // Balacons l'erreur  au middleware de gestion d'erreur
+            throw error
+        }
+
+        // Si tous se passe bien on retourne clientDeleted
+        return clientDeleted
+    
     }
 }
 

@@ -4,520 +4,250 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
 
   :root {
-    --bordeaux: #6B1A2A;
-    --bordeaux-light: #8B2A3A;
-    --bordeaux-pale: #f5eaec;
-    --or: #C9A84C;
-    --or-light: #fdf6e3;
-    --creme: #FAF6F0;
-    --creme-dark: #EDE5D8;
-    --brun: #3D2B1F;
-    --brun-light: #7A5C4A;
-    --blanc: #FFFFFF;
-    --vert: #2e7d32;
-    --vert-pale: #e8f5e9;
-    --rouge: #c62828;
-    --rouge-pale: #fdecea;
-    --bleu: #1565c0;
-    --bleu-pale: #e3f2fd;
-    --violet: #6a1b9a;
-    --violet-pale: #f3e5f5;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --bordeaux: #6B1A2A; --bordeaux-light: #8B2A3A; --bordeaux-pale: #f5eaec;
+    --or: #C9A84C; --or-light: #fdf6e3;
+    --creme: #FAF6F0; --creme-dark: #EDE5D8;
+    --brun: #3D2B1F; --brun-light: #7A5C4A; --blanc: #FFFFFF;
+    --vert: #2e7d32; --vert-pale: #e8f5e9;
+    --rouge: #c62828; --rouge-pale: #fdecea;
+    --orange: #e65100; --orange-pale: #fff3e0;
+    --bleu: #1565c0; --bleu-pale: #e3f2fd;
+    --radius: 12px; --radius-sm: 8px;
     --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  .comptes-page { font-family: 'DM Sans', sans-serif; background: var(--creme); min-height: 100vh; padding: 2rem; color: var(--brun); }
 
-  .comptes-page {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--creme);
-    min-height: 100vh;
-    padding: 2rem;
-    color: var(--brun);
-  }
+  .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--creme-dark); }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--bordeaux); line-height: 1; }
+  .page-header p { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brun-light); margin-top: 0.3rem; font-style: italic; }
 
-  /* ── Header ── */
-  .page-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--creme-dark);
-  }
-  .page-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--bordeaux);
-    line-height: 1;
-  }
-  .page-header p {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    color: var(--brun-light);
-    margin-top: 0.3rem;
-    font-style: italic;
-  }
-
-  /* ── Tabs ── */
-  .tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid var(--creme-dark);
-  }
-  .tab-btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    background: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--brun-light);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
+  .tabs { display: flex; margin-bottom: 2rem; border-bottom: 2px solid var(--creme-dark); }
+  .tab-btn { padding: 0.75rem 1.5rem; border: none; background: none; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; color: var(--brun-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
   .tab-btn:hover { color: var(--bordeaux); }
-  .tab-btn.active {
-    color: var(--bordeaux);
-    border-bottom-color: var(--bordeaux);
-    font-weight: 600;
-  }
-  .tab-count {
-    background: var(--bordeaux-pale);
-    color: var(--bordeaux);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 50px;
-  }
+  .tab-btn.active { color: var(--bordeaux); border-bottom-color: var(--bordeaux); font-weight: 600; }
+  .tab-count { background: var(--bordeaux-pale); color: var(--bordeaux); font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 50px; }
 
-  /* ── Section ── */
   .tab-section { display: none; }
   .tab-section.active { display: block; }
 
-  /* ── Stats bar ── */
-  .stats-bar {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-  }
+  .stats-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
   .stats-left { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .stat-chip {
-    background: var(--blanc);
-    border: 1px solid var(--creme-dark);
-    border-radius: 50px;
-    padding: 0.4rem 1rem;
-    font-size: 0.8rem;
-    color: var(--brun-light);
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
+  .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.8rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; }
   .stat-chip strong { color: var(--bordeaux); font-weight: 600; }
 
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--bordeaux);
-    color: #fff;
-    border: none;
-    padding: 0.7rem 1.25rem;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .btn-primary:hover {
-    background: var(--bordeaux-light);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(107,26,42,0.3);
-  }
+  .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bordeaux); color: #fff; border: none; padding: 0.7rem 1.25rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--bordeaux-light); transform: translateY(-1px); }
 
-  /* ── Grille cartes ── */
-  .comptes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.25rem;
-  }
+  .comptes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
 
-  .compte-card {
-    background: var(--blanc);
-    border: 1px solid var(--creme-dark);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    transition: all 0.25s ease;
-    position: relative;
-  }
-  .compte-card:hover {
-    box-shadow: var(--shadow-soft);
-    transform: translateY(-2px);
-  }
+  .compte-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.5rem; transition: all 0.25s ease; position: relative; }
+  .compte-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+  .compte-card.suspens { opacity: 0.65; border-color: var(--orange); border-style: dashed; }
+  .compte-card.hidden { display: none; }
 
-  /* Avatar */
-  .compte-top {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  .compte-avatar {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
-  }
+  .compte-top { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+  .compte-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #fff; flex-shrink: 0; }
   .avatar-gerant  { background: var(--bordeaux); }
   .avatar-serveur { background: var(--bleu); }
   .avatar-cuisine { background: var(--vert); }
   .avatar-client  { background: var(--brun-light); }
 
   .compte-info { flex: 1; min-width: 0; }
-  .compte-nom {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--brun);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .compte-email {
-    font-size: 0.75rem;
-    color: var(--brun-light);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 0.15rem;
-  }
+  .compte-nom { font-weight: 600; font-size: 0.95rem; color: var(--brun); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .compte-email { font-size: 0.75rem; color: var(--brun-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem; }
 
-  /* Badge rôle */
-  .badge-role {
-    font-size: 0.68rem;
-    font-weight: 600;
-    padding: 0.2rem 0.65rem;
-    border-radius: 50px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
+  .badge-role { font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 50px; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
   .role-gerant  { background: var(--bordeaux-pale); color: var(--bordeaux); }
   .role-serveur { background: var(--bleu-pale);     color: var(--bleu); }
   .role-cuisine { background: var(--vert-pale);     color: var(--vert); }
   .role-client  { background: var(--creme-dark);    color: var(--brun-light); }
 
-  /* ID discret */
-  .compte-id {
-    font-size: 0.7rem;
-    color: var(--brun-light);
-    opacity: 0.4;
-    margin-bottom: 1rem;
-  }
+  .badge-suspens { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 50px; background: var(--orange-pale); color: var(--orange); margin-top: 0.4rem; }
 
-  /* Actions */
-  .compte-actions {
-    display: flex;
-    gap: 0.4rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--creme-dark);
-  }
-  .btn-edit {
-    flex: 1;
-    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
-    background: var(--bordeaux-pale);
-    color: var(--bordeaux);
-    border: 1px solid rgba(107,26,42,0.15);
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .compte-id { font-size: 0.7rem; color: var(--brun-light); opacity: 0.4; margin-bottom: 1rem; }
+
+  .compte-actions { display: flex; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid var(--creme-dark); flex-wrap: wrap; }
+  .btn-sm { display: flex; align-items: center; justify-content: center; gap: 0.25rem; padding: 0.45rem 0.6rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; white-space: nowrap; }
+  .btn-edit    { flex: 1; background: var(--bordeaux-pale); color: var(--bordeaux); border-color: rgba(107,26,42,0.15); }
   .btn-edit:hover { background: var(--bordeaux); color: #fff; }
-  .btn-delete {
-    display: flex; align-items: center; justify-content: center;
-    background: var(--rouge-pale);
-    color: var(--rouge);
-    border: 1px solid rgba(198,40,40,0.15);
-    padding: 0.5rem 0.65rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .btn-suspend { background: var(--orange-pale); color: var(--orange); border-color: rgba(230,81,0,0.2); }
+  .btn-suspend:hover { background: var(--orange); color: #fff; }
+  .btn-restore { background: var(--vert-pale); color: var(--vert); border-color: rgba(46,125,50,0.2); }
+  .btn-restore:hover { background: var(--vert); color: #fff; }
+  .btn-delete  { background: var(--rouge-pale); color: var(--rouge); border-color: rgba(198,40,40,0.15); }
   .btn-delete:hover { background: var(--rouge); color: #fff; }
 
-  /* Empty */
-  .empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem;
-    color: var(--brun-light);
-  }
+  .empty-state { grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--brun-light); }
   .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
   .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
 
-  /* ── Modal ── */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(61,43,31,0.45);
-    backdrop-filter: blur(4px);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(61,43,31,0.45); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
   .modal-overlay.show { display: flex; }
-  .modal {
-    background: var(--blanc);
-    border-radius: var(--radius);
-    padding: 2rem;
-    width: 100%;
-    max-width: 460px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(61,43,31,0.25);
-    animation: slideUp 0.25s ease;
-  }
-  @keyframes slideUp {
-    from { opacity:0; transform: translateY(20px); }
-    to   { opacity:1; transform: translateY(0); }
-  }
-  .modal-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: var(--bordeaux);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--creme-dark);
-  }
+  .modal { background: var(--blanc); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(61,43,31,0.25); animation: slideUp 0.25s ease; }
+  @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--bordeaux); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--creme-dark); }
   .form-group { margin-bottom: 1rem; }
-  .form-label {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--brun-light);
-    margin-bottom: 0.35rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .form-input {
-    width: 100%;
-    border: 1.5px solid var(--creme-dark);
-    border-radius: var(--radius-sm);
-    padding: 0.65rem 0.875rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    color: var(--brun);
-    background: var(--creme);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-  .form-input:focus {
-    border-color: var(--bordeaux);
-    background: var(--blanc);
-    box-shadow: 0 0 0 3px rgba(107,26,42,0.08);
-  }
-  select.form-input { cursor: pointer; }
+  .form-label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--brun-light); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .form-input { width: 100%; border: 1.5px solid var(--creme-dark); border-radius: var(--radius-sm); padding: 0.65rem 0.875rem; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: var(--brun); background: var(--creme); transition: border-color 0.2s; outline: none; }
+  .form-input:focus { border-color: var(--bordeaux); background: var(--blanc); box-shadow: 0 0 0 3px rgba(107,26,42,0.08); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .modal-actions {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-  .btn-submit {
-    flex: 1;
-    background: var(--bordeaux);
-    color: #fff;
-    border: none;
-    padding: 0.75rem;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn-submit { flex: 1; background: var(--bordeaux); color: #fff; border: none; padding: 0.75rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background 0.2s; }
   .btn-submit:hover { background: var(--bordeaux-light); }
-  .btn-cancel {
-    background: var(--creme);
-    color: var(--brun-light);
-    border: 1.5px solid var(--creme-dark);
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .btn-cancel { background: var(--creme); color: var(--brun-light); border: 1.5px solid var(--creme-dark); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
   .btn-cancel:hover { border-color: var(--brun-light); color: var(--brun); }
 
-  /* ── Toast ── */
-  .toast {
-    position: fixed;
-    bottom: 2rem; right: 2rem;
-    background: var(--brun);
-    color: #fff;
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-    z-index: 9999;
-    transform: translateY(80px);
-    opacity: 0;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  }
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast.success { background: var(--vert); }
   .toast.error   { background: var(--rouge); }
-
-  .compte-card.hidden { display: none; }
+  .toast.warning { background: var(--orange); }
 </style>
+
+<%
+  var nbEmployes  = employes.length;
+  var nbGerant    = employes.filter(function(e){ return e.role_employe === 'gerant'; }).length;
+  var nbServeur   = employes.filter(function(e){ return e.role_employe === 'serveur'; }).length;
+  var nbCuisine   = employes.filter(function(e){ return e.role_employe === 'cuisine'; }).length;
+  var nbClients   = clients.length;
+  var nbSuspendus = clients.filter(function(c){ return c.compte_supprime; }).length;
+%>
 
 <div class="comptes-page">
 
-  <!-- Header -->
   <div class="page-header">
     <div>
-      <h1>👥 Gestion des comptes</h1>
-      <p>Gérez les employés et les clients de votre établissement</p>
+      <h1>Gestion des comptes</h1>
+      <p>Creer, suspendre et supprimer les comptes employes et clients</p>
     </div>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('employes', this)">
-      👔 Employés <span class="tab-count"><%= employes.length %></span>
+      Employes <span class="tab-count"><%= nbEmployes %></span>
     </button>
     <button class="tab-btn" onclick="switchTab('clients', this)">
-      👤 Clients <span class="tab-count"><%= clients.length %></span>
+      Clients <span class="tab-count"><%= nbClients %></span>
     </button>
   </div>
 
-  <!-- ===== SECTION EMPLOYÉS ===== -->
+  <!-- EMPLOYES -->
   <div class="tab-section active" id="section-employes">
-
     <div class="stats-bar">
       <div class="stats-left">
-        <div class="stat-chip">👔 <strong><%= employes.length %></strong> employés</div>
-        <div class="stat-chip">🔑 <strong><%= employes.filter(e => e.role_employe === 'gerant').length %></strong> gérant(s)</div>
-        <div class="stat-chip">🍽️ <strong><%= employes.filter(e => e.role_employe === 'serveur').length %></strong> serveur(s)</div>
-        <div class="stat-chip">👨‍🍳 <strong><%= employes.filter(e => e.role_employe === 'cuisine').length %></strong> cuisine</div>
+        <div class="stat-chip"><strong><%= nbEmployes %></strong> employes</div>
+        <div class="stat-chip"><strong><%= nbGerant %></strong> gerant(s)</div>
+        <div class="stat-chip"><strong><%= nbServeur %></strong> serveur(s)</div>
+        <div class="stat-chip"><strong><%= nbCuisine %></strong> cuisine</div>
       </div>
-      <button class="btn-primary" onclick="openModalAddEmploye()">＋ Ajouter un employé</button>
+      <button class="btn-primary" onclick="openModalAddEmploye()">+ Ajouter un employe</button>
     </div>
-
-    <div class="comptes-grid" id="grid-employes">
-      <% if (employes.length === 0) { %>
-        <div class="empty-state">
-          <span>👔</span>
-          <p>Aucun employé enregistré.</p>
-        </div>
+    <div class="comptes-grid">
+      <% if (nbEmployes === 0) { %>
+        <div class="empty-state"><span>&#128084;</span><p>Aucun employe enregistre.</p></div>
       <% } %>
-
-      <% employes.forEach(e => {
-        const initiales = (e.prenom_employe ? e.prenom_employe[0] : '') + (e.nom_employe ? e.nom_employe[0] : '');
-        const avatarClass = 'avatar-' + e.role_employe;
+      <% employes.forEach(function(e) {
+        var initiales = (e.prenom_employe ? e.prenom_employe[0] : '') + (e.nom_employe ? e.nom_employe[0] : '');
       %>
         <div class="compte-card" id="emp-card-<%= e.id_employe %>">
           <div class="compte-top">
-            <div class="compte-avatar <%= avatarClass %>"><%= initiales.toUpperCase() %></div>
+            <div class="compte-avatar avatar-<%= e.role_employe %>"><%= initiales.toUpperCase() %></div>
             <div class="compte-info">
               <div class="compte-nom"><%= e.prenom_employe %> <%= e.nom_employe %></div>
               <div class="compte-email"><%= e.email_employe %></div>
             </div>
             <span class="badge-role role-<%= e.role_employe %>"><%= e.role_employe %></span>
           </div>
-          <div class="compte-id">Employé #<%= e.id_employe %></div>
+          <div class="compte-id">Employe #<%= e.id_employe %></div>
           <div class="compte-actions">
-            <button class="btn-edit" onclick="openModalEditEmploye(
+            <button class="btn-sm btn-edit" onclick="openModalEditEmploye(
               <%= e.id_employe %>,
-              `<%= (e.nom_employe || '').replace(/`/g, '\\`') %>`,
-              `<%= (e.prenom_employe || '').replace(/`/g, '\\`') %>`,
-              `<%= e.role_employe %>`
-            )">✏️ Modifier</button>
-            <button class="btn-delete" onclick="deleteEmploye(<%= e.id_employe %>)" title="Supprimer">🗑</button>
+              '<%= (e.nom_employe || '').replace(/'/g, "\\'") %>',
+              '<%= (e.prenom_employe || '').replace(/'/g, "\\'") %>',
+              '<%= e.role_employe %>'
+            )">Modifier</button>
+            <button class="btn-sm btn-delete" onclick="deleteEmploye(<%= e.id_employe %>)">Supprimer</button>
           </div>
         </div>
-      <% }) %>
+      <% }); %>
     </div>
   </div>
 
-  <!-- ===== SECTION CLIENTS ===== -->
+  <!-- CLIENTS -->
   <div class="tab-section" id="section-clients">
-
     <div class="stats-bar">
       <div class="stats-left">
-        <div class="stat-chip">👤 <strong><%= clients.length %></strong> clients inscrits</div>
+        <div class="stat-chip"><strong><%= nbClients %></strong> clients inscrits</div>
+        <div class="stat-chip"><strong><%= nbClients - nbSuspendus %></strong> actifs</div>
+        <% if (nbSuspendus > 0) { %>
+          <div class="stat-chip"><strong><%= nbSuspendus %></strong> suspendus</div>
+        <% } %>
       </div>
+      <button class="btn-primary" onclick="openModalAddClient()">+ Ajouter un client</button>
     </div>
-
-    <div class="comptes-grid" id="grid-clients">
-      <% if (clients.length === 0) { %>
-        <div class="empty-state">
-          <span>👤</span>
-          <p>Aucun client enregistré.</p>
-        </div>
+    <div class="comptes-grid">
+      <% if (nbClients === 0) { %>
+        <div class="empty-state"><span>&#128100;</span><p>Aucun client enregistre.</p></div>
       <% } %>
-
-      <% clients.forEach(c => {
-        const initiales = (c.prenom_client ? c.prenom_client[0] : '') + (c.nom_client ? c.nom_client[0] : '');
+      <% clients.forEach(function(c) {
+        var initiales  = (c.prenom_client ? c.prenom_client[0] : '') + (c.nom_client ? c.nom_client[0] : '');
+        var estSuspendu = c.compte_supprime;
+        var telEsc     = (c.telephone_client || '').replace(/'/g, "\\'");
+        var emailEsc   = (c.email_client || '').replace(/'/g, "\\'");
+        var nomEsc     = (c.nom_client || '').replace(/'/g, "\\'");
+        var prenomEsc  = (c.prenom_client || '').replace(/'/g, "\\'");
       %>
-        <div class="compte-card" id="cli-card-<%= c.id_client %>">
+        <div class="compte-card <%= estSuspendu ? 'suspens' : '' %>" id="cli-card-<%= c.id_client %>">
           <div class="compte-top">
             <div class="compte-avatar avatar-client"><%= initiales.toUpperCase() %></div>
             <div class="compte-info">
               <div class="compte-nom"><%= c.prenom_client %> <%= c.nom_client %></div>
               <div class="compte-email"><%= c.email_client %></div>
+              <% if (c.telephone_client) { %>
+                <div style="font-size:0.72rem;color:var(--brun-light);margin-top:0.1rem;">&#128222; <%= c.telephone_client %></div>
+              <% } %>
+              <% if (estSuspendu) { %>
+                <span class="badge-suspens">Compte suspendu</span>
+              <% } %>
             </div>
             <span class="badge-role role-client">Client</span>
           </div>
-          <div class="compte-id">Client #<%= c.id_client %></div>
+          <div class="compte-id">
+            Client #<%= c.id_client %> ·
+            Inscrit le <%= new Date(c.date_inscription_client).toLocaleDateString('fr-FR') %>
+          </div>
           <div class="compte-actions">
-            <button class="btn-edit" onclick="openModalEditClient(
-              <%= c.id_client %>,
-              `<%= (c.nom_client || '').replace(/`/g, '\\`') %>`,
-              `<%= (c.prenom_client || '').replace(/`/g, '\\`') %>`
-            )">✏️ Modifier</button>
-            <button class="btn-delete" onclick="deleteClient(<%= c.id_client %>)" title="Supprimer">🗑</button>
+            <% if (!estSuspendu) { %>
+              <button class="btn-sm btn-edit" onclick="openModalEditClient(
+                <%= c.id_client %>,
+                '<%= nomEsc %>',
+                '<%= prenomEsc %>',
+                '<%= emailEsc %>',
+                '<%= telEsc %>'
+              )">Modifier</button>
+              <button class="btn-sm btn-suspend" onclick="suspendreClient(<%= c.id_client %>)">Suspendre</button>
+            <% } else { %>
+              <button class="btn-sm btn-restore" onclick="restaurerClient(<%= c.id_client %>)">Reactiver</button>
+            <% } %>
+            <button class="btn-sm btn-delete" onclick="deleteClient(<%= c.id_client %>)">Supprimer</button>
           </div>
         </div>
-      <% }) %>
+      <% }); %>
     </div>
   </div>
 
 </div>
 
-<!-- ===== MODAL AJOUTER EMPLOYÉ ===== -->
+<!-- Modal ajouter employe -->
 <div class="modal-overlay" id="modal-add-employe">
   <div class="modal">
-    <h3 class="modal-title">➕ Ajouter un employé</h3>
-    <form id="form-add-employe" onsubmit="submitAddEmploye(event)">
-
+    <h3 class="modal-title">Ajouter un employe</h3>
+    <form id="form-add-employe">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Prénom *</label>
+          <label class="form-label">Prenom *</label>
           <input type="text" name="prenom_employe" class="form-input" required placeholder="Jean">
         </div>
         <div class="form-group">
@@ -525,44 +255,39 @@
           <input type="text" name="nom_employe" class="form-input" required placeholder="Dupont">
         </div>
       </div>
-
       <div class="form-group">
         <label class="form-label">Email *</label>
         <input type="email" name="email_employe" class="form-input" required placeholder="jean.dupont@resto.fr">
       </div>
-
       <div class="form-group">
         <label class="form-label">Mot de passe *</label>
         <input type="password" name="mdp_employe" class="form-input" required placeholder="Min. 8 car., maj., chiffre, symbole">
       </div>
-
       <div class="form-group">
-        <label class="form-label">Rôle *</label>
+        <label class="form-label">Role *</label>
         <select name="role_employe" class="form-input">
-          <option value="serveur">🍽️ Serveur</option>
-          <option value="cuisine">👨‍🍳 Cuisine</option>
-          <option value="gerant">🔑 Gérant</option>
+          <option value="serveur">Serveur</option>
+          <option value="cuisine">Cuisine</option>
+          <option value="gerant">Gerant</option>
         </select>
       </div>
-
       <div class="modal-actions">
-        <button type="submit" class="btn-submit">✓ Ajouter l'employé</button>
+        <button type="submit" class="btn-submit">Ajouter</button>
         <button type="button" class="btn-cancel" onclick="closeModal('modal-add-employe')">Annuler</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- ===== MODAL MODIFIER EMPLOYÉ ===== -->
+<!-- Modal modifier employe -->
 <div class="modal-overlay" id="modal-edit-employe">
   <div class="modal">
-    <h3 class="modal-title">✏️ Modifier l'employé</h3>
-    <form id="form-edit-employe" onsubmit="submitEditEmploye(event)">
+    <h3 class="modal-title">Modifier l'employe</h3>
+    <form id="form-edit-employe">
       <input type="hidden" id="edit-emp-id">
-
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Prénom *</label>
+          <label class="form-label">Prenom *</label>
           <input type="text" name="prenom_employe" id="edit-emp-prenom" class="form-input" required>
         </div>
         <div class="form-group">
@@ -570,34 +295,66 @@
           <input type="text" name="nom_employe" id="edit-emp-nom" class="form-input" required>
         </div>
       </div>
-
       <div class="form-group">
-        <label class="form-label">Rôle *</label>
+        <label class="form-label">Role *</label>
         <select name="role_employe" id="edit-emp-role" class="form-input">
-          <option value="serveur">🍽️ Serveur</option>
-          <option value="cuisine">👨‍🍳 Cuisine</option>
-          <option value="gerant">🔑 Gérant</option>
+          <option value="serveur">Serveur</option>
+          <option value="cuisine">Cuisine</option>
+          <option value="gerant">Gerant</option>
         </select>
       </div>
-
       <div class="modal-actions">
-        <button type="submit" class="btn-submit">✓ Enregistrer</button>
+        <button type="submit" class="btn-submit">Enregistrer</button>
         <button type="button" class="btn-cancel" onclick="closeModal('modal-edit-employe')">Annuler</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- ===== MODAL MODIFIER CLIENT ===== -->
-<div class="modal-overlay" id="modal-edit-client">
+<!-- Modal ajouter client -->
+<div class="modal-overlay" id="modal-add-client">
   <div class="modal">
-    <h3 class="modal-title">✏️ Modifier le client</h3>
-    <form id="form-edit-client" onsubmit="submitEditClient(event)">
-      <input type="hidden" id="edit-cli-id">
-
+    <h3 class="modal-title">Ajouter un client</h3>
+    <form id="form-add-client">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Prénom *</label>
+          <label class="form-label">Prenom *</label>
+          <input type="text" name="prenom_client" class="form-input" required placeholder="Marie">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom *</label>
+          <input type="text" name="nom_client" class="form-input" required placeholder="Dupont">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input type="email" name="email_client" class="form-input" required placeholder="marie@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mot de passe *</label>
+        <input type="password" name="mdp_client" class="form-input" required placeholder="Min. 8 car., maj., chiffre, symbole">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telephone</label>
+        <input type="tel" name="telephone_client" class="form-input" placeholder="06 00 00 00 00">
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-submit">Creer le compte</button>
+        <button type="button" class="btn-cancel" onclick="closeModal('modal-add-client')">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal modifier client -->
+<div class="modal-overlay" id="modal-edit-client">
+  <div class="modal">
+    <h3 class="modal-title">Modifier le client</h3>
+    <form id="form-edit-client">
+      <input type="hidden" id="edit-cli-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Prenom *</label>
           <input type="text" name="prenom_client" id="edit-cli-prenom" class="form-input" required>
         </div>
         <div class="form-group">
@@ -605,58 +362,86 @@
           <input type="text" name="nom_client" id="edit-cli-nom" class="form-input" required>
         </div>
       </div>
-
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input type="email" name="email_client" id="edit-cli-email" class="form-input" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telephone</label>
+        <input type="tel" name="telephone_client" id="edit-cli-tel" class="form-input" placeholder="06 00 00 00 00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nouveau mot de passe</label>
+        <input type="password" name="new_password" id="edit-cli-mdp" class="form-input" placeholder="Laisser vide pour ne pas changer">
+      </div>
       <div class="modal-actions">
-        <button type="submit" class="btn-submit">✓ Enregistrer</button>
+        <button type="submit" class="btn-submit">Enregistrer</button>
         <button type="button" class="btn-cancel" onclick="closeModal('modal-edit-client')">Annuler</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
+  // Utilitaires
   function getToken() {
     return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
   }
   function authHeaders() {
     return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
   }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('show');
-  }
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg;
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
     t.className = 'toast show ' + type;
-    setTimeout(() => { t.className = 'toast'; }, 3000);
+    setTimeout(function() { t.className = 'toast'; }, 3000);
   }
-
-  // Fermeture en cliquant dehors
-  document.querySelectorAll('.modal-overlay').forEach(o => {
-    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); });
+  function goTo(tab) {
+    location.href = location.pathname + '?tab=' + tab;
+  }
+  document.querySelectorAll('.modal-overlay').forEach(function(o) {
+    o.addEventListener('click', function(e) { if (e.target === o) o.classList.remove('show'); });
   });
 
-  // ── Tabs ─────────────────────────────────────────────────
+  // Tabs
   function switchTab(tab, btn) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-section').forEach(function(s) { s.classList.remove('active'); });
     btn.classList.add('active');
     document.getElementById('section-' + tab).classList.add('active');
   }
 
-  // ── Ajouter Employé ──────────────────────────────────────
+  // Restaurer onglet apres reload
+  (function() {
+    var tab = new URLSearchParams(window.location.search).get('tab');
+    if (tab === 'clients') {
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-section').forEach(function(s) { s.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      document.getElementById('section-clients').classList.add('active');
+    } else if (tab === 'employes') {
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-section').forEach(function(s) { s.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      document.getElementById('section-employes').classList.add('active');
+    }
+  })();
+
+  // ── EMPLOYES ─────────────────────────────────────────────
+
   function openModalAddEmploye() {
     document.getElementById('form-add-employe').reset();
     document.getElementById('modal-add-employe').classList.add('show');
   }
 
-  async function submitAddEmploye(e) {
+  document.getElementById('form-add-employe').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const f = e.target;
-    const body = {
+    var f = e.target;
+    var body = {
       prenom_employe: f.prenom_employe.value.trim(),
       nom_employe:    f.nom_employe.value.trim(),
       email_employe:  f.email_employe.value.trim(),
@@ -664,100 +449,137 @@
       role_employe:   f.role_employe.value
     };
     try {
-      const res = await fetch('/employes', { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
-      if (!res.ok) { const err = await res.json(); throw new Error(err.error || (err.errors && err.errors[0]) || 'Erreur'); }
-      showToast('Employé ajouté avec succès !');
+      var res = await fetch('/employes', { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || (err.errors && err.errors[0]) || 'Erreur'); }
+      showToast('Employe ajoute !');
       closeModal('modal-add-employe');
-      setTimeout(() => location.reload(), 800);
-    } catch (err) {
-      showToast(err.message, 'error');
-    }
-  }
+      setTimeout(function() { goTo('employes'); }, 800); // ← employes
+    } catch(err) { showToast(err.message, 'error'); }
+  });
 
-  // ── Modifier Employé ─────────────────────────────────────
   function openModalEditEmploye(id, nom, prenom, role) {
-    document.getElementById('edit-emp-id').value      = id;
-    document.getElementById('edit-emp-nom').value     = nom;
-    document.getElementById('edit-emp-prenom').value  = prenom;
-    document.getElementById('edit-emp-role').value    = role;
+    document.getElementById('edit-emp-id').value     = id;
+    document.getElementById('edit-emp-nom').value    = nom;
+    document.getElementById('edit-emp-prenom').value = prenom;
+    document.getElementById('edit-emp-role').value   = role;
     document.getElementById('modal-edit-employe').classList.add('show');
   }
 
-  async function submitEditEmploye(e) {
+  document.getElementById('form-edit-employe').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const f  = e.target;
-    const id = document.getElementById('edit-emp-id').value;
-    const body = {
+    var f  = e.target;
+    var id = document.getElementById('edit-emp-id').value;
+    var body = {
       nom_employe:    f.nom_employe.value.trim(),
       prenom_employe: f.prenom_employe.value.trim(),
       role_employe:   f.role_employe.value
     };
     try {
-      const res = await fetch('/employes/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
-      if (!res.ok) { const err = await res.json(); throw new Error(err.error || (err.errors && err.errors[0]) || 'Erreur'); }
-      showToast('Employé mis à jour !');
+      var res = await fetch('/employes/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast('Employe mis a jour !');
       closeModal('modal-edit-employe');
-      setTimeout(() => location.reload(), 800);
-    } catch (err) {
-      showToast(err.message, 'error');
-    }
-  }
+      setTimeout(function() { goTo('employes'); }, 800); // ← employes
+    } catch(err) { showToast(err.message, 'error'); }
+  });
 
-  // ── Supprimer Employé ────────────────────────────────────
   async function deleteEmploye(id) {
-    if (!confirm('Supprimer cet employé définitivement ?')) return;
+    if (!confirm('Supprimer cet employe definitionnellement ?')) return;
     try {
-      const res = await fetch('/employes/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } });
-      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
-      const card = document.getElementById('emp-card-' + id);
+      var res = await fetch('/employes/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      var card = document.getElementById('emp-card-' + id);
       if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
-      showToast('Employé supprimé.');
-      setTimeout(() => location.reload(), 900);
-    } catch (err) {
-      showToast(err.message, 'error');
-    }
+      showToast('Employe supprime.');
+      setTimeout(function() { goTo('employes'); }, 900); // ← employes
+    } catch(err) { showToast(err.message, 'error'); }
   }
 
-  // ── Modifier Client ──────────────────────────────────────
-  function openModalEditClient(id, nom, prenom) {
+  // ── CLIENTS ──────────────────────────────────────────────
+
+  function openModalAddClient() {
+    document.getElementById('form-add-client').reset();
+    document.getElementById('modal-add-client').classList.add('show');
+  }
+
+  document.getElementById('form-add-client').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var f = e.target;
+    var body = {
+      prenom_client:    f.prenom_client.value.trim(),
+      nom_client:       f.nom_client.value.trim(),
+      email_client:     f.email_client.value.trim(),
+      mdp_client:       f.mdp_client.value,
+      telephone_client: f.telephone_client.value.trim() || null
+    };
+    try {
+      var res = await fetch('/clients', { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || (err.errors && err.errors[0]) || 'Erreur'); }
+      showToast('Client cree !');
+      closeModal('modal-add-client');
+      setTimeout(function() { goTo('clients'); }, 800); // ← clients
+    } catch(err) { showToast(err.message, 'error'); }
+  });
+
+  function openModalEditClient(id, nom, prenom, email, tel) {
     document.getElementById('edit-cli-id').value     = id;
     document.getElementById('edit-cli-nom').value    = nom;
     document.getElementById('edit-cli-prenom').value = prenom;
+    document.getElementById('edit-cli-email').value  = email;
+    document.getElementById('edit-cli-tel').value    = tel;
+    document.getElementById('edit-cli-mdp').value    = '';
     document.getElementById('modal-edit-client').classList.add('show');
   }
 
-  async function submitEditClient(e) {
+  document.getElementById('form-edit-client').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const f  = e.target;
-    const id = document.getElementById('edit-cli-id').value;
-    const body = {
+    var f  = e.target;
+    var id = document.getElementById('edit-cli-id').value;
+    var body = {
       nom_client:    f.nom_client.value.trim(),
       prenom_client: f.prenom_client.value.trim()
     };
-    try {
-      const res = await fetch('/clients/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
-      if (!res.ok) { const err = await res.json(); throw new Error(err.error || (err.errors && err.errors[0]) || 'Erreur'); }
-      showToast('Client mis à jour !');
-      closeModal('modal-edit-client');
-      setTimeout(() => location.reload(), 800);
-    } catch (err) {
-      showToast(err.message, 'error');
+    if (f.telephone_client && f.telephone_client.value.trim()) {
+      body.telephone_client = f.telephone_client.value.trim();
     }
+    try {
+      var res = await fetch('/clients/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast('Client mis a jour !');
+      closeModal('modal-edit-client');
+      setTimeout(function() { goTo('clients'); }, 800); // ← clients
+    } catch(err) { showToast(err.message, 'error'); }
+  });
+
+  async function suspendreClient(id) {
+    if (!confirm('Suspendre ce compte ? Le client ne pourra plus se connecter.')) return;
+    try {
+      var res = await fetch('/clients/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast('Compte suspendu.', 'warning');
+      setTimeout(function() { goTo('clients'); }, 800); // ← clients
+    } catch(err) { showToast(err.message, 'error'); }
   }
 
-  // ── Supprimer Client ─────────────────────────────────────
-  async function deleteClient(id) {
-    if (!confirm('Supprimer ce client définitivement ?')) return;
+  async function restaurerClient(id) {
     try {
-      const res = await fetch('/clients/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } });
-      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
-      const card = document.getElementById('cli-card-' + id);
+      var res = await fetch('/clients/' + id + '/restore', { method: 'PUT', headers: { 'Authorization': 'Bearer ' + getToken() } });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      showToast('Compte reactive !');
+      setTimeout(function() { goTo('clients'); }, 800); // ← clients
+    } catch(err) { showToast(err.message, 'error'); }
+  }
+
+  async function deleteClient(id) {
+    if (!confirm('Supprimer definitivement ce client ? Cette action est irreversible.')) return;
+    try {
+      var res = await fetch('/clients/' + id + '/force', { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } });
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      var card = document.getElementById('cli-card-' + id);
       if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
-      showToast('Client supprimé.');
-      setTimeout(() => location.reload(), 900);
-    } catch (err) {
-      showToast(err.message, 'error');
-    }
+      showToast('Client supprime.');
+      setTimeout(function() { goTo('clients'); }, 900); // ← clients
+    } catch(err) { showToast(err.message, 'error'); }
   }
 </script>
 

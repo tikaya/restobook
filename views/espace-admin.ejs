@@ -21,6 +21,7 @@
     body { font-family: 'DM Sans', sans-serif; color: var(--brun); background: var(--creme); }
     .admin-layout { display: flex; min-height: 100vh; }
 
+    /* Sidebar */
     .sidebar { width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50; }
     .sidebar-logo { padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--creme-dark); }
     .sidebar-logo-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--bordeaux); line-height: 1; }
@@ -37,14 +38,17 @@
     .sidebar-footer-name { font-size: 0.88rem; font-weight: 700; color: var(--brun); }
     .sidebar-footer-email { font-size: 0.75rem; color: var(--brun-light); margin-top: 0.1rem; word-break: break-all; }
     .sidebar-footer-role { font-size: 0.72rem; color: var(--bordeaux); font-weight: 600; margin-top: 0.2rem; }
-    .btn-logout { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; cursor: pointer; width: 100%; }
+    .btn-logout { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; width: 100%; }
     .btn-logout:hover { background: var(--rouge-pale); color: var(--rouge); border-color: rgba(198,40,40,0.2); }
 
+    /* Main */
     .admin-main { flex: 1; margin-left: 230px; }
     .topbar { background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
     .topbar-left { display: flex; align-items: center; gap: 1rem; }
     .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; }
     .topbar-date { font-size: 0.78rem; opacity: 0.5; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    .topbar-back { color: rgba(255,255,255,0.5); font-size: 0.78rem; text-decoration: none; border: 1px solid rgba(255,255,255,0.15); padding: 0.3rem 0.75rem; border-radius: 3px; transition: all 0.2s; }
+    .topbar-back:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
     .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
     .topbar-avatar { width: 36px; height: 36px; background: var(--or); color: var(--bordeaux-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
     .topbar-name { font-size: 0.85rem; opacity: 0.85; }
@@ -53,8 +57,9 @@
     .section-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--bordeaux); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--creme-dark); margin-left: 0.5rem; }
 
+    /* KPIs */
     .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
-    .kpi-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); position: relative; overflow: hidden; transition: all 0.2s; }
+    .kpi-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); position: relative; overflow: hidden; transition: all 0.2s; cursor: pointer; }
     .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
     .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
     .kpi-card.bordeaux::before { background: var(--bordeaux); }
@@ -67,23 +72,27 @@
     .kpi-sub { font-size: 0.78rem; color: var(--brun-light); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--creme-dark); }
     .kpi-sub strong { color: var(--brun); }
 
+    /* Widgets grille */
+    .widgets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
     .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
 
+    /* Panel */
     .panel { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
     .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid var(--creme-dark); }
     .panel-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--brun); font-weight: 700; }
     .panel-link { font-size: 0.78rem; color: var(--bordeaux); text-decoration: none; font-weight: 500; opacity: 0.7; transition: opacity 0.2s; }
     .panel-link:hover { opacity: 1; }
 
+    /* Recherche + filtres */
     .panel-search { padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--creme-dark); }
     .search-input { width: 100%; padding: 0.55rem 0.875rem; border: 1.5px solid var(--creme-dark); border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--brun); background: var(--creme); outline: none; transition: border-color 0.2s; }
     .search-input:focus { border-color: var(--bordeaux); background: var(--blanc); }
-
     .panel-filters { display: flex; gap: 0.4rem; padding: 0.65rem 1.5rem; border-bottom: 1px solid var(--creme-dark); flex-wrap: wrap; }
     .filter-pill { padding: 0.25rem 0.85rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; cursor: pointer; transition: all 0.15s; }
     .filter-pill:hover:not(.active) { border-color: var(--bordeaux); color: var(--bordeaux); }
     .filter-pill.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
 
+    /* Table */
     .admin-table { width: 100%; border-collapse: collapse; }
     .admin-table thead tr { background: var(--creme); }
     .admin-table th { padding: 0.6rem 1rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brun-light); text-align: left; border-bottom: 1px solid var(--creme-dark); }
@@ -93,14 +102,16 @@
     .admin-table td { padding: 0.7rem 1rem; font-size: 0.82rem; vertical-align: middle; }
     .res-row.hidden { display: none; }
 
+    /* Badges */
     .badge { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 50px; font-size: 0.68rem; font-weight: 600; }
     .badge-confirmee  { background: var(--bleu-pale);   color: var(--bleu); }
     .badge-honoree    { background: var(--vert-pale);   color: var(--vert); }
     .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
     .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
     .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
-    .badge-today      { background: var(--bordeaux); color: #fff; font-size: 0.6rem; padding: 0.1rem 0.4rem; margin-left: 0.3rem; }
+    .badge-today      { background: var(--bordeaux); color: #fff; font-size: 0.6rem; padding: 0.1rem 0.4rem; margin-left: 0.3rem; border-radius: 50px; }
 
+    /* Boutons actions */
     .btn-arrive { display: inline-flex; align-items: center; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); padding: 0.28rem 0.6rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .btn-arrive:hover { background: var(--vert); color: #fff; }
     .btn-noshow { display: inline-flex; align-items: center; background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(230,81,0,0.2); padding: 0.28rem 0.6rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
@@ -108,6 +119,7 @@
 
     .alert-bar { background: var(--orange-pale); color: var(--orange); padding: 0.65rem 1.5rem; font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; border-top: 1px solid rgba(230,81,0,0.15); }
 
+    /* Quick actions */
     .quick-actions { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.25rem; }
     .quick-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-sm); text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; transition: all 0.2s; border: none; cursor: pointer; width: 100%; text-align: left; }
     .quick-btn-primary { background: var(--bordeaux); color: #fff; }
@@ -117,6 +129,7 @@
     .quick-btn-outline { background: var(--blanc); color: var(--brun-light); border: 1px solid var(--creme-dark); }
     .quick-btn-outline:hover { border-color: var(--bordeaux); color: var(--bordeaux); transform: translateX(3px); }
 
+    /* Logs */
     .log-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--creme-dark); transition: background 0.1s; }
     .log-item:last-child { border-bottom: none; }
     .log-item:hover { background: var(--creme); }
@@ -128,6 +141,7 @@
     .log-suppression  { background: var(--rouge-pale);  color: var(--rouge); }
     .log-detail { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.2rem; }
 
+    /* Avis */
     .avis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1.25rem; }
     .avis-card { background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); padding: 1rem; transition: all 0.2s; }
     .avis-card:hover { box-shadow: var(--shadow-soft); }
@@ -144,6 +158,16 @@
     .btn-reject { flex: 1; padding: 0.4rem; background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.15); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
     .btn-reject:hover { background: var(--rouge); color: #fff; }
 
+    /* Widget reservations du jour */
+    .today-widget { padding: 1.5rem; }
+    .today-stat { display: flex; justify-content: space-around; text-align: center; padding: 1rem 0; border-bottom: 1px solid var(--creme-dark); margin-bottom: 1rem; }
+    .today-stat-val { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--bordeaux); line-height: 1; }
+    .today-stat-lbl { font-size: 0.72rem; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; }
+    .today-res-item { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid var(--creme-dark); font-size: 0.82rem; }
+    .today-res-item:last-child { border-bottom: none; }
+    .today-res-name { font-weight: 600; color: var(--brun); }
+    .today-res-info { color: var(--brun-light); font-size: 0.78rem; }
+
     .empty-cell { text-align: center; padding: 2rem; color: var(--brun-light); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
 
     .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
@@ -154,28 +178,46 @@
 
     .admin-footer { text-align: center; padding: 1.25rem 2rem; color: var(--brun-light); font-size: 0.75rem; border-top: 1px solid var(--creme-dark); font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-    @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .widgets-grid { grid-template-columns: 1fr; } }
     @media (max-width: 1024px) { .sidebar { display: none; } .admin-main { margin-left: 0; } .main-grid { grid-template-columns: 1fr; } .avis-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
 <%
-  var pendingCount   = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
-  var todayStr       = new Date().toLocaleDateString('fr-FR');
-  var todayRes       = reservations.filter(function(r) { return r.date_reservation && new Date(r.date_reservation).toLocaleDateString('fr-FR') === todayStr; });
-  var todayCouverts  = todayRes.reduce(function(s, r) { return s + r.nb_personnes; }, 0);
-  var noshow         = reservations.filter(function(r) { return r.statut_reservation === 'no_show'; }).length;
-  var noshowRate     = reservations.length > 0 ? Math.round(noshow / reservations.length * 100) : 0;
-  var avisApprouves  = avis.filter(function(a) { return a.statut_avis === 'approuve'; });
-  var sommeNotes     = avisApprouves.reduce(function(s, a) { return s + (Number(a.note_avis) || 0); }, 0);
-  var avgNote        = avisApprouves.length > 0 ? (sommeNotes / avisApprouves.length).toFixed(1) : '—';
-  var displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
-  var displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
-  var upcoming       = reservations.filter(function(r) { return r.statut_reservation === 'confirmee'; }).slice(0, 8);
-  var speciales      = reservations.filter(function(r) { return r.demandes_speciales && r.statut_reservation === 'confirmee'; });
-  var pending        = avis.filter(function(a) { return a.statut_avis === 'en_attente'; });
-  var colors         = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276'];
+  var pendingCount    = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
+  var now             = new Date();
+  var todayStr        = now.toLocaleDateString('fr-FR');
+  var moisCourant     = now.getMonth();
+  var anneeCourante   = now.getFullYear();
+
+  var todayRes        = reservations.filter(function(r) {
+    return r.date_reservation && new Date(r.date_reservation).toLocaleDateString('fr-FR') === todayStr;
+  });
+  var todayCouverts   = todayRes.reduce(function(s,r) { return s + r.nb_personnes; }, 0);
+
+  var resMois         = reservations.filter(function(r) {
+    var d = new Date(r.date_reservation);
+    return d.getMonth() === moisCourant && d.getFullYear() === anneeCourante;
+  });
+
+  var noshow          = reservations.filter(function(r) { return r.statut_reservation === 'no_show'; }).length;
+  var noshowRate      = reservations.length > 0 ? Math.round(noshow / reservations.length * 100) : 0;
+
+  var avisApprouves   = avis.filter(function(a) { return a.statut_avis === 'approuve'; });
+  var sommeNotes      = avisApprouves.reduce(function(s,a) { return s + (Number(a.note_avis) || 0); }, 0);
+  var avgNote         = avisApprouves.length > 0 ? (sommeNotes / avisApprouves.length).toFixed(1) : '—';
+
+  var displayName     = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+  var displayInitial  = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+
+  var prochainesRes   = reservations
+    .filter(function(r) { return r.statut_reservation === 'confirmee'; })
+    .slice(0, 5);
+
+  var speciales       = reservations.filter(function(r) { return r.demandes_speciales && r.statut_reservation === 'confirmee'; });
+  var pending         = avis.filter(function(a) { return a.statut_avis === 'en_attente'; });
+  var colors          = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276'];
 %>
 
 <div class="admin-layout">
@@ -187,14 +229,14 @@
     </div>
     <nav class="sidebar-nav">
       <div class="sidebar-section">Navigation</div>
-      <a href="/espace-admin" class="sidebar-link active">Dashboard</a>
+      <a href="/espace-admin"              class="sidebar-link active">Dashboard</a>
       <a href="/espace-admin/reservations" class="sidebar-link">
         Reservations
         <span class="sidebar-badge"><%= reservations.length %></span>
       </a>
-      <a href="/espace-admin/menu" class="sidebar-link">Menu / Carte</a>
-      <a href="/espace-admin/tables" class="sidebar-link">Tables</a>
-      <a href="/espace-admin/avis" class="sidebar-link">
+      <a href="/espace-admin/menu"    class="sidebar-link">Menu / Carte</a>
+      <a href="/espace-admin/tables"  class="sidebar-link">Tables</a>
+      <a href="/espace-admin/avis"    class="sidebar-link">
         Avis
         <% if (pendingCount > 0) { %>
           <span class="sidebar-badge"><%= pendingCount %></span>
@@ -202,7 +244,7 @@
       </a>
       <div class="sidebar-section" style="margin-top:0.5rem;">Gestion</div>
       <a href="/espace-admin/comptes" class="sidebar-link">Comptes</a>
-      <a href="/espace-admin/logs" class="sidebar-link">Journalisation</a>
+      <a href="/espace-admin/logs"    class="sidebar-link">Journalisation</a>
     </nav>
     <div class="sidebar-footer">
       <div class="sidebar-footer-label">Connecte en tant que</div>
@@ -217,25 +259,10 @@
 
     <div class="topbar">
       <div class="topbar-left">
-        
-        <div class="topbar-left">
-    <span class="topbar-title">Dashboard</span>
-    <a href="/" style="
-        color: rgba(255,255,255,0.5);
-        font-size: 0.78rem;
-        text-decoration: none;
-        border: 1px solid rgba(255,255,255,0.15);
-        padding: 0.3rem 0.75rem;
-        border-radius: 3px;
-        transition: all 0.2s;
-        margin-left: 0.5rem;
-    " onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.4)'"
-       onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.borderColor='rgba(255,255,255,0.15)'">
-        &#8592; Retour au site
-    </a>
-</div>
+        <span class="topbar-title">Dashboard</span>
+        <a href="/" class="topbar-back">&#8592; Retour au site</a>
         <span class="topbar-date">
-          <%= new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
+          <%= now.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) %>
         </span>
       </div>
       <div class="topbar-right">
@@ -246,7 +273,8 @@
 
     <div class="admin-content">
 
-      <p class="section-title">Vue d'ensemble</p>
+      <!-- ── Indicateurs cles ── -->
+      <p class="section-title">Indicateurs cles</p>
       <div class="kpi-grid">
         <div class="kpi-card bordeaux">
           <span class="kpi-icon">&#128197;</span>
@@ -256,17 +284,17 @@
         </div>
         <div class="kpi-card or">
           <span class="kpi-icon">&#128203;</span>
-          <div class="kpi-value"><%= reservations.length %></div>
-          <div class="kpi-label">Reservations totales</div>
+          <div class="kpi-value"><%= resMois.length %></div>
+          <div class="kpi-label">Reservations ce mois</div>
           <div class="kpi-sub">
-            <strong><%= reservations.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length %></strong> confirmees ·
-            <strong><%= reservations.filter(function(r){ return r.statut_reservation === 'en_attente'; }).length %></strong> en attente
+            <strong><%= resMois.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length %></strong> confirmees ·
+            <strong><%= resMois.filter(function(r){ return r.statut_reservation === 'honoree'; }).length %></strong> honorees
           </div>
         </div>
         <div class="kpi-card vert">
           <span class="kpi-icon">&#11088;</span>
           <div class="kpi-value"><%= avgNote %></div>
-          <div class="kpi-label">Note moyenne (approuves)</div>
+          <div class="kpi-label">Note moyenne</div>
           <div class="kpi-sub"><strong><%= avisApprouves.length %></strong> avis approuves · <strong><%= pendingCount %></strong> en attente</div>
         </div>
         <div class="kpi-card orange">
@@ -277,114 +305,132 @@
         </div>
       </div>
 
-      <p class="section-title">Reservations</p>
-      <div class="main-grid">
+      <!-- ── Widget reservations du jour + 5 prochaines ── -->
+      <p class="section-title">Reservations du jour</p>
+      <div class="widgets-grid">
 
+        <!-- Widget reservations du jour -->
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">Prochaines reservations confirmees</span>
+            <span class="panel-title">Aujourd'hui — <%= todayStr %></span>
             <a href="/espace-admin/reservations" class="panel-link">Voir toutes</a>
           </div>
-          <div class="panel-search">
-            <input type="text" class="search-input" id="search-input" placeholder="Rechercher un client..." oninput="filterTable()">
-          </div>
-          <div class="panel-filters">
-            <span class="filter-pill active" onclick="setFilter('all',this)">Toutes</span>
-            <span class="filter-pill" onclick="setFilter('today',this)">Aujourd'hui (<%= todayRes.length %>)</span>
-            <span class="filter-pill" onclick="setFilter('confirmee',this)">Confirmees</span>
-            <span class="filter-pill" onclick="setFilter('honoree',this)">Honorees</span>
-            <span class="filter-pill" onclick="setFilter('no_show',this)">No-show</span>
-          </div>
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Client</th><th>Date</th><th>Heure</th><th>Pers.</th>
-                <th>Table</th><th>Demandes</th><th>Statut</th><th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="res-body">
-              <% if (reservations.length === 0) { %>
-                <tr><td colspan="8" class="empty-cell">Aucune reservation</td></tr>
-              <% } %>
-              <% reservations.forEach(function(r) {
-                var rDateLocale = new Date(r.date_reservation).toLocaleDateString('fr-FR');
-                var isToday = rDateLocale === todayStr;
+          <div class="today-widget">
+            <div class="today-stat">
+              <div>
+                <div class="today-stat-val"><%= todayRes.length %></div>
+                <div class="today-stat-lbl">reservations</div>
+              </div>
+              <div>
+                <div class="today-stat-val"><%= todayCouverts %></div>
+                <div class="today-stat-lbl">couverts</div>
+              </div>
+              <div>
+                <div class="today-stat-val"><%= todayRes.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length %></div>
+                <div class="today-stat-lbl">confirmees</div>
+              </div>
+              <div>
+                <div class="today-stat-val"><%= todayRes.filter(function(r){ return r.statut_reservation === 'honoree'; }).length %></div>
+                <div class="today-stat-lbl">honorees</div>
+              </div>
+            </div>
+            <% if (todayRes.length === 0) { %>
+              <div class="empty-cell">Aucune reservation aujourd'hui</div>
+            <% } else { %>
+              <% todayRes.forEach(function(r) {
                 var clientNom = (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client;
+                var heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
               %>
-                <tr class="res-row"
-                    data-statut="<%= r.statut_reservation %>"
-                    data-today="<%= isToday %>"
-                    data-search="<%= clientNom.toLowerCase() + ' ' + rDateLocale %>">
-                  <td style="font-weight:600;">
-                    <%= clientNom %>
-                    <% if (isToday) { %><span class="badge badge-today">Auj.</span><% } %>
-                  </td>
-                  <td><%= new Date(r.date_reservation).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' }) %></td>
-                  <td style="font-weight:600;"><%= r.heure_reservation ? r.heure_reservation.slice(0,5) : '—' %></td>
-                  <td style="text-align:center;"><%= r.nb_personnes %></td>
-                  <td>Table <%= r.numero_table || r.id_table %></td>
-                  <td style="font-size:0.78rem;color:var(--brun-light);">
-                    <% if (r.demandes_speciales) { %>
-                      &#9888; <%= r.demandes_speciales.substring(0,20) %><%= r.demandes_speciales.length > 20 ? '…' : '' %>
-                    <% } else { %>—<% } %>
-                  </td>
-                  <td>
-                    <span class="badge badge-<%= r.statut_reservation %>">
-                      <% if (r.statut_reservation === 'confirmee')      { %>Confirmee
-                      <% } else if (r.statut_reservation === 'honoree') { %>Honoree
-                      <% } else if (r.statut_reservation === 'no_show') { %>No-show
-                      <% } else if (r.statut_reservation === 'annulee') { %>Annulee
-                      <% } else { %>En attente<% } %>
-                    </span>
-                  </td>
-                  <td>
-                    <% if (r.statut_reservation === 'confirmee') { %>
-                      <div style="display:flex;gap:0.3rem;">
-                        <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>,'honoree')">Arrive</button>
-                        <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>,'no_show')">No-show</button>
-                      </div>
-                    <% } else { %>—<% } %>
-                  </td>
-                </tr>
+                <div class="today-res-item">
+                  <div>
+                    <div class="today-res-name"><%= clientNom %></div>
+                    <div class="today-res-info"><%= heure %> · <%= r.nb_personnes %> pers. · Table <%= r.numero_table || r.id_table %></div>
+                  </div>
+                  <span class="badge badge-<%= r.statut_reservation %>">
+                    <% if (r.statut_reservation === 'confirmee')      { %>Confirmee
+                    <% } else if (r.statut_reservation === 'honoree') { %>Honoree
+                    <% } else if (r.statut_reservation === 'no_show') { %>No-show
+                    <% } else { %>Annulee<% } %>
+                  </span>
+                </div>
               <% }); %>
-            </tbody>
-          </table>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Widget 5 prochaines reservations -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">5 prochaines reservations</span>
+            <a href="/espace-admin/reservations" class="panel-link">Voir toutes</a>
+          </div>
+          <div class="today-widget" style="padding:0;">
+            <% if (prochainesRes.length === 0) { %>
+              <div class="empty-cell">Aucune reservation a venir</div>
+            <% } else { %>
+              <% prochainesRes.forEach(function(r) {
+                var clientNom = (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client;
+                var heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
+                var dateAff = new Date(r.date_reservation).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' });
+                var isToday = new Date(r.date_reservation).toLocaleDateString('fr-FR') === todayStr;
+              %>
+                <div class="today-res-item" style="padding:0.75rem 1.25rem;">
+                  <div>
+                    <div class="today-res-name">
+                      <%= clientNom %>
+                      <% if (isToday) { %><span class="badge badge-today">Auj.</span><% } %>
+                    </div>
+                    <div class="today-res-info"><%= dateAff %> · <%= heure %> · <%= r.nb_personnes %> pers.</div>
+                  </div>
+                  <% if (r.statut_reservation === 'confirmee') { %>
+                    <div style="display:flex;gap:0.3rem;">
+                      <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>,'honoree')">Arrive</button>
+                      <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>,'no_show')">No-show</button>
+                    </div>
+                  <% } %>
+                </div>
+              <% }); %>
+            <% } %>
+          </div>
           <% if (speciales.length > 0) { %>
             <div class="alert-bar">
-              &#9888; <%= speciales.length %> reservation<%= speciales.length > 1 ? 's' : '' %> avec demande<%= speciales.length > 1 ? 's' : '' %> speciale<%= speciales.length > 1 ? 's' : '' %>
+              &#9888; <%= speciales.length %> demande<%= speciales.length > 1 ? 's' : '' %> speciale<%= speciales.length > 1 ? 's' : '' %>
             </div>
           <% } %>
+        </div>
+      </div>
+
+      <!-- ── Logs + Actions rapides ── -->
+      <p class="section-title">Activite</p>
+      <div class="main-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Activite recente</span>
+            <a href="/espace-admin/logs" class="panel-link">Tous</a>
+          </div>
+          <div id="logs-container">
+            <div class="log-item">
+              <span class="log-time">—</span>
+              <div><span class="log-badge log-creation">Chargement...</span></div>
+            </div>
+          </div>
         </div>
 
         <div style="display:flex;flex-direction:column;gap:1.5rem;">
           <div class="panel">
-            <div class="panel-header">
-              <span class="panel-title">Actions rapides</span>
-            </div>
+            <div class="panel-header"><span class="panel-title">Actions rapides</span></div>
             <div class="quick-actions">
-              <a href="/reservation"         class="quick-btn quick-btn-primary">Nouvelle reservation</a>
-              <a href="/espace-admin/menu"   class="quick-btn quick-btn-secondary">Gerer la carte</a>
-              <a href="/espace-admin/tables" class="quick-btn quick-btn-outline">Gerer les tables</a>
-              <a href="/espace-admin/avis"   class="quick-btn quick-btn-outline">Moderer les avis</a>
+              <a href="/reservation"          class="quick-btn quick-btn-primary">Nouvelle reservation</a>
+              <a href="/espace-admin/menu"    class="quick-btn quick-btn-secondary">Gerer la carte</a>
+              <a href="/espace-admin/tables"  class="quick-btn quick-btn-outline">Gerer les tables</a>
+              <a href="/espace-admin/avis"    class="quick-btn quick-btn-outline">Moderer les avis</a>
               <a href="/espace-admin/comptes" class="quick-btn quick-btn-outline">Gerer les comptes</a>
-            </div>
-          </div>
-
-          <div class="panel" style="flex:1;">
-            <div class="panel-header">
-              <span class="panel-title">Activite recente</span>
-              <a href="/espace-admin/logs" class="panel-link">Tous</a>
-            </div>
-            <div id="logs-container">
-              <div class="log-item">
-                <span class="log-time">—</span>
-                <div><span class="log-badge log-creation">Chargement...</span></div>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- ── Avis en attente ── -->
       <% if (pendingCount > 0) { %>
         <p class="section-title">Avis en attente de moderation</p>
         <div class="panel" style="margin-bottom:1.5rem;">
@@ -397,29 +443,25 @@
           </div>
           <div class="avis-grid">
             <% pending.slice(0, 3).forEach(function(a, i) {
-              var avisNom = (a.prenom_client && a.nom_client) ? a.prenom_client + ' ' + a.nom_client : 'Client #' + a.id_client;
+              var avisNom      = (a.prenom_client && a.nom_client) ? a.prenom_client + ' ' + a.nom_client : 'Client #' + a.id_client;
               var avisInitiale = a.prenom_client ? a.prenom_client[0].toUpperCase() : 'C';
-              var avisNote = Number(a.note_avis) || 0;
+              var avisNote     = Number(a.note_avis) || 0;
             %>
               <div class="avis-card" id="avis-<%= a.id_avis %>">
                 <div class="avis-card-top">
                   <div class="avis-author">
-                    <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>">
-                      <%= avisInitiale %>
-                    </div>
+                    <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>"><%= avisInitiale %></div>
                     <div>
                       <div class="avis-name"><%= avisNom %></div>
-                      <div class="avis-stars">
-                        <% for(var s=0;s<5;s++){%><%= s < avisNote ? '★' : '☆' %><% } %>
-                      </div>
+                      <div class="avis-stars"><% for(var s=0;s<5;s++){%><%= s < avisNote ? '★' : '☆' %><% } %></div>
                     </div>
                   </div>
                   <span class="avis-date"><%= new Date(a.date_avis).toLocaleDateString('fr-FR') %></span>
                 </div>
                 <p class="avis-comment">« <%= a.commentaire_avis || 'Aucun commentaire.' %> »</p>
                 <div class="avis-actions">
-                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>, 'approuve')">Approuver</button>
-                  <button class="btn-reject"  onclick="moderateAvis(<%= a.id_avis %>, 'rejete')">Rejeter</button>
+                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>,'approuve')">Approuver</button>
+                  <button class="btn-reject"  onclick="moderateAvis(<%= a.id_avis %>,'rejete')">Rejeter</button>
                 </div>
               </div>
             <% }); %>
@@ -441,38 +483,12 @@
   function getToken() {
     return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
   }
-
   function showToast(msg, type) {
     type = type || 'success';
     var t = document.getElementById('toast');
     t.textContent = msg;
     t.className = 'toast show ' + type;
     setTimeout(function() { t.className = 'toast'; }, 3000);
-  }
-
-  var currentFilter = 'all';
-  var searchVal = '';
-
-  function setFilter(f, el) {
-    currentFilter = f;
-    document.querySelectorAll('.filter-pill').forEach(function(p) { p.classList.remove('active'); });
-    el.classList.add('active');
-    applyFilters();
-  }
-
-  function filterTable() {
-    searchVal = document.getElementById('search-input').value.toLowerCase();
-    applyFilters();
-  }
-
-  function applyFilters() {
-    document.querySelectorAll('.res-row').forEach(function(row) {
-      var show = true;
-      if (currentFilter === 'today')     show = row.dataset.today === 'true';
-      else if (currentFilter !== 'all')  show = row.dataset.statut === currentFilter;
-      if (searchVal) show = show && row.dataset.search.includes(searchVal);
-      row.classList.toggle('hidden', !show);
-    });
   }
 
   async function updateStatut(id, statut) {
@@ -490,9 +506,7 @@
 
   async function loadLogs() {
     try {
-      var res = await fetch('/logs', {
-        headers: { 'Authorization': 'Bearer ' + getToken() }
-      });
+      var res = await fetch('/logs', { headers: { 'Authorization': 'Bearer ' + getToken() } });
       if (!res.ok) return;
       var logs = await res.json();
       var container = document.getElementById('logs-container');

@@ -54,7 +54,41 @@ const clientController = {
         }catch (error) {
             next(error);
     }
+},
+
+    restore: async (req,res,next) => {
+        
+        // Récuperons id de la source params et convertissons en Number
+        const id = parseInt(req.params.id);
+
+        //Apellons le service pour récuperer l'objet clientRestore
+
+    try {
+        const client = await clientService.restoreClient(id)
+        res.json(client)
+    }
+    // AU cas ou une erreur remonte du service 
+    catch (error) {
+        // On va passé au middleware de gestion d'erreur
+        next(error)
+    }
+
+},
+
+deleteForce: async (req,res, next) => {
+    // Récuperons et convertissons id en Number
+    const id = parseInt(req.params.id);
+
+    // Si tous se passe bien on va rendre un json
+    try {
+        // Appelons le service
+       const  clientdeleted = await clientService.deleteForceClient(id);
+       res.json(clientdeleted)
+    }catch(error) {
+        next(error)
+    }
 }
+
 }
 
 module.exports = clientController;

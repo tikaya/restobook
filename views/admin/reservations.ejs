@@ -4,124 +4,44 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
 
   :root {
-    --bordeaux: #6B1A2A;
-    --bordeaux-light: #8B2A3A;
-    --bordeaux-pale: #f5eaec;
-    --or: #C9A84C;
-    --or-light: #fdf6e3;
-    --creme: #FAF6F0;
-    --creme-dark: #EDE5D8;
-    --brun: #3D2B1F;
-    --brun-light: #7A5C4A;
-    --blanc: #FFFFFF;
-    --vert: #2e7d32;
-    --vert-pale: #e8f5e9;
-    --rouge: #c62828;
-    --rouge-pale: #fdecea;
-    --orange: #e65100;
-    --orange-pale: #fff3e0;
-    --bleu: #1565c0;
-    --bleu-pale: #e3f2fd;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --bordeaux: #6B1A2A; --bordeaux-light: #8B2A3A; --bordeaux-pale: #f5eaec;
+    --or: #C9A84C; --or-light: #fdf6e3;
+    --creme: #FAF6F0; --creme-dark: #EDE5D8;
+    --brun: #3D2B1F; --brun-light: #7A5C4A; --blanc: #FFFFFF;
+    --vert: #2e7d32; --vert-pale: #e8f5e9;
+    --rouge: #c62828; --rouge-pale: #fdecea;
+    --orange: #e65100; --orange-pale: #fff3e0;
+    --bleu: #1565c0; --bleu-pale: #e3f2fd;
+    --radius: 12px; --radius-sm: 8px;
     --shadow-soft: 0 4px 24px rgba(107,26,42,0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  .res-page { font-family: 'DM Sans', sans-serif; background: var(--creme); min-height: 100vh; padding: 2rem; color: var(--brun); }
 
-  .res-page {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--creme);
-    min-height: 100vh;
-    padding: 2rem;
-    color: var(--brun);
-  }
+  .page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--creme-dark); }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--bordeaux); line-height: 1; }
+  .page-header p { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brun-light); margin-top: 0.3rem; font-style: italic; }
 
-  .page-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--creme-dark);
-  }
-  .page-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--bordeaux);
-    line-height: 1;
-  }
-  .page-header p {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    color: var(--brun-light);
-    margin-top: 0.3rem;
-    font-style: italic;
-  }
+  .btn-new { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--bordeaux); color: #fff; padding: 0.65rem 1.25rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .btn-new:hover { background: var(--bordeaux-light); transform: translateY(-1px); }
 
-  .stats-bar {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-  .stat-chip {
-    background: var(--blanc);
-    border: 1px solid var(--creme-dark);
-    border-radius: 50px;
-    padding: 0.4rem 1rem;
-    font-size: 0.8rem;
-    color: var(--brun-light);
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
+  .stats-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.8rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; }
   .stat-chip strong { color: var(--bordeaux); font-weight: 600; }
 
-  .filters {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .filter-btn {
-    padding: 0.4rem 1rem;
-    border-radius: 50px;
-    border: 1.5px solid var(--creme-dark);
-    background: var(--blanc);
-    color: var(--brun-light);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--bordeaux);
-    color: #fff;
-    border-color: var(--bordeaux);
-  }
+  .toolbar { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+  .search-input { padding: 0.55rem 1rem; border: 1.5px solid var(--creme-dark); border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--brun); background: var(--blanc); outline: none; transition: border-color 0.2s; min-width: 220px; }
+  .search-input:focus { border-color: var(--bordeaux); }
 
-  .res-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.25rem;
-  }
+  .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .filter-btn { padding: 0.4rem 1rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
 
-  .res-card {
-    background: var(--blanc);
-    border: 1px solid var(--creme-dark);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .res-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 3px;
-  }
+  .res-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+
+  .res-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.25rem; transition: all 0.25s ease; position: relative; overflow: hidden; }
+  .res-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
   .res-card.statut-confirmee::before  { background: var(--bleu); }
   .res-card.statut-honoree::before    { background: var(--vert); }
   .res-card.statut-annulee::before    { background: var(--rouge); }
@@ -130,241 +50,146 @@
   .res-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
   .res-card.hidden { display: none; }
 
-  .res-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
+  .res-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
   .res-id { font-size: 0.7rem; color: var(--brun-light); opacity: 0.5; }
 
-  .badge-statut {
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 0.22rem 0.7rem;
-    border-radius: 50px;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-  }
+  .badge-statut { font-size: 0.7rem; font-weight: 500; padding: 0.22rem 0.7rem; border-radius: 50px; letter-spacing: 0.03em; white-space: nowrap; }
   .badge-confirmee  { background: var(--bleu-pale);   color: var(--bleu); }
   .badge-honoree    { background: var(--vert-pale);   color: var(--vert); }
   .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
   .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
   .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
 
-  .res-datetime {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-  .res-date-box {
-    background: var(--bordeaux);
-    color: #fff;
-    border-radius: var(--radius-sm);
-    padding: 0.4rem 0.75rem;
-    text-align: center;
-    min-width: 56px;
-    flex-shrink: 0;
-  }
-  .res-date-day {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .res-date-month {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    opacity: 0.85;
-  }
+  .res-datetime { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .res-date-box { background: var(--bordeaux); color: #fff; border-radius: var(--radius-sm); padding: 0.4rem 0.75rem; text-align: center; min-width: 56px; flex-shrink: 0; }
+  .res-date-day { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; line-height: 1; }
+  .res-date-month { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.85; }
   .res-time-client { line-height: 1.6; }
   .res-heure { font-size: 1rem; font-weight: 600; color: var(--brun); }
-  .res-client {
-    font-size: 0.82rem;
-    color: var(--brun-light);
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-  .res-client-avatar {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: var(--bordeaux-pale);
-    color: var(--bordeaux);
-    font-size: 0.6rem;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+  .res-client { font-size: 0.82rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.35rem; }
+  .res-client-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--bordeaux-pale); color: var(--bordeaux); font-size: 0.6rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
-  .res-details {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
-  }
-  .res-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    background: var(--creme);
-    border: 1px solid var(--creme-dark);
-    border-radius: 50px;
-    padding: 0.2rem 0.65rem;
-    font-size: 0.75rem;
-    color: var(--brun-light);
-  }
+  .res-details { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .res-tag { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.2rem 0.65rem; font-size: 0.75rem; color: var(--brun-light); }
 
-  .res-demandes {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    color: var(--brun-light);
-    background: var(--creme);
-    border-left: 3px solid var(--or);
-    padding: 0.5rem 0.75rem;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    margin-bottom: 0.75rem;
-    line-height: 1.5;
-  }
+  .res-demandes { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: var(--brun-light); background: var(--creme); border-left: 3px solid var(--or); padding: 0.5rem 0.75rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 0.75rem; line-height: 1.5; }
 
-  .res-actions {
-    display: flex;
-    gap: 0.4rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--creme-dark);
-    flex-wrap: wrap;
-  }
-  .btn-honoree {
-    flex: 1;
-    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
-    background: var(--vert-pale); color: var(--vert);
-    border: 1px solid rgba(46,125,50,0.2);
-    padding: 0.45rem 0.5rem; border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
-    cursor: pointer; transition: all 0.2s; white-space: nowrap;
-  }
+  .res-actions { display: flex; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid var(--creme-dark); flex-wrap: wrap; }
+  .btn-sm { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.3rem; padding: 0.45rem 0.5rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; border: 1px solid transparent; }
+  .btn-edit    { background: var(--bordeaux-pale); color: var(--bordeaux); border-color: rgba(107,26,42,0.15); }
+  .btn-edit:hover { background: var(--bordeaux); color: #fff; }
+  .btn-honoree { background: var(--vert-pale);   color: var(--vert);    border-color: rgba(46,125,50,0.2); }
   .btn-honoree:hover { background: var(--vert); color: #fff; }
-
-  .btn-noshow {
-    flex: 1;
-    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
-    background: var(--orange-pale); color: var(--orange);
-    border: 1px solid rgba(230,81,0,0.2);
-    padding: 0.45rem 0.5rem; border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
-    cursor: pointer; transition: all 0.2s; white-space: nowrap;
-  }
+  .btn-noshow  { background: var(--orange-pale); color: var(--orange);  border-color: rgba(230,81,0,0.2); }
   .btn-noshow:hover { background: var(--orange); color: #fff; }
-
-  .btn-annuler {
-    flex: 1;
-    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
-    background: var(--rouge-pale); color: var(--rouge);
-    border: 1px solid rgba(198,40,40,0.15);
-    padding: 0.45rem 0.5rem; border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
-    cursor: pointer; transition: all 0.2s; white-space: nowrap;
-  }
+  .btn-annuler { background: var(--rouge-pale);  color: var(--rouge);   border-color: rgba(198,40,40,0.15); }
   .btn-annuler:hover { background: var(--rouge); color: #fff; }
-
-  .btn-delete {
-    display: flex; align-items: center; justify-content: center;
-    background: var(--creme); color: var(--brun-light);
-    border: 1px solid var(--creme-dark);
-    padding: 0.45rem 0.6rem; border-radius: var(--radius-sm);
-    font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
-  }
+  .btn-delete  { background: var(--creme); color: var(--brun-light); border-color: var(--creme-dark); }
   .btn-delete:hover { background: var(--rouge-pale); color: var(--rouge); }
 
-  .empty-state {
-    grid-column: 1 / -1;
-    text-align: center; padding: 4rem 2rem; color: var(--brun-light);
-  }
+  .empty-state { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--brun-light); }
   .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
   .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
 
-  .toast {
-    position: fixed; bottom: 2rem; right: 2rem;
-    background: var(--brun); color: #fff;
-    padding: 0.75rem 1.25rem; border-radius: var(--radius-sm);
-    font-size: 0.85rem; z-index: 9999;
-    transform: translateY(80px); opacity: 0;
-    transition: all 0.3s ease;
-    display: flex; align-items: center; gap: 0.5rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  }
-  .toast.show    { transform: translateY(0); opacity: 1; }
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(61,43,31,0.45); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--blanc); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(61,43,31,0.25); animation: slideUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--bordeaux); margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--creme-dark); }
+  .form-group { margin-bottom: 1rem; }
+  .form-label { display: block; font-size: 0.72rem; font-weight: 500; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+  .form-input { width: 100%; padding: 0.65rem 0.875rem; border: 1.5px solid var(--creme-dark); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: var(--brun); background: var(--creme); outline: none; transition: border-color 0.2s; }
+  .form-input:focus { border-color: var(--bordeaux); background: var(--blanc); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+  .btn-save { flex: 1; padding: 0.75rem; background: var(--bordeaux); color: #fff; border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-save:hover { background: var(--bordeaux-light); }
+  .btn-cancel { flex: 0.5; padding: 0.75rem; background: var(--blanc); color: var(--brun-light); border: 1.5px solid var(--creme-dark); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+  .btn-cancel:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
+  .feedback-msg { display: none; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 500; margin-bottom: 1rem; }
+  .feedback-msg.error { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
+  .feedback-msg.success { background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); }
+
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .toast.show { transform: translateY(0); opacity: 1; }
   .toast.success { background: var(--vert); }
   .toast.error   { background: var(--rouge); }
   .toast.warning { background: var(--orange); }
 </style>
 
+<%
+  var nbTotal    = reservations.length;
+  var nbConfirm  = reservations.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length;
+  var nbHonoree  = reservations.filter(function(r){ return r.statut_reservation === 'honoree'; }).length;
+  var nbAttente  = reservations.filter(function(r){ return r.statut_reservation === 'en_attente'; }).length;
+  var nbNoshow   = reservations.filter(function(r){ return r.statut_reservation === 'no_show'; }).length;
+  var nbAnnulee  = reservations.filter(function(r){ return r.statut_reservation === 'annulee'; }).length;
+%>
+
 <div class="res-page">
 
   <div class="page-header">
     <div>
-      <h1>📅 Gestion des réservations</h1>
-      <p>Suivez et gérez toutes les réservations de votre établissement</p>
+      <h1>Gestion des reservations</h1>
+      <p>Voir, creer, modifier, annuler et attribuer les tables</p>
     </div>
+    <button class="btn-new" onclick="openModalNew()">+ Nouvelle reservation</button>
   </div>
 
   <div class="stats-bar">
-    <div class="stat-chip">📋 <strong><%= reservations.length %></strong> au total</div>
-    <div class="stat-chip">🔵 <strong><%= reservations.filter(r => r.statut_reservation === 'confirmee').length %></strong> confirmées</div>
-    <div class="stat-chip">✅ <strong><%= reservations.filter(r => r.statut_reservation === 'honoree').length %></strong> honorées</div>
-    <div class="stat-chip">⏳ <strong><%= reservations.filter(r => r.statut_reservation === 'en_attente').length %></strong> en attente</div>
-    <div class="stat-chip">🚫 <strong><%= reservations.filter(r => r.statut_reservation === 'no_show').length %></strong> no-show</div>
-    <div class="stat-chip">❌ <strong><%= reservations.filter(r => r.statut_reservation === 'annulee').length %></strong> annulées</div>
+    <div class="stat-chip"><strong><%= nbTotal %></strong> au total</div>
+    <div class="stat-chip"><strong><%= nbConfirm %></strong> confirmees</div>
+    <div class="stat-chip"><strong><%= nbHonoree %></strong> honorees</div>
+    <div class="stat-chip"><strong><%= nbAttente %></strong> en attente</div>
+    <div class="stat-chip"><strong><%= nbNoshow %></strong> no-show</div>
+    <div class="stat-chip"><strong><%= nbAnnulee %></strong> annulees</div>
   </div>
 
-  <div class="filters">
-    <button class="filter-btn active" onclick="filterRes('all', this)">Toutes</button>
-    <button class="filter-btn" onclick="filterRes('confirmee', this)">🔵 Confirmées</button>
-    <button class="filter-btn" onclick="filterRes('honoree', this)">✅ Honorées</button>
-    <button class="filter-btn" onclick="filterRes('en_attente', this)">⏳ En attente</button>
-    <button class="filter-btn" onclick="filterRes('no_show', this)">🚫 No-show</button>
-    <button class="filter-btn" onclick="filterRes('annulee', this)">❌ Annulées</button>
+  <div class="toolbar">
+    <input type="text" class="search-input" id="search-input" placeholder="Rechercher un client, une date..." oninput="applyFilters()">
+    <div class="filters">
+      <button class="filter-btn active" onclick="setFilter('all',this)">Toutes</button>
+      <button class="filter-btn" onclick="setFilter('confirmee',this)">Confirmees</button>
+      <button class="filter-btn" onclick="setFilter('honoree',this)">Honorees</button>
+      <button class="filter-btn" onclick="setFilter('en_attente',this)">En attente</button>
+      <button class="filter-btn" onclick="setFilter('no_show',this)">No-show</button>
+      <button class="filter-btn" onclick="setFilter('annulee',this)">Annulees</button>
+    </div>
   </div>
 
   <div class="res-grid" id="res-grid">
-
     <% if (reservations.length === 0) { %>
       <div class="empty-state">
-        <span>📅</span>
-        <p>Aucune réservation enregistrée.</p>
+        <span>&#128197;</span>
+        <p>Aucune reservation enregistree.</p>
       </div>
     <% } %>
 
-    <% reservations.forEach(r => {
-      const date  = new Date(r.date_reservation);
-      const jour  = date.toLocaleDateString('fr-FR', { day: '2-digit' });
-      const mois  = date.toLocaleDateString('fr-FR', { month: 'short' });
-      const heure = r.heure_reservation ? r.heure_reservation.slice(0, 5) : '—';
-
-      // Données enrichies grâce au LEFT JOIN dans reservationModel.findAll()
-      const nomComplet  = (r.prenom_client && r.nom_client)
-                          ? r.prenom_client + ' ' + r.nom_client
-                          : 'Client #' + r.id_client;
-      const initiale    = r.prenom_client ? r.prenom_client[0].toUpperCase() : '?';
-      const numeroTable = r.numero_table  ? 'Table ' + r.numero_table : 'Table #' + r.id_table;
+    <% reservations.forEach(function(r) {
+      var date       = new Date(r.date_reservation);
+      var jour       = date.toLocaleDateString('fr-FR', { day: '2-digit' });
+      var mois       = date.toLocaleDateString('fr-FR', { month: 'short' });
+      var dateLocale = date.toLocaleDateString('fr-FR');
+      var heure      = r.heure_reservation ? r.heure_reservation.slice(0, 5) : '—';
+      var nomComplet = (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client;
+      var initiale   = r.prenom_client ? r.prenom_client[0].toUpperCase() : '?';
+      var numTable   = r.numero_table ? 'Table ' + r.numero_table : 'Table #' + r.id_table;
+      var demEncoded = encodeURIComponent(r.demandes_speciales || '');
     %>
       <div class="res-card statut-<%= r.statut_reservation %>"
            id="card-<%= r.id_reservation %>"
-           data-statut="<%= r.statut_reservation %>">
+           data-statut="<%= r.statut_reservation %>"
+           data-search="<%= nomComplet.toLowerCase() + ' ' + dateLocale %>">
 
         <div class="res-card-top">
-          <span class="res-id">Réservation #<%= r.id_reservation %></span>
+          <span class="res-id">Reservation #<%= r.id_reservation %></span>
           <span class="badge-statut badge-<%= r.statut_reservation %>">
-            <% if (r.statut_reservation === 'confirmee')       { %>🔵 Confirmée
-            <% } else if (r.statut_reservation === 'honoree')  { %>✅ Honorée
-            <% } else if (r.statut_reservation === 'annulee')  { %>❌ Annulée
-            <% } else if (r.statut_reservation === 'no_show')  { %>🚫 No-show
-            <% } else { %>⏳ En attente<% } %>
+            <% if      (r.statut_reservation === 'confirmee')  { %>Confirmee
+            <% } else if (r.statut_reservation === 'honoree')  { %>Honoree
+            <% } else if (r.statut_reservation === 'annulee')  { %>Annulee
+            <% } else if (r.statut_reservation === 'no_show')  { %>No-show
+            <% } else { %>En attente<% } %>
           </span>
         </div>
 
@@ -374,7 +199,7 @@
             <div class="res-date-month"><%= mois %></div>
           </div>
           <div class="res-time-client">
-            <div class="res-heure">🕐 <%= heure %></div>
+            <div class="res-heure"><%= heure %></div>
             <div class="res-client">
               <span class="res-client-avatar"><%= initiale %></span>
               <%= nomComplet %>
@@ -383,27 +208,141 @@
         </div>
 
         <div class="res-details">
-          <span class="res-tag">👥 <%= r.nb_personnes %> personne<%= r.nb_personnes > 1 ? 's' : '' %></span>
-          <span class="res-tag">🪑 <%= numeroTable %></span>
+          <span class="res-tag">&#128101; <%= r.nb_personnes %> personne<%= r.nb_personnes > 1 ? 's' : '' %></span>
+          <span class="res-tag">&#129681; <%= numTable %></span>
+          <% if (r.emplacement_table) { %>
+            <span class="res-tag"><%= r.emplacement_table %></span>
+          <% } %>
         </div>
 
         <% if (r.demandes_speciales) { %>
-          <div class="res-demandes">"<%= r.demandes_speciales %>"</div>
+          <div class="res-demandes">« <%= r.demandes_speciales %> »</div>
         <% } %>
 
         <div class="res-actions">
+          <button class="btn-sm btn-edit" onclick="openModalEdit(
+            <%= r.id_reservation %>,
+            '<%= r.date_reservation ? new Date(r.date_reservation).toISOString().split('T')[0] : '' %>',
+            '<%= heure %>',
+            <%= r.nb_personnes %>,
+            '<%= r.id_table %>',
+            '<%= demEncoded %>'
+          )">Modifier</button>
+
           <% if (r.statut_reservation === 'confirmee' || r.statut_reservation === 'en_attente') { %>
-            <button class="btn-honoree" onclick="updateRes(<%= r.id_reservation %>, 'honoree')">✓ Honorée</button>
-            <button class="btn-noshow"  onclick="updateRes(<%= r.id_reservation %>, 'no_show')">🚫 No-show</button>
-            <button class="btn-annuler" onclick="updateRes(<%= r.id_reservation %>, 'annulee')">✗ Annuler</button>
+            <button class="btn-sm btn-honoree" onclick="updateRes(<%= r.id_reservation %>,'honoree')">Honoree</button>
+            <button class="btn-sm btn-noshow"  onclick="updateRes(<%= r.id_reservation %>,'no_show')">No-show</button>
+            <button class="btn-sm btn-annuler" onclick="updateRes(<%= r.id_reservation %>,'annulee')">Annuler</button>
           <% } else if (r.statut_reservation === 'no_show') { %>
-            <button class="btn-honoree" style="flex:2;" onclick="updateRes(<%= r.id_reservation %>, 'honoree')">✓ Finalement honorée</button>
+            <button class="btn-sm btn-honoree" style="flex:2;" onclick="updateRes(<%= r.id_reservation %>,'honoree')">Finalement honoree</button>
           <% } %>
-          <button class="btn-delete" onclick="deleteRes(<%= r.id_reservation %>)" title="Supprimer">🗑</button>
+          <button class="btn-sm btn-delete" onclick="deleteRes(<%= r.id_reservation %>)" title="Supprimer">&#128465;</button>
         </div>
 
       </div>
-    <% }) %>
+    <% }); %>
+  </div>
+</div>
+
+<!-- Modal nouvelle reservation -->
+<div class="modal-overlay" id="modal-new">
+  <div class="modal">
+    <h3 class="modal-title">Nouvelle reservation</h3>
+    <div class="feedback-msg" id="new-msg"></div>
+    <form id="form-new">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date *</label>
+          <input type="date" name="date_reservation" class="form-input" required id="new-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Heure *</label>
+          <input type="time" name="heure_reservation" class="form-input" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nb personnes *</label>
+          <input type="number" name="nb_personnes" class="form-input" min="1" max="20" value="2" required>
+        </div>
+        <div class="form-group">
+  <label class="form-label">Client *</label>
+  <select name="id_client" class="form-input" required>
+    <option value="">Choisir un client...</option>
+    <% clients.forEach(function(c) { %>
+      <option value="<%= c.id_client %>">
+        <%= c.prenom_client %> <%= c.nom_client %> — <%= c.email_client %>
+      </option>
+    <% }); %>
+  </select>
+</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Emplacement souhaite</label>
+        <select name="emplacement_table" class="form-input">
+          <option value="">Pas de preference</option>
+          <option value="interieur">Interieur</option>
+          <option value="terrasse">Terrasse</option>
+          <option value="salon_prive">Salon prive</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Demandes speciales</label>
+        <textarea name="demandes_speciales" class="form-input" rows="2" placeholder="Allergie, anniversaire..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-save">Creer la reservation</button>
+        <button type="button" class="btn-cancel" onclick="closeModal('modal-new')">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal modifier reservation -->
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal">
+    <h3 class="modal-title">Modifier la reservation</h3>
+    <div class="feedback-msg" id="edit-msg"></div>
+    <form id="form-edit">
+      <input type="hidden" id="edit-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date *</label>
+          <input type="date" name="date_reservation" id="edit-date" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Heure *</label>
+          <input type="time" name="heure_reservation" id="edit-heure" class="form-input" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nb personnes *</label>
+          <input type="number" name="nb_personnes" id="edit-nb" class="form-input" min="1" max="20" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ID Table</label>
+          <input type="number" name="id_table" id="edit-table" class="form-input" placeholder="Laisser vide = auto">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Statut</label>
+        <select name="statut_reservation" id="edit-statut" class="form-input">
+          <option value="confirmee">Confirmee</option>
+          <option value="honoree">Honoree</option>
+          <option value="annulee">Annulee</option>
+          <option value="no_show">No-show</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Demandes speciales</label>
+        <textarea name="demandes_speciales" id="edit-demandes" class="form-input" rows="2"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-save">Enregistrer</button>
+        <button type="button" class="btn-cancel" onclick="closeModal('modal-edit')">Annuler</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -413,53 +352,149 @@
   function getToken() {
     return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
   }
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = (type === 'success' ? '✓ ' : type === 'warning' ? '⚠ ' : '✗ ') + msg;
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
     t.className = 'toast show ' + type;
-    setTimeout(() => { t.className = 'toast'; }, 3000);
+    setTimeout(function() { t.className = 'toast'; }, 3000);
   }
+  function showFeedback(id, ok, text) {
+    var el = document.getElementById(id);
+    el.className = 'feedback-msg ' + (ok ? 'success' : 'error');
+    el.style.display = 'block';
+    el.textContent = text;
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+  document.querySelectorAll('.modal-overlay').forEach(function(o) {
+    o.addEventListener('click', function(e) { if (e.target === o) o.classList.remove('show'); });
+  });
 
-  function filterRes(statut, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.res-card').forEach(card => {
-      card.classList.toggle('hidden', statut !== 'all' && card.dataset.statut !== statut);
+  // Filtres
+  var currentFilter = 'all';
+  function setFilter(f, el) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    el.classList.add('active');
+    applyFilters();
+  }
+  function applyFilters() {
+    var q = document.getElementById('search-input').value.toLowerCase();
+    document.querySelectorAll('.res-card').forEach(function(card) {
+      var matchFilter = currentFilter === 'all' || card.dataset.statut === currentFilter;
+      var matchSearch = !q || card.dataset.search.includes(q);
+      card.classList.toggle('hidden', !matchFilter || !matchSearch);
     });
   }
 
-  async function updateRes(id, statut) {
-    const labels = { honoree: 'Réservation honorée.', no_show: 'Client no-show.', annulee: 'Réservation annulée.' };
-    const types  = { honoree: 'success', no_show: 'warning', annulee: 'error' };
+  // Nouvelle reservation
+  function openModalNew() {
+    document.getElementById('form-new').reset();
+    document.getElementById('new-msg').style.display = 'none';
+    document.getElementById('new-date').min = new Date().toISOString().split('T')[0];
+    document.getElementById('modal-new').classList.add('show');
+  }
+  document.getElementById('form-new').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var f = e.target;
+    var data = {
+      date_reservation:   f.date_reservation.value,
+      heure_reservation:  f.heure_reservation.value,
+      nb_personnes:       parseInt(f.nb_personnes.value),
+      id_client:          parseInt(f.id_client.value),
+      emplacement_table:  f.emplacement_table.value || null,
+      demandes_speciales: f.demandes_speciales.value.trim() || null
+    };
     try {
-      const res = await fetch('/reservations/' + id, {
+      var res = await fetch('/reservations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify(data)
+      });
+      var result = await res.json();
+      if (res.ok) {
+        showToast('Reservation creee !');
+        closeModal('modal-new');
+        setTimeout(function() { location.reload(); }, 900);
+      } else {
+        showFeedback('new-msg', false, result.error || (result.errors && result.errors[0]) || 'Erreur');
+      }
+    } catch(err) { showFeedback('new-msg', false, 'Erreur de connexion.'); }
+  });
+
+  // Modifier reservation
+  function openModalEdit(id, date, heure, nb, idTable, demEncoded) {
+    document.getElementById('edit-id').value       = id;
+    document.getElementById('edit-date').value     = date;
+    document.getElementById('edit-heure').value    = heure;
+    document.getElementById('edit-nb').value       = nb;
+    document.getElementById('edit-table').value    = idTable;
+    document.getElementById('edit-demandes').value = decodeURIComponent(demEncoded);
+    document.getElementById('edit-date').min       = new Date().toISOString().split('T')[0];
+    document.getElementById('edit-msg').style.display = 'none';
+    document.getElementById('modal-edit').classList.add('show');
+  }
+  document.getElementById('form-edit').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var f  = e.target;
+    var id = document.getElementById('edit-id').value;
+    var data = {
+      date_reservation:   f.date_reservation.value,
+      heure_reservation:  f.heure_reservation.value,
+      nb_personnes:       parseInt(f.nb_personnes.value),
+      statut_reservation: f.statut_reservation.value,
+      demandes_speciales: f.demandes_speciales.value.trim() || null
+    };
+    if (f.id_table.value) data.id_table = parseInt(f.id_table.value);
+    try {
+      var res = await fetch('/reservations/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+        body: JSON.stringify(data)
+      });
+      var result = await res.json();
+      if (res.ok) {
+        showToast('Reservation modifiee !');
+        closeModal('modal-edit');
+        setTimeout(function() { location.reload(); }, 900);
+      } else {
+        showFeedback('edit-msg', false, result.error || (result.errors && result.errors[0]) || 'Erreur');
+      }
+    } catch(err) { showFeedback('edit-msg', false, 'Erreur de connexion.'); }
+  });
+
+  // Changer statut
+  async function updateRes(id, statut) {
+    var labels = { honoree: 'Reservation honoree.', no_show: 'Client no-show.', annulee: 'Reservation annulee.' };
+    var types  = { honoree: 'success', no_show: 'warning', annulee: 'error' };
+    try {
+      var res = await fetch('/reservations/' + id, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
         body: JSON.stringify({ statut_reservation: statut })
       });
-      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
       showToast(labels[statut], types[statut]);
-      setTimeout(() => location.reload(), 900);
-    } catch (err) {
-      showToast(err.message, 'error');
-    }
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(err) { showToast(err.message, 'error'); }
   }
 
+  // Supprimer
   async function deleteRes(id) {
-    if (!confirm('Supprimer définitivement cette réservation ?')) return;
+    if (!confirm('Supprimer definitivement cette reservation ?')) return;
     try {
-      const res = await fetch('/reservations/' + id, {
+      var res = await fetch('/reservations/' + id, {
         method: 'DELETE',
         headers: { 'Authorization': 'Bearer ' + getToken() }
       });
-      if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Erreur'); }
-      const card = document.getElementById('card-' + id);
+      if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
+      var card = document.getElementById('card-' + id);
       if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
-      showToast('Réservation supprimée.');
-      setTimeout(() => location.reload(), 900);
-    } catch (err) {
-      showToast(err.message, 'error');
-    }
+      showToast('Reservation supprimee.');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(err) { showToast(err.message, 'error'); }
   }
 </script>
 

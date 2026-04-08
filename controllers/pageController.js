@@ -110,7 +110,8 @@ espaceAdmin: async (req, res, next) => {
 adminReservations: async (req, res, next) => {
     try {
         const reservations = await reservationService.getAllReservations();
-        res.render('admin/reservations', { title: 'Gestion réservations', user: req.user, reservations })
+        const clients = await clientService.getAllClients()
+        res.render('admin/reservations', { title: 'Gestion réservations', user: req.user, reservations,clients })
     } catch (error) { next(error) }
 },
 
@@ -166,6 +167,7 @@ serveurReservations: async (req, res, next) => {
     try {
         const reservations = await reservationService.getAllReservations();
         const avis         = await avisService.getAllAvis(); // ✅ ajouter
+        
         res.render('serveur/reservations', { title: 'Réservations', user: req.user, reservations, avis })
     } catch (error) { next(error) }
 },

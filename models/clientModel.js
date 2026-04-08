@@ -34,15 +34,21 @@ const clientModel = {
      * Sortie  : tableau d'objets [{ id_client, email_client, ... }, ...]
      *           ou tableau vide [] si aucun client
      */
-
-    findAll: async () => {
-        const result = await pool.query(
-            'SELECT id_client, email_client, nom_client, prenom_client, telephone_client, date_inscription_client FROM client WHERE compte_supprime = FALSE'
-        )
-        return result.rows;
-
-    },
-    
+findAll: async () => {
+    const result = await pool.query(
+        `SELECT 
+            id_client, 
+            email_client, 
+            nom_client, 
+            prenom_client, 
+            telephone_client, 
+            date_inscription_client,
+            compte_supprime
+         FROM client 
+         ORDER BY date_inscription_client DESC`
+    );
+    return result.rows;
+},
 
     /**
      * Récupérer un client par son ID
@@ -177,11 +183,7 @@ const clientModel = {
 softDelete: async (id) => {
     const result = await pool.query(
         `UPDATE client
-         SET compte_supprime = TRUE,
-             email_client = 'supprime_' || id_client || '@deleted.local',
-             nom_client = 'Compte',
-             prenom_client = 'Supprimé',
-             telephone_client = NULL
+         SET compte_supprime = TRUE
          WHERE id_client = $1 AND compte_supprime = FALSE
          RETURNING id_client`,
         [id]
@@ -199,6 +201,32 @@ softDelete: async (id) => {
     );
     return result.rows[0] || null;
 },
+
+restore: async(id) => {
+    const result = await pool.query(
+        `
+        UPDATE client
+        SET
+        compte_supprime = FALSE,
+        date_suppression_compte = NULL
+        WHERE
+        id_client = $1 AND compte_supprime = TRUE
+        RETURNING *
+    `,[id]
+    )
+    return result.rows[0] || null
+},
+
+deleteForce: async (id) => {
+    const result = await pool.query(
+        `DELETE FROM client
+        WHERE id_client = $1
+        RETURNING id_client`,
+        
+        [id]
+    )
+    return result.rows[0] || null
+}
   
 }
 module.exports = clientModel;
