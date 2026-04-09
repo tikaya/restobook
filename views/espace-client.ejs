@@ -4,445 +4,397 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mon espace — Le Gourmet Parisien</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bordeaux: #6B1A2A;
-      --bordeaux-light: #8B2A3A;
-      --bordeaux-pale: #f5eaec;
-      --or: #C9A84C;
-      --or-light: #fdf6e3;
-      --creme: #FAF6F0;
-      --creme-dark: #EDE5D8;
-      --brun: #3D2B1F;
-      --brun-light: #7A5C4A;
+      --bordeaux: #6B1A2A; --bordeaux-light: #8B2A3A; --bordeaux-dark: #401018;
+      --bordeaux-pale: #f5eaec; --bordeaux-ultra: #fdf0f2;
+      --or: #C9A84C; --or-light: #fdf6e3; --or-dark: #a8873a;
+      --creme: #FAF6F0; --creme-dark: #EDE5D8; --creme-mid: #F3EDE4;
+      --brun: #3D2B1F; --brun-light: #7A5C4A; --brun-ultra: #2a1c12;
       --blanc: #FFFFFF;
-      --vert: #2e7d32;
-      --vert-pale: #e8f5e9;
-      --rouge: #c62828;
-      --rouge-pale: #fdecea;
-      --orange: #e65100;
-      --orange-pale: #fff3e0;
-      --bleu: #1565c0;
-      --bleu-pale: #e3f2fd;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --shadow: 0 4px 24px rgba(61,43,31,0.08);
+      --vert: #2e7d32; --vert-pale: #e8f5e9;
+      --rouge: #c62828; --rouge-pale: #fdecea;
+      --orange: #e65100; --orange-pale: #fff3e0;
+      --bleu: #1565c0; --bleu-pale: #e3f2fd;
+      --radius: 16px; --radius-sm: 10px; --radius-xs: 6px;
+      --shadow-sm: 0 2px 8px rgba(61,43,31,0.06);
+      --shadow: 0 4px 20px rgba(61,43,31,0.09);
+      --shadow-lg: 0 8px 40px rgba(61,43,31,0.14);
+      --shadow-gold: 0 4px 20px rgba(201,168,76,0.2);
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', sans-serif; background: var(--creme); color: var(--brun); min-height: 100vh; }
 
     /* ── Header ── */
     .client-header {
-      background: var(--bordeaux);
-      height: 60px;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 20px rgba(61,43,31,0.2);
+      background: var(--bordeaux-dark);
+      height: 64px; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
     }
     .header-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--or);
-      text-decoration: none;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--or); text-decoration: none;
+      letter-spacing: 0.02em;
     }
-    .header-nav { display: flex; align-items: center; gap: 1.75rem; }
+    .header-nav { display: flex; align-items: center; gap: 2rem; }
     .header-nav a {
-      color: rgba(255,255,255,0.6);
-      text-decoration: none;
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
       transition: color 0.2s;
     }
     .header-nav a:hover { color: var(--or); }
     .header-user { display: flex; align-items: center; gap: 0.75rem; }
     .header-avatar {
-      width: 34px; height: 34px;
-      background: var(--or);
-      color: var(--bordeaux);
-      border-radius: 50%;
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--or), var(--or-dark));
+      color: var(--bordeaux-dark); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 0.9rem;
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.9rem;
+      box-shadow: var(--shadow-gold);
     }
-    .header-username { color: rgba(255,255,255,0.8); font-size: 0.82rem; }
+    .header-username { color: rgba(255,255,255,0.7); font-size: 0.82rem; font-weight: 500; }
     .header-logout {
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: color 0.2s;
-      margin-left: 0.25rem;
+      color: rgba(255,255,255,0.3); text-decoration: none;
+      font-size: 1rem; transition: color 0.2s; margin-left: 0.25rem;
+      padding: 0.4rem; border-radius: 50%;
     }
-    .header-logout:hover { color: #fff; }
+    .header-logout:hover { color: var(--rouge); background: rgba(198,40,40,0.1); }
 
-    /* ── Welcome ── */
+    /* ── Hero banner ── */
     .welcome-banner {
-      background: var(--bordeaux);
-      padding: 2.5rem 2rem 4rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(160deg, var(--bordeaux-dark) 0%, var(--bordeaux) 60%, var(--bordeaux-light) 100%);
+      padding: 3rem 2rem 5rem; text-align: center; position: relative; overflow: hidden;
     }
     .welcome-banner::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(201,168,76,0.1), transparent);
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(201,168,76,0.12), transparent);
     }
     .welcome-banner::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 40px;
-      background: var(--creme);
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 50px; background: var(--creme);
       clip-path: ellipse(55% 100% at 50% 100%);
     }
     .welcome-content { position: relative; z-index: 1; }
     .welcome-eyebrow {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--or);
-      margin-bottom: 0.5rem;
-      opacity: 0.85;
+      font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 0.6rem; opacity: 0.9;
     }
     .welcome-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      color: #fff;
-      font-weight: 700;
-      margin-bottom: 0.35rem;
+      font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+      color: #fff; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.2;
     }
     .welcome-title em { font-style: italic; color: var(--or); }
     .welcome-sub {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      color: rgba(255,255,255,0.55);
-      font-style: italic;
+      font-size: 1.05rem; color: rgba(255,255,255,0.5); font-style: italic;
     }
+
+    /* ── Quick stats banner ── */
+    .quick-stats {
+      max-width: 1100px; margin: -1.5rem auto 0;
+      padding: 0 2rem; position: relative; z-index: 10;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    }
+    .quick-stat {
+      background: var(--blanc); border: 1px solid var(--creme-dark);
+      border-radius: var(--radius-sm); padding: 1rem 1.25rem;
+      box-shadow: var(--shadow); text-align: center;
+      transition: all 0.2s;
+    }
+    .quick-stat:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .quick-stat-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 700; color: var(--bordeaux); line-height: 1;
+    }
+    .quick-stat-lbl { font-size: 0.7rem; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.3rem; }
 
     /* ── Content ── */
-    .client-content { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+    .client-content { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
 
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 1.25rem;
+    .section-label {
+      font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--brun-light); margin-bottom: 1rem; margin-top: 2.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
     }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--creme-dark); }
+
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem; }
 
     /* ── Cards ── */
     .dash-card {
-      background: var(--blanc);
-      border: 1px solid var(--creme-dark);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
+      background: var(--blanc); border: 1px solid var(--creme-dark);
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .dash-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(61,43,31,0.12); }
+    .dash-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
     .dash-card-full { grid-column: 1 / -1; }
 
     .dash-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 1.1rem 1.5rem;
-      border-bottom: 1px solid var(--creme-dark);
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--creme-dark);
+      background: linear-gradient(to right, var(--bordeaux-ultra), var(--blanc));
     }
-    .dash-card-icon { font-size: 1.1rem; }
+    .dash-card-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--bordeaux-pale); color: var(--bordeaux);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; flex-shrink: 0;
+    }
     .dash-card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--brun);
-      flex: 1;
+      font-family: 'Playfair Display', serif; font-size: 0.95rem;
+      font-weight: 700; color: var(--brun); flex: 1;
     }
     .dash-card-badge {
-      background: var(--bordeaux-pale);
-      color: var(--bordeaux);
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 0.15rem 0.5rem;
-      border-radius: 50px;
+      background: var(--bordeaux); color: #fff;
+      font-size: 0.65rem; font-weight: 700;
+      padding: 0.2rem 0.6rem; border-radius: 50px; min-width: 22px; text-align: center;
     }
     .dash-card-body { padding: 1.25rem 1.5rem; }
 
-    /* ── Réservation item ── */
+    /* ── Reservation items ── */
     .res-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.9rem 1.5rem;
-      border-bottom: 1px solid var(--creme-dark);
-      transition: background 0.15s;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--creme-dark);
+      transition: background 0.15s; gap: 1rem;
     }
     .res-item:last-child { border-bottom: none; }
     .res-item:hover { background: var(--creme); }
-    .res-item-left { display: flex; align-items: center; gap: 0.9rem; }
-    .res-date-box {
-      background: var(--bordeaux);
-      color: #fff;
-      border-radius: 8px;
-      padding: 0.35rem 0.6rem;
-      text-align: center;
-      min-width: 46px;
-      flex-shrink: 0;
-    }
-    .res-date-day { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; line-height: 1; }
-    .res-date-month { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
-    .res-info { line-height: 1.5; }
-    .res-heure { font-weight: 600; font-size: 0.85rem; color: var(--brun); }
-    .res-detail { font-size: 0.75rem; color: var(--brun-light); }
-    .res-demande { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:var(--or); }
+    .res-item-left { display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 0; }
 
-    .badge {
-      font-size: 0.68rem; font-weight: 600;
-      padding: 0.22rem 0.65rem;
-      border-radius: 50px;
-      letter-spacing: 0.03em;
-      white-space: nowrap;
+    .res-date-box {
+      background: linear-gradient(135deg, var(--bordeaux), var(--bordeaux-light));
+      color: #fff; border-radius: 10px; padding: 0.5rem 0.7rem;
+      text-align: center; min-width: 50px; flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(107,26,42,0.25);
     }
+    .res-date-day { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; line-height: 1; }
+    .res-date-month { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; margin-top: 0.1rem; }
+
+    .res-info { line-height: 1.5; flex: 1; min-width: 0; }
+    .res-heure { font-weight: 600; font-size: 0.875rem; color: var(--brun); }
+    .res-detail { font-size: 0.75rem; color: var(--brun-light); }
+    .res-demande { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.82rem; color:var(--or-dark); background: var(--or-light); padding: 0.1rem 0.4rem; border-radius: 4px; display: inline-block; margin-top: 0.15rem; }
+
+    .badge { font-size: 0.67rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 50px; white-space: nowrap; }
     .badge-confirmee  { background: var(--vert-pale);   color: var(--vert); }
     .badge-honoree    { background: var(--bleu-pale);   color: var(--bleu); }
     .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
     .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
     .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
 
-    /* ── Profil ── */
+    /* ── Profil items ── */
+    .profil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
     .profil-item {
-      margin-bottom: 1rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--creme-dark);
+      background: var(--creme); border: 1px solid var(--creme-dark);
+      border-radius: var(--radius-sm); padding: 0.875rem 1rem;
+      transition: border-color 0.2s;
     }
-    .profil-item:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .profil-label { font-size: 0.68rem; font-weight: 500; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
-    .profil-value { font-weight: 600; font-size: 0.9rem; color: var(--brun); }
+    .profil-item:hover { border-color: var(--bordeaux-pale); }
+    .profil-item.full { grid-column: 1 / -1; }
+    .profil-label { font-size: 0.65rem; font-weight: 600; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+    .profil-value { font-weight: 600; font-size: 0.875rem; color: var(--brun); display: flex; align-items: center; gap: 0.4rem; }
+    .profil-value-empty { color: var(--creme-dark); font-style: italic; font-weight: 400; }
 
-    /* ── Étoiles ── */
-    .star-rating { display: flex; gap: 0.3rem; margin-bottom: 0.25rem; }
-    .star-btn {
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--creme-dark);
-      transition: color 0.15s, transform 0.15s;
-      background: none; border: none; padding: 0; line-height: 1;
-    }
-    .star-btn.active { color: var(--or); }
-    .star-btn:hover  { transform: scale(1.15); }
+    /* ── Stars ── */
+    .star-rating { display: flex; gap: 0.25rem; margin-bottom: 0.35rem; }
+    .star-btn { font-size: 1.6rem; cursor: pointer; color: var(--creme-dark); transition: color 0.15s, transform 0.15s; background: none; border: none; padding: 0; line-height: 1; }
+    .star-btn.active { color: var(--or); text-shadow: 0 0 8px rgba(201,168,76,0.4); }
+    .star-btn:hover  { transform: scale(1.2); }
+    .star-hint { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--brun-light); font-style: italic; }
 
     /* ── Form ── */
-    .form-group { margin-bottom: 0.9rem; }
-    .form-label {
-      display: block;
-      font-size: 0.72rem; font-weight: 500;
-      color: var(--brun-light);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 0.35rem;
-    }
+    .form-group { margin-bottom: 0.875rem; }
+    .form-label { display: block; font-size: 0.7rem; font-weight: 600; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
     .form-input {
-      width: 100%;
-      padding: 0.65rem 0.875rem;
-      border: 1.5px solid var(--creme-dark);
-      border-radius: var(--radius-sm);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.875rem;
-      color: var(--brun);
-      background: var(--creme);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-      resize: vertical;
+      width: 100%; padding: 0.7rem 0.95rem;
+      border: 1.5px solid var(--creme-dark); border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif; font-size: 0.875rem;
+      color: var(--brun); background: var(--creme);
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      outline: none; resize: vertical;
     }
-    .form-input:focus {
-      border-color: var(--bordeaux);
-      background: var(--blanc);
-      box-shadow: 0 0 0 3px rgba(107,26,42,0.08);
-    }
+    .form-input:focus { border-color: var(--bordeaux); background: var(--blanc); box-shadow: 0 0 0 3px rgba(107,26,42,0.08); }
+    .form-input.invalid { border-color: var(--rouge); background: #fff8f8; }
+    .form-hint { font-size: 0.68rem; color: var(--brun-light); font-style: italic; margin-top: 0.25rem; display: block; }
+    .form-hint.error-hint { color: var(--rouge); }
+    .form-hint.ok-hint    { color: var(--vert); }
 
-    /* ── Boutons ── */
+    /* ── Buttons ── */
     .btn {
-      display: block; width: 100%;
-      padding: 0.7rem;
+      display: block; width: 100%; padding: 0.75rem;
       border: none; border-radius: var(--radius-sm);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem; font-weight: 600;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
       cursor: pointer; text-align: center; text-decoration: none;
-      transition: all 0.2s;
-      margin-bottom: 0.6rem;
+      transition: all 0.2s; margin-bottom: 0.6rem; letter-spacing: 0.02em;
     }
     .btn:last-child { margin-bottom: 0; }
-    .btn-primary { background: var(--bordeaux); color: #fff; }
-    .btn-primary:hover { background: var(--bordeaux-light); transform: translateY(-1px); }
+    .btn-primary { background: linear-gradient(135deg, var(--bordeaux), var(--bordeaux-light)); color: #fff; box-shadow: 0 2px 12px rgba(107,26,42,0.25); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(107,26,42,0.35); }
     .btn-outline { background: var(--blanc); color: var(--bordeaux); border: 1.5px solid var(--bordeaux); }
     .btn-outline:hover { background: var(--bordeaux); color: #fff; }
+    .btn-subtle { background: var(--creme); color: var(--brun-light); border: 1px solid var(--creme-dark); font-weight: 500; }
+    .btn-subtle:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
     .btn-danger { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
     .btn-danger:hover { background: var(--rouge); color: #fff; }
-    .btn-gold { background: var(--or); color: var(--bordeaux); font-weight: 700; }
-    .btn-gold:hover { background: #d4b050; transform: translateY(-1px); }
+    .btn-gold { background: linear-gradient(135deg, var(--or), var(--or-dark)); color: var(--bordeaux-dark); font-weight: 700; box-shadow: var(--shadow-gold); }
+    .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(201,168,76,0.35); }
 
-    /* ── Feedback ── */
-    .feedback-msg {
-      display: none;
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.82rem; font-weight: 500;
-      margin-bottom: 1rem;
-    }
-    .feedback-msg.success { background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); }
-    .feedback-msg.error   { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
-
-    /* ── Empty state ── */
-    .empty-state { text-align: center; padding: 2.5rem 1.5rem; color: var(--brun-light); }
-    .empty-state-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
-    .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; }
-
-    /* ── Modal ── */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(61,43,31,0.45);
-      backdrop-filter: blur(4px);
-      z-index: 1000; align-items: center; justify-content: center;
-    }
-    .modal-overlay.show { display: flex; }
-    .modal {
-      background: var(--blanc);
-      border-radius: var(--radius);
-      padding: 2rem; width: 100%; max-width: 420px;
-      box-shadow: 0 20px 60px rgba(61,43,31,0.25);
-      animation: slideUp 0.25s ease;
-    }
-    @keyframes slideUp {
-      from { opacity:0; transform:translateY(20px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .modal-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem; color: var(--bordeaux);
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--creme-dark);
-    }
-    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
-    .modal-actions .btn { margin-bottom: 0; }
-
-    /* ── Toast ── */
-    .toast {
-      position: fixed; bottom: 2rem; right: 2rem;
-      background: var(--brun); color: #fff;
-      padding: 0.75rem 1.25rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.82rem; z-index: 9999;
-      transform: translateY(80px); opacity: 0;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.success { background: var(--vert); }
-    .toast.error   { background: var(--rouge); }
-
-    /* ── Footer ── */
-    .client-footer {
-      text-align: center; padding: 1.5rem 2rem;
-      color: var(--brun-light); font-size: 0.75rem;
-      border-top: 1px solid var(--creme-dark);
-      font-family: 'Cormorant Garamond', serif; font-style: italic;
-    }
-    .client-footer a { color: var(--or); text-decoration: none; }
-
-    /* ── Boutons actions réservation ── */
-    .res-actions-btns {
-      display: flex;
-      gap: 0.4rem;
-      flex-shrink: 0;
-    }
+    /* ── Action buttons on res cards ── */
+    .res-actions-btns { display: flex; gap: 0.4rem; flex-shrink: 0; }
     .btn-res-edit {
       display: flex; align-items: center; gap: 0.3rem;
       background: var(--bordeaux-pale); color: var(--bordeaux);
       border: 1px solid rgba(107,26,42,0.15);
-      padding: 0.35rem 0.65rem; border-radius: var(--radius-sm);
-      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500;
+      padding: 0.35rem 0.75rem; border-radius: var(--radius-xs);
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
       cursor: pointer; transition: all 0.2s; white-space: nowrap;
     }
     .btn-res-edit:hover { background: var(--bordeaux); color: #fff; }
     .btn-res-cancel {
       display: flex; align-items: center; gap: 0.3rem;
-      background: var(--rouge-pale); color: var(--rouge);
-      border: 1px solid rgba(198,40,40,0.15);
-      padding: 0.35rem 0.65rem; border-radius: var(--radius-sm);
+      background: transparent; color: var(--brun-light);
+      border: 1px solid var(--creme-dark);
+      padding: 0.35rem 0.75rem; border-radius: var(--radius-xs);
       font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500;
       cursor: pointer; transition: all 0.2s; white-space: nowrap;
     }
-    .btn-res-cancel:hover { background: var(--rouge); color: #fff; }
+    .btn-res-cancel:hover { background: var(--rouge-pale); color: var(--rouge); border-color: rgba(198,40,40,0.2); }
+
+    /* ── Feedback ── */
+    .feedback-msg { display: none; padding: 0.75rem 1rem; border-radius: var(--radius-xs); font-size: 0.82rem; font-weight: 500; margin-bottom: 1rem; }
+    .feedback-msg.success { background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); }
+    .feedback-msg.error   { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
+
+    /* ── Empty states ── */
+    .empty-state { text-align: center; padding: 2.5rem 1.5rem; color: var(--brun-light); }
+    .empty-state-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; opacity: 0.5; }
+    .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; }
+
+    /* ── RGPD card ── */
+    .rgpd-card {
+      background: linear-gradient(135deg, var(--creme), var(--blanc));
+      border: 1px solid var(--creme-dark); border-radius: var(--radius);
+      padding: 1.5rem; box-shadow: var(--shadow);
+    }
+    .rgpd-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--brun); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .rgpd-desc { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--brun-light); font-style: italic; line-height: 1.6; margin-bottom: 1.25rem; }
+
+    /* ── Modal ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(61,43,31,0.5); backdrop-filter: blur(6px); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: var(--blanc); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes slideUp { from { opacity:0; transform:translateY(30px) scale(0.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+    .modal-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--creme-dark); }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--bordeaux); margin-bottom: 0.2rem; }
+    .modal-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--brun-light); font-style: italic; }
+    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+    .modal-actions .btn { margin-bottom: 0; }
+
+    /* ── Toast ── */
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun-ultra); color: #fff; padding: 0.875rem 1.5rem; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 500; z-index: 9999; transform: translateY(100px) scale(0.9); opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 32px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 0.6rem; }
+    .toast.show { transform: translateY(0) scale(1); opacity: 1; }
+    .toast.success { background: var(--vert); }
+    .toast.error   { background: var(--rouge); }
+    .toast-icon { font-size: 1rem; }
+
+    /* ── Footer ── */
+    .client-footer { text-align: center; padding: 2rem; color: var(--brun-light); font-size: 0.75rem; border-top: 1px solid var(--creme-dark); font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    .client-footer a { color: var(--or); text-decoration: none; }
+
+    /* ── Divider ── */
+    .or-divider { display: flex; align-items: center; gap: 0.75rem; margin: 1rem 0; color: var(--brun-light); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--creme-dark); }
 
     @media (max-width: 768px) {
       .header-nav { display: none; }
       .dashboard-grid { grid-template-columns: 1fr; }
       .res-actions-btns { flex-direction: column; }
+      .quick-stats { grid-template-columns: repeat(2, 1fr); }
+      .profil-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- Header -->
 <header class="client-header">
   <a href="/" class="header-logo">Le Gourmet Parisien</a>
   <nav class="header-nav">
     <a href="/">Accueil</a>
     <a href="/carte">Notre Carte</a>
-    <a href="/reservation">Réserver</a>
+    <a href="/reservation">Reserver</a>
     <a href="/avis">Avis</a>
   </nav>
   <div class="header-user">
     <div class="header-avatar"><%= user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase() %></div>
     <span class="header-username"><%= user.prenom || user.email.split('@')[0] %></span>
-    <a href="/logout" class="header-logout" title="Déconnexion">⏻</a>
+    <a href="/logout" class="header-logout" title="Deconnexion">&#9211;</a>
   </div>
 </header>
 
-<!-- Welcome -->
 <section class="welcome-banner">
   <div class="welcome-content">
     <p class="welcome-eyebrow">Espace personnel</p>
-    <h1 class="welcome-title">Bonjour, <em><%= user.prenom || user.email.split('@')[0] %></em> 👋</h1>
-    <p class="welcome-sub">Gérez vos réservations et votre profil</p>
+    <h1 class="welcome-title">Bonjour, <em><%= user.prenom || user.email.split('@')[0] %></em></h1>
+    <p class="welcome-sub">Bienvenue dans votre espace de gestion</p>
   </div>
 </section>
 
-<!-- Content -->
+<!-- Quick stats -->
+<div class="quick-stats" id="quick-stats">
+  <div class="quick-stat">
+    <div class="quick-stat-val" id="stat-upcoming">—</div>
+    <div class="quick-stat-lbl">A venir</div>
+  </div>
+  <div class="quick-stat">
+    <div class="quick-stat-val" id="stat-total">—</div>
+    <div class="quick-stat-lbl">Total reservations</div>
+  </div>
+  <div class="quick-stat">
+    <div class="quick-stat-val" id="stat-honoree">—</div>
+    <div class="quick-stat-lbl">Honorees</div>
+  </div>
+  <div class="quick-stat">
+    <div class="quick-stat-val" id="stat-note">—</div>
+    <div class="quick-stat-lbl">Note moyenne</div>
+  </div>
+</div>
+
 <div class="client-content">
+
+  <p class="section-label">Mes reservations</p>
+
   <div class="dashboard-grid">
 
-    <!-- Prochaines réservations -->
+    <!-- Prochaines reservations -->
     <div class="dash-card">
       <div class="dash-card-header">
-        <span class="dash-card-icon">📅</span>
-        <span class="dash-card-title">Prochaines réservations</span>
-        <span class="dash-card-badge" id="upcoming-count">—</span>
+        <div class="dash-card-icon">&#128197;</div>
+        <span class="dash-card-title">Prochaines reservations</span>
+        <span class="dash-card-badge" id="upcoming-count">0</span>
       </div>
       <div id="reservations-list">
-        <div class="empty-state"><span class="empty-state-icon">⏳</span><p>Chargement...</p></div>
+        <div class="empty-state"><span class="empty-state-icon">&#9203;</span><p>Chargement...</p></div>
       </div>
       <div style="padding:1rem 1.5rem; border-top:1px solid var(--creme-dark);">
-        <a href="/reservation" class="btn btn-gold">+ Nouvelle réservation</a>
+        <a href="/reservation" class="btn btn-gold">+ Nouvelle reservation</a>
       </div>
     </div>
 
     <!-- Laisser un avis -->
     <div class="dash-card">
       <div class="dash-card-header">
-        <span class="dash-card-icon">⭐</span>
-        <span class="dash-card-title">Laisser un avis</span>
+        <div class="dash-card-icon">&#11088;</div>
+        <span class="dash-card-title">Partager votre experience</span>
       </div>
       <div class="dash-card-body">
         <div class="feedback-msg" id="avis-msg"></div>
@@ -450,17 +402,18 @@
           <div class="form-group">
             <label class="form-label">Votre note</label>
             <div class="star-rating" id="star-rating">
-              <button type="button" class="star-btn active" data-val="1">★</button>
-              <button type="button" class="star-btn active" data-val="2">★</button>
-              <button type="button" class="star-btn active" data-val="3">★</button>
-              <button type="button" class="star-btn active" data-val="4">★</button>
-              <button type="button" class="star-btn active" data-val="5">★</button>
+              <button type="button" class="star-btn active" data-val="1">&#9733;</button>
+              <button type="button" class="star-btn active" data-val="2">&#9733;</button>
+              <button type="button" class="star-btn active" data-val="3">&#9733;</button>
+              <button type="button" class="star-btn active" data-val="4">&#9733;</button>
+              <button type="button" class="star-btn active" data-val="5">&#9733;</button>
             </div>
+            <span class="star-hint" id="star-hint">Excellent !</span>
             <input type="hidden" id="note-val" value="5">
           </div>
           <div class="form-group">
-            <label class="form-label">Commentaire</label>
-            <textarea name="commentaire_avis" class="form-input" rows="3" placeholder="Racontez votre expérience..."></textarea>
+            <label class="form-label">Votre commentaire</label>
+            <textarea name="commentaire_avis" class="form-input" rows="4" placeholder="Partagez votre experience avec nos futurs clients..."></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Envoyer mon avis</button>
         </form>
@@ -470,82 +423,101 @@
     <!-- Mon profil -->
     <div class="dash-card">
       <div class="dash-card-header">
-        <span class="dash-card-icon">👤</span>
+        <div class="dash-card-icon">&#128100;</div>
         <span class="dash-card-title">Mon profil</span>
       </div>
       <div class="dash-card-body">
-        <div class="profil-item">
-          <div class="profil-label">Prénom</div>
-          <div class="profil-value" id="profil-prenom"><%= user.prenom || '—' %></div>
+        <div class="profil-grid">
+          <div class="profil-item">
+            <div class="profil-label">Prenom</div>
+            <div class="profil-value" id="profil-prenom"><%= user.prenom || '<span class="profil-value-empty">Non renseigne</span>' %></div>
+          </div>
+          <div class="profil-item">
+            <div class="profil-label">Nom</div>
+            <div class="profil-value" id="profil-nom"><%= user.nom || '<span class="profil-value-empty">Non renseigne</span>' %></div>
+          </div>
+          <div class="profil-item full">
+            <div class="profil-label">Email</div>
+            <div class="profil-value">&#128140; <%= user.email %></div>
+          </div>
+          <div class="profil-item full">
+            <div class="profil-label">Telephone</div>
+            <div class="profil-value" id="profil-tel">
+              <% if (user.telephone) { %>
+                &#128222; <%= user.telephone %>
+              <% } else { %>
+                <span class="profil-value-empty">Non renseigne — cliquez sur Modifier</span>
+              <% } %>
+            </div>
+          </div>
         </div>
-        <div class="profil-item">
-          <div class="profil-label">Nom</div>
-          <div class="profil-value" id="profil-nom"><%= user.nom || '—' %></div>
-        </div>
-        <div class="profil-item">
-          <div class="profil-label">Email</div>
-          <div class="profil-value"><%= user.email %></div>
-        </div>
-        <div class="profil-item">
-          <div class="profil-label">Rôle</div>
-          <div class="profil-value">Client</div>
-        </div>
-        <div style="margin-top:1.25rem;">
-          <button class="btn btn-outline" onclick="openModalProfil()">✏️ Modifier mon profil</button>
-          <button class="btn btn-outline" onclick="openModalPassword()">🔑 Changer mon mot de passe</button>
-        </div>
+        <button class="btn btn-primary" onclick="openModalProfil()">Modifier mon profil</button>
+        <div class="or-divider">ou</div>
+        <button class="btn btn-subtle" onclick="openModalPassword()">Changer mon mot de passe</button>
       </div>
     </div>
 
     <!-- RGPD -->
     <div class="dash-card">
       <div class="dash-card-header">
-        <span class="dash-card-icon">🔒</span>
-        <span class="dash-card-title">Données & RGPD</span>
+        <div class="dash-card-icon">&#128274;</div>
+        <span class="dash-card-title">Confidentialite et RGPD</span>
       </div>
       <div class="dash-card-body">
-        <p style="font-family:'Cormorant Garamond',serif; font-size:0.95rem; color:var(--brun-light); font-style:italic; line-height:1.6; margin-bottom:1.25rem;">
-          Conformément au RGPD, vous pouvez demander la suppression définitive de votre compte et de toutes vos données personnelles. Cette action est irréversible.
+        <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:var(--brun-light);font-style:italic;line-height:1.7;margin-bottom:1.5rem;padding:1rem;background:var(--creme);border-radius:var(--radius-xs);border-left:3px solid var(--creme-dark);">
+          Conformement au RGPD, vous disposez d'un droit d'acces, de rectification et de suppression de vos donnees. La suppression est definitive et irreversible.
         </p>
-        <button class="btn btn-danger" onclick="confirmDelete()">🗑️ Supprimer mon compte</button>
+        <button class="btn btn-danger" onclick="confirmDelete()">&#128465; Supprimer mon compte</button>
       </div>
     </div>
 
   </div>
+
+  <p class="section-label">Historique</p>
 
   <!-- Historique -->
   <div class="dash-card dash-card-full">
     <div class="dash-card-header">
-      <span class="dash-card-icon">📋</span>
-      <span class="dash-card-title">Historique de mes réservations</span>
-      <span class="dash-card-badge" id="history-count">—</span>
+      <div class="dash-card-icon">&#128203;</div>
+      <span class="dash-card-title">Historique de mes reservations</span>
+      <span class="dash-card-badge" id="history-count">0</span>
     </div>
     <div id="historique-list">
-      <div class="empty-state"><span class="empty-state-icon">⏳</span><p>Chargement...</p></div>
+      <div class="empty-state"><span class="empty-state-icon">&#9203;</span><p>Chargement...</p></div>
     </div>
   </div>
+
 </div>
 
 <div class="client-footer">
-  Le Gourmet Parisien — © 2026 — <a href="/">Retour au site</a>
+  Le Gourmet Parisien — 2026 — <a href="/">Retour au site</a>
 </div>
 
 <!-- Modal profil -->
 <div class="modal-overlay" id="modal-profil">
   <div class="modal">
-    <h3 class="modal-title">✏️ Modifier mon profil</h3>
+    <div class="modal-header">
+      <h3 class="modal-title">Modifier mon profil</h3>
+      <p class="modal-subtitle">Mettez a jour vos informations personnelles</p>
+    </div>
     <form id="form-profil">
-      <div class="form-group">
-        <label class="form-label">Prénom *</label>
-        <input type="text" name="prenom_client" id="edit-prenom" class="form-input" required>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        <div class="form-group">
+          <label class="form-label">Prenom *</label>
+          <input type="text" name="prenom_client" id="edit-prenom" class="form-input" required placeholder="Marie">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom *</label>
+          <input type="text" name="nom_client" id="edit-nom" class="form-input" required placeholder="Dupont">
+        </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Nom *</label>
-        <input type="text" name="nom_client" id="edit-nom" class="form-input" required>
+        <label class="form-label">Telephone</label>
+        <input type="tel" name="telephone_client" id="edit-tel" class="form-input" placeholder="06 00 00 00 00">
       </div>
       <div class="modal-actions">
-        <button type="submit" class="btn btn-primary" style="flex:1;">✓ Enregistrer</button>
-        <button type="button" class="btn btn-outline" style="flex:0.5;" onclick="closeModal('modal-profil')">Annuler</button>
+        <button type="submit" class="btn btn-primary" style="flex:1;">Enregistrer</button>
+        <button type="button" class="btn btn-subtle" style="flex:0.5;" onclick="closeModal('modal-profil')">Annuler</button>
       </div>
     </form>
   </div>
@@ -554,7 +526,10 @@
 <!-- Modal mot de passe -->
 <div class="modal-overlay" id="modal-password">
   <div class="modal">
-    <h3 class="modal-title">🔑 Changer mon mot de passe</h3>
+    <div class="modal-header">
+      <h3 class="modal-title">Changer mon mot de passe</h3>
+      <p class="modal-subtitle">Choisissez un mot de passe fort et unique</p>
+    </div>
     <div class="feedback-msg" id="pwd-msg"></div>
     <form id="form-password">
       <div class="form-group">
@@ -562,32 +537,37 @@
         <input type="password" name="new_password" class="form-input" placeholder="Min. 8 car., maj., chiffre, symbole" required>
       </div>
       <div class="form-group">
-        <label class="form-label">Confirmer *</label>
+        <label class="form-label">Confirmer le mot de passe *</label>
         <input type="password" name="confirm_password" class="form-input" required>
       </div>
       <div class="modal-actions">
-        <button type="submit" class="btn btn-primary" style="flex:1;">✓ Changer</button>
-        <button type="button" class="btn btn-outline" style="flex:0.5;" onclick="closeModal('modal-password')">Annuler</button>
+        <button type="submit" class="btn btn-primary" style="flex:1;">Changer</button>
+        <button type="button" class="btn btn-subtle" style="flex:0.5;" onclick="closeModal('modal-password')">Annuler</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Modal modifier réservation -->
+<!-- Modal modifier reservation -->
 <div class="modal-overlay" id="modal-edit-res">
   <div class="modal">
-    <h3 class="modal-title">✏️ Modifier ma réservation</h3>
+    <div class="modal-header">
+      <h3 class="modal-title">Modifier ma reservation</h3>
+      <p class="modal-subtitle">Modifiez les details de votre reservation</p>
+    </div>
     <div class="feedback-msg" id="edit-res-msg"></div>
     <form id="form-edit-res">
       <input type="hidden" id="edit-res-id">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
         <div class="form-group">
           <label class="form-label">Date *</label>
           <input type="date" name="date_reservation" id="edit-res-date" class="form-input" required>
+          <span class="form-hint" id="hint-edit-date">Ferme le lundi</span>
         </div>
         <div class="form-group">
           <label class="form-label">Heure *</label>
           <input type="time" name="heure_reservation" id="edit-res-heure" class="form-input" required>
+          <span class="form-hint" id="hint-edit-heure">Choisir une date d'abord</span>
         </div>
       </div>
       <div class="form-group">
@@ -595,211 +575,273 @@
         <input type="number" name="nb_personnes" id="edit-res-nb" class="form-input" min="1" max="20" required>
       </div>
       <div class="form-group">
-        <label class="form-label">Demandes spéciales</label>
-        <textarea name="demandes_speciales" id="edit-res-demandes" class="form-input" rows="2" placeholder="Allergie, anniversaire..."></textarea>
+        <label class="form-label">Demandes speciales</label>
+        <textarea name="demandes_speciales" id="edit-res-demandes" class="form-input" rows="2" placeholder="Allergie, anniversaire, chaise haute..."></textarea>
       </div>
       <div class="modal-actions">
-        <button type="submit" class="btn btn-primary" style="flex:1;">✓ Enregistrer</button>
-        <button type="button" class="btn btn-outline" style="flex:0.5;" onclick="closeModal('modal-edit-res')">Annuler</button>
+        <button type="submit" class="btn btn-primary" style="flex:1;">Enregistrer</button>
+        <button type="button" class="btn btn-subtle" style="flex:0.5;" onclick="closeModal('modal-edit-res')">Annuler</button>
       </div>
     </form>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon"></span>
+  <span id="toast-text"></span>
+</div>
 
 <script>
-  // ── Helpers ──────────────────────────────────────────────
   function getToken() {
     return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
   }
   function getUser() {
     try {
-      const raw = document.cookie.split('; ').find(c => c.startsWith('user='))?.split('=').slice(1).join('=');
+      var raw = document.cookie.split('; ').find(c => c.startsWith('user='))?.split('=').slice(1).join('=');
       return raw ? JSON.parse(decodeURIComponent(raw)) : null;
     } catch { return null; }
   }
   function authHeaders() {
     return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
   }
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg;
+  function showToast(msg, type) {
+    type = type || 'success';
+    var icons = { success: '✓', error: '✗', warning: '⚠' };
+    document.getElementById('toast-icon').textContent = icons[type] || '✓';
+    document.getElementById('toast-text').textContent = msg;
+    var t = document.getElementById('toast');
     t.className = 'toast show ' + type;
-    setTimeout(() => { t.className = 'toast'; }, 3000);
+    setTimeout(function() { t.className = 'toast'; }, 3500);
   }
   function showFeedback(id, ok, text) {
-    const el = document.getElementById(id);
+    var el = document.getElementById(id);
     el.className = 'feedback-msg ' + (ok ? 'success' : 'error');
     el.style.display = 'block';
-    el.innerHTML = (ok ? '✓ ' : '✗ ') + text;
+    el.textContent = text;
   }
   function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-
-  document.querySelectorAll('.modal-overlay').forEach(o => {
-    o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); });
+  document.querySelectorAll('.modal-overlay').forEach(function(o) {
+    o.addEventListener('click', function(e) { if (e.target === o) o.classList.remove('show'); });
   });
 
-  const user = getUser();
+  var user = getUser();
 
-  // ── Étoiles ───────────────────────────────────────────────
-  let selectedNote = 5;
-  document.querySelectorAll('.star-btn').forEach(btn => {
-    btn.addEventListener('mouseover', () => {
-      const val = parseInt(btn.dataset.val);
-      document.querySelectorAll('.star-btn').forEach(s => {
-        s.classList.toggle('active', parseInt(s.dataset.val) <= val);
-      });
+  // ── Validation horaires ───────────────────────────────────
+  var horaires = {
+    0: { label: 'Dimanche : 12h00 - 14h30',        services: [[720, 870]] },
+    1: { label: 'Ferme le lundi',                   services: [] },
+    2: { label: 'Mar-Ven : 12h-14h30 - 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    3: { label: 'Mar-Ven : 12h-14h30 - 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    4: { label: 'Mar-Ven : 12h-14h30 - 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    5: { label: 'Mar-Ven : 12h-14h30 - 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    6: { label: 'Samedi : 12h-15h - 19h-23h',      services: [[720, 900], [1140, 1380]] }
+  };
+  function getJour(dateVal) {
+    if (!dateVal) return null;
+    var parts = dateVal.split('-');
+    return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])).getDay();
+  }
+  function isHeureValide(jour, heure) {
+    if (!heure || jour === null || !horaires[jour]) return false;
+    var parts = heure.split(':');
+    var totalMin = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    return horaires[jour].services.some(function(s) { return totalMin >= s[0] && totalMin <= s[1]; });
+  }
+
+  var editDateInput  = document.getElementById('edit-res-date');
+  var editHeureInput = document.getElementById('edit-res-heure');
+  var hintEditDate   = document.getElementById('hint-edit-date');
+  var hintEditHeure  = document.getElementById('hint-edit-heure');
+
+  editDateInput.addEventListener('change', function() {
+    var jour = getJour(this.value);
+    if (jour === null) return;
+    if (jour === 1) {
+      this.classList.add('invalid');
+      hintEditDate.textContent = 'Ferme le lundi — choisissez un autre jour.';
+      hintEditDate.className = 'form-hint error-hint';
+      this.value = ''; editHeureInput.value = '';
+    } else {
+      this.classList.remove('invalid');
+      hintEditDate.textContent = horaires[jour].label;
+      hintEditDate.className = 'form-hint';
+      editHeureInput.value = '';
+      hintEditHeure.textContent = horaires[jour].label;
+      hintEditHeure.className = 'form-hint';
+    }
+  });
+  editHeureInput.addEventListener('change', function() {
+    var jour = getJour(editDateInput.value);
+    if (jour === null) { this.value = ''; return; }
+    if (!isHeureValide(jour, this.value)) {
+      this.classList.add('invalid');
+      hintEditHeure.textContent = 'Heure hors service';
+      hintEditHeure.className = 'form-hint error-hint';
+    } else {
+      this.classList.remove('invalid');
+      hintEditHeure.textContent = 'Heure valide';
+      hintEditHeure.className = 'form-hint ok-hint';
+    }
+  });
+
+  // ── Etoiles ───────────────────────────────────────────────
+  var selectedNote = 5;
+  var starHints = ['', 'Decevant...', 'Peut mieux faire', 'Bien', 'Tres bien !', 'Excellent !'];
+  document.querySelectorAll('.star-btn').forEach(function(btn) {
+    btn.addEventListener('mouseover', function() {
+      var val = parseInt(btn.dataset.val);
+      document.querySelectorAll('.star-btn').forEach(function(s) { s.classList.toggle('active', parseInt(s.dataset.val) <= val); });
+      document.getElementById('star-hint').textContent = starHints[val] || '';
     });
-    btn.addEventListener('mouseleave', () => {
-      document.querySelectorAll('.star-btn').forEach(s => {
-        s.classList.toggle('active', parseInt(s.dataset.val) <= selectedNote);
-      });
+    btn.addEventListener('mouseleave', function() {
+      document.querySelectorAll('.star-btn').forEach(function(s) { s.classList.toggle('active', parseInt(s.dataset.val) <= selectedNote); });
+      document.getElementById('star-hint').textContent = starHints[selectedNote] || '';
     });
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', function() {
       selectedNote = parseInt(btn.dataset.val);
       document.getElementById('note-val').value = selectedNote;
-      document.querySelectorAll('.star-btn').forEach(s => {
-        s.classList.toggle('active', parseInt(s.dataset.val) <= selectedNote);
-      });
+      document.getElementById('star-hint').textContent = starHints[selectedNote] || '';
     });
   });
 
-  // ── Réservations ─────────────────────────────────────────
+  // ── Reservations ─────────────────────────────────────────
   async function loadReservations() {
     try {
-     const res = await fetch('/reservations/mes-reservations', { headers: { 'Authorization': 'Bearer ' + getToken() } });
-console.log('Status:', res.status); // ← ajoute cette ligne
-const body = await res.clone().json(); // ← et celle-ci
-console.log('Body:', body);
-if (!res.ok) throw new Error();
-      const mine = await res.json(); // déjà filtrées par le backend
-      const now  = new Date();
+      var res = await fetch('/reservations/mes-reservations', { headers: { 'Authorization': 'Bearer ' + getToken() } });
+      if (!res.ok) throw new Error();
+      var mine = await res.json();
+      var now  = new Date();
 
-      const upcoming = mine.filter(r => new Date(r.date_reservation) >= now && r.statut_reservation === 'confirmee');
-      const past     = mine.filter(r => new Date(r.date_reservation) < now || r.statut_reservation !== 'confirmee');
+      var upcoming = mine.filter(function(r) { return new Date(r.date_reservation) >= now && r.statut_reservation === 'confirmee'; });
+      var past     = mine.filter(function(r) { return new Date(r.date_reservation) < now  || r.statut_reservation !== 'confirmee'; });
+      var honorees = mine.filter(function(r) { return r.statut_reservation === 'honoree'; });
 
+      // Quick stats
       document.getElementById('upcoming-count').textContent = upcoming.length;
       document.getElementById('history-count').textContent  = past.length;
+      document.getElementById('stat-upcoming').textContent  = upcoming.length;
+      document.getElementById('stat-total').textContent     = mine.length;
+      document.getElementById('stat-honoree').textContent   = honorees.length;
+
+      // Note moyenne
+      var avisApprouves = mine.filter(function(r) { return r.note_avis; });
+      if (avisApprouves.length > 0) {
+        var moy = (avisApprouves.reduce(function(s,r){ return s+(r.note_avis||0); }, 0) / avisApprouves.length).toFixed(1);
+        document.getElementById('stat-note').textContent = moy + ' / 5';
+      } else {
+        document.getElementById('stat-note').textContent = '—';
+      }
 
       // Prochaines
-      const listEl = document.getElementById('reservations-list');
-      listEl.innerHTML = upcoming.length === 0
-        ? `<div class="empty-state"><span class="empty-state-icon">📅</span><p>Aucune réservation à venir</p></div>`
-        : upcoming.map(r => {
-            const d     = new Date(r.date_reservation);
-            const heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
-            // Encodage sécurisé des demandes spéciales pour l'attribut data
-            const demandesEncoded = encodeURIComponent(r.demandes_speciales || '');
-            return `<div class="res-item">
-              <div class="res-item-left">
-                <div class="res-date-box">
-                  <div class="res-date-day">${d.toLocaleDateString('fr-FR',{day:'2-digit'})}</div>
-                  <div class="res-date-month">${d.toLocaleDateString('fr-FR',{month:'short'})}</div>
-                </div>
-                <div class="res-info">
-                  <div class="res-heure">🕐 ${heure}</div>
-                  <div class="res-detail">👥 ${r.nb_personnes} personne${r.nb_personnes>1?'s':''} · Table ${r.numero_table||r.id_table}</div>
-                  ${r.demandes_speciales ? `<div class="res-demande">"${r.demandes_speciales}"</div>` : ''}
-                </div>
-              </div>
-              <div class="res-actions-btns">
-                <button class="btn-res-edit"
-                  onclick="openModalEditRes(
-                    ${r.id_reservation},
-                    '${r.date_reservation ? r.date_reservation.split('T')[0] : ''}',
-                    '${heure}',
-                    ${r.nb_personnes},
-                    '${demandesEncoded}'
-                  )">✏️ Modifier</button>
-                <button class="btn-res-cancel" onclick="cancelRes(${r.id_reservation})">✗ Annuler</button>
-              </div>
-            </div>`;
-          }).join('');
+      var listEl = document.getElementById('reservations-list');
+      if (upcoming.length === 0) {
+        listEl.innerHTML = '<div class="empty-state"><span class="empty-state-icon">&#128197;</span><p>Aucune reservation a venir — reservez votre prochaine table !</p></div>';
+      } else {
+        listEl.innerHTML = upcoming.map(function(r) {
+          var d     = new Date(r.date_reservation);
+          var heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
+          var demandesEncoded = encodeURIComponent(r.demandes_speciales || '');
+          var dateStr = r.date_reservation ? r.date_reservation.split('T')[0] : '';
+          return '<div class="res-item">' +
+            '<div class="res-item-left">' +
+              '<div class="res-date-box">' +
+                '<div class="res-date-day">' + d.toLocaleDateString('fr-FR',{day:'2-digit'}) + '</div>' +
+                '<div class="res-date-month">' + d.toLocaleDateString('fr-FR',{month:'short'}) + '</div>' +
+              '</div>' +
+              '<div class="res-info">' +
+                '<div class="res-heure">&#128336; ' + heure + '</div>' +
+                '<div class="res-detail">&#128101; ' + r.nb_personnes + ' personne' + (r.nb_personnes>1?'s':'') + ' · Table ' + (r.numero_table||r.id_table) + '</div>' +
+                (r.demandes_speciales ? '<div class="res-demande">"' + r.demandes_speciales + '"</div>' : '') +
+              '</div>' +
+            '</div>' +
+            '<div class="res-actions-btns">' +
+              '<button class="btn-res-edit" onclick="openModalEditRes(' + r.id_reservation + ',\'' + dateStr + '\',\'' + heure + '\',' + r.nb_personnes + ',\'' + demandesEncoded + '\')">&#9998; Modifier</button>' +
+              '<button class="btn-res-cancel" onclick="cancelRes(' + r.id_reservation + ')">Annuler</button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
 
       // Historique
-      const histEl  = document.getElementById('historique-list');
-      const badgeMap = { honoree:'badge-honoree', annulee:'badge-annulee', no_show:'badge-no_show', en_attente:'badge-en_attente', confirmee:'badge-confirmee' };
-      const labelMap = { honoree:'✅ Honorée', annulee:'❌ Annulée', no_show:'🚫 No-show', en_attente:'⏳ En attente', confirmee:'🔵 Confirmée' };
+      var histEl   = document.getElementById('historique-list');
+      var badgeMap = { honoree:'badge-honoree', annulee:'badge-annulee', no_show:'badge-no_show', en_attente:'badge-en_attente', confirmee:'badge-confirmee' };
+      var labelMap = { honoree:'Honoree', annulee:'Annulee', no_show:'No-show', en_attente:'En attente', confirmee:'Confirmee' };
 
-      histEl.innerHTML = past.length === 0
-        ? `<div class="empty-state"><span class="empty-state-icon">📋</span><p>Aucune réservation passée</p></div>`
-        : past.map(r => {
-            const d     = new Date(r.date_reservation);
-            const heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
-            const date  = d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-            return `<div class="res-item">
-              <div class="res-item-left">
-                <div class="res-date-box">
-                  <div class="res-date-day">${d.toLocaleDateString('fr-FR',{day:'2-digit'})}</div>
-                  <div class="res-date-month">${d.toLocaleDateString('fr-FR',{month:'short'})}</div>
-                </div>
-                <div class="res-info">
-                  <div class="res-heure">${date}</div>
-                  <div class="res-detail">🕐 ${heure} · 👥 ${r.nb_personnes} personne${r.nb_personnes>1?'s':''}</div>
-                </div>
-              </div>
-              <span class="badge ${badgeMap[r.statut_reservation]||'badge-confirmee'}">${labelMap[r.statut_reservation]||r.statut_reservation}</span>
-            </div>`;
-          }).join('');
+      if (past.length === 0) {
+        histEl.innerHTML = '<div class="empty-state"><span class="empty-state-icon">&#128203;</span><p>Votre historique apparaitra ici</p></div>';
+      } else {
+        histEl.innerHTML = past.map(function(r) {
+          var d     = new Date(r.date_reservation);
+          var heure = r.heure_reservation ? r.heure_reservation.slice(0,5) : '—';
+          var date  = d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+          return '<div class="res-item">' +
+            '<div class="res-item-left">' +
+              '<div class="res-date-box">' +
+                '<div class="res-date-day">' + d.toLocaleDateString('fr-FR',{day:'2-digit'}) + '</div>' +
+                '<div class="res-date-month">' + d.toLocaleDateString('fr-FR',{month:'short'}) + '</div>' +
+              '</div>' +
+              '<div class="res-info">' +
+                '<div class="res-heure">' + date + '</div>' +
+                '<div class="res-detail">' + heure + ' · ' + r.nb_personnes + ' personne' + (r.nb_personnes>1?'s':'') + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<span class="badge ' + (badgeMap[r.statut_reservation]||'badge-confirmee') + '">' + (labelMap[r.statut_reservation]||r.statut_reservation) + '</span>' +
+          '</div>';
+        }).join('');
+      }
 
-   } catch(err) {
-  console.error('Erreur loadReservations:', err);
-  document.getElementById('reservations-list').innerHTML = `<div class="empty-state"><p>Impossible de charger les réservations.</p></div>`;
-}
+    } catch(err) {
+      document.getElementById('reservations-list').innerHTML = '<div class="empty-state"><p>Impossible de charger les reservations.</p></div>';
+    }
   }
 
   // ── Avis ─────────────────────────────────────────────────
-  document.getElementById('avis-form').addEventListener('submit', async (e) => {
+  document.getElementById('avis-form').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const form = e.target;
+    var form = e.target;
     try {
-      const res = await fetch('/avis', {
-        method: 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify({
-          note_avis:        selectedNote,
-          commentaire_avis: form.commentaire_avis.value.trim(),
-          id_client:        user?.id
-        })
+      var res = await fetch('/avis', {
+        method: 'POST', headers: authHeaders(),
+        body: JSON.stringify({ note_avis: selectedNote, commentaire_avis: form.commentaire_avis.value.trim(), id_client: user?.id })
       });
-      const data = await res.json();
+      var data = await res.json();
       if (res.ok) {
-        showFeedback('avis-msg', true, 'Merci ! Votre avis sera validé par notre équipe.');
-        form.reset();
-        selectedNote = 5;
-        document.querySelectorAll('.star-btn').forEach(s => s.classList.add('active'));
-      } else {
-        showFeedback('avis-msg', false, data.error || 'Erreur lors de l\'envoi.');
-      }
-    } catch { showFeedback('avis-msg', false, 'Erreur de connexion.'); }
+        showFeedback('avis-msg', true, 'Merci pour votre avis ! Il sera visible apres validation.');
+        form.reset(); selectedNote = 5;
+        document.querySelectorAll('.star-btn').forEach(function(s) { s.classList.add('active'); });
+        document.getElementById('star-hint').textContent = 'Excellent !';
+      } else { showFeedback('avis-msg', false, data.error || 'Erreur lors de l\'envoi.'); }
+    } catch(e) { showFeedback('avis-msg', false, 'Erreur de connexion.'); }
   });
 
-  // ── Modifier profil ──────────────────────────────────────
+  // ── Profil ────────────────────────────────────────────────
   function openModalProfil() {
     document.getElementById('edit-prenom').value = user?.prenom || '';
     document.getElementById('edit-nom').value    = user?.nom    || '';
+    document.getElementById('edit-tel').value    = user?.telephone || '';
     document.getElementById('modal-profil').classList.add('show');
   }
-  document.getElementById('form-profil').addEventListener('submit', async (e) => {
+  document.getElementById('form-profil').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const f = e.target;
+    var f = e.target;
     try {
-      const res = await fetch('/clients/' + user.id, {
-        method: 'PUT',
-        headers: authHeaders(),
-        body: JSON.stringify({ nom_client: f.nom_client.value.trim(), prenom_client: f.prenom_client.value.trim() })
+      var res = await fetch('/clients/' + user.id, {
+        method: 'PUT', headers: authHeaders(),
+        body: JSON.stringify({
+          nom_client:       f.nom_client.value.trim(),
+          prenom_client:    f.prenom_client.value.trim(),
+          telephone_client: f.telephone_client.value.trim() || null
+        })
       });
       if (res.ok) {
-        showToast('Profil mis à jour !');
+        showToast('Profil mis a jour avec succes !');
         document.getElementById('profil-prenom').textContent = f.prenom_client.value.trim();
         document.getElementById('profil-nom').textContent    = f.nom_client.value.trim();
+        var tel = f.telephone_client.value.trim();
+        document.getElementById('profil-tel').textContent    = tel ? '📞 ' + tel : '—';
         closeModal('modal-profil');
-      } else {
-        const err = await res.json();
-        showToast(err.error || 'Erreur', 'error');
-      }
-    } catch { showToast('Erreur de connexion.', 'error'); }
+      } else { var err = await res.json(); showToast(err.error || 'Erreur', 'error'); }
+    } catch(e) { showToast('Erreur de connexion.', 'error'); }
   });
 
   // ── Mot de passe ─────────────────────────────────────────
@@ -808,45 +850,46 @@ if (!res.ok) throw new Error();
     document.getElementById('pwd-msg').style.display = 'none';
     document.getElementById('modal-password').classList.add('show');
   }
-  document.getElementById('form-password').addEventListener('submit', async (e) => {
+  document.getElementById('form-password').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const f = e.target;
-    if (f.new_password.value !== f.confirm_password.value) {
-      showFeedback('pwd-msg', false, 'Les mots de passe ne correspondent pas.');
-      return;
-    }
+    var f = e.target;
+    if (f.new_password.value !== f.confirm_password.value) { showFeedback('pwd-msg', false, 'Les mots de passe ne correspondent pas.'); return; }
     try {
-      const res = await fetch('/auth/change-password', {
-        method: 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify({ new_password: f.new_password.value })
-      });
-      if (res.ok) { showToast('Mot de passe changé !'); closeModal('modal-password'); }
-      else { const err = await res.json(); showFeedback('pwd-msg', false, err.error || 'Erreur.'); }
-    } catch { showFeedback('pwd-msg', false, 'Erreur de connexion.'); }
+      var res = await fetch('/auth/change-password', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ new_password: f.new_password.value }) });
+      if (res.ok) { showToast('Mot de passe modifie avec succes !'); closeModal('modal-password'); }
+      else { var err = await res.json(); showFeedback('pwd-msg', false, err.error || 'Erreur.'); }
+    } catch(e) { showFeedback('pwd-msg', false, 'Erreur de connexion.'); }
   });
 
-  // ── Modifier réservation ─────────────────────────────────
+  // ── Modifier reservation ──────────────────────────────────
   function openModalEditRes(id, date, heure, nb, demandesEncoded) {
     document.getElementById('edit-res-id').value       = id;
     document.getElementById('edit-res-date').value     = date;
     document.getElementById('edit-res-heure').value    = heure;
     document.getElementById('edit-res-nb').value       = nb;
     document.getElementById('edit-res-demandes').value = decodeURIComponent(demandesEncoded);
-    // Date min = aujourd'hui
-    document.getElementById('edit-res-date').min = new Date().toISOString().split('T')[0];
+    document.getElementById('edit-res-date').min       = new Date().toISOString().split('T')[0];
     document.getElementById('edit-res-msg').style.display = 'none';
+    var jour = getJour(date);
+    hintEditDate.textContent  = jour !== null ? horaires[jour].label : 'Ferme le lundi';
+    hintEditHeure.textContent = isHeureValide(jour, heure) ? 'Heure valide' : (jour !== null ? horaires[jour].label : '');
+    hintEditDate.className    = 'form-hint';
+    hintEditHeure.className   = isHeureValide(jour, heure) ? 'form-hint ok-hint' : 'form-hint';
+    editDateInput.classList.remove('invalid');
+    editHeureInput.classList.remove('invalid');
     document.getElementById('modal-edit-res').classList.add('show');
   }
 
-  document.getElementById('form-edit-res').addEventListener('submit', async (e) => {
+  document.getElementById('form-edit-res').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const f  = e.target;
-    const id = document.getElementById('edit-res-id').value;
+    var f  = e.target;
+    var id = document.getElementById('edit-res-id').value;
+    var jour = getJour(f.date_reservation.value);
+    if (jour === 1) { showFeedback('edit-res-msg', false, 'Nous sommes fermes le lundi.'); return; }
+    if (!isHeureValide(jour, f.heure_reservation.value)) { showFeedback('edit-res-msg', false, 'Heure invalide. ' + (horaires[jour] ? horaires[jour].label : '')); return; }
     try {
-      const res = await fetch('/reservations/' + id, {
-        method: 'PUT',
-        headers: authHeaders(),
+      var res = await fetch('/reservations/' + id, {
+        method: 'PUT', headers: authHeaders(),
         body: JSON.stringify({
           date_reservation:   f.date_reservation.value,
           heure_reservation:  f.heure_reservation.value,
@@ -854,41 +897,27 @@ if (!res.ok) throw new Error();
           demandes_speciales: f.demandes_speciales.value.trim()
         })
       });
-      if (res.ok) {
-        showToast('Réservation modifiée !');
-        closeModal('modal-edit-res');
-        loadReservations(); // Rechargement sans reload de page
-      } else {
-        const err = await res.json();
-        showFeedback('edit-res-msg', false, err.error || (err.errors && err.errors[0]) || 'Erreur.');
-      }
-    } catch { showFeedback('edit-res-msg', false, 'Erreur de connexion.'); }
+      if (res.ok) { showToast('Reservation modifiee !'); closeModal('modal-edit-res'); loadReservations(); }
+      else { var err = await res.json(); showFeedback('edit-res-msg', false, err.error || (err.errors && err.errors[0]) || 'Erreur.'); }
+    } catch(e) { showFeedback('edit-res-msg', false, 'Erreur de connexion.'); }
   });
 
-  // ── Annuler réservation ──────────────────────────────────
+  // ── Annuler reservation ───────────────────────────────────
   async function cancelRes(id) {
-    if (!confirm('Annuler cette réservation ? Cette action est définitive.')) return;
+    if (!confirm('Annuler cette reservation ? Cette action est definitive.')) return;
     try {
-      const res = await fetch('/reservations/' + id, {
-        method: 'PUT',
-        headers: authHeaders(),
-        body: JSON.stringify({ statut_reservation: 'annulee' })
-      });
-      if (res.ok) {
-        showToast('Réservation annulée.');
-        loadReservations();
-      } else {
-        showToast('Erreur lors de l\'annulation.', 'error');
-      }
-    } catch { showToast('Erreur de connexion.', 'error'); }
+      var res = await fetch('/reservations/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify({ statut_reservation: 'annulee' }) });
+      if (res.ok) { showToast('Reservation annulee.', 'warning'); loadReservations(); }
+      else { showToast('Erreur lors de l\'annulation.', 'error'); }
+    } catch(e) { showToast('Erreur de connexion.', 'error'); }
   }
 
-  // ── Supprimer compte ─────────────────────────────────────
+  // ── Supprimer compte ──────────────────────────────────────
   function confirmDelete() {
-    if (!confirm('Supprimer définitivement votre compte ? Cette action est irréversible.')) return;
+    if (!confirm('Supprimer definitivement votre compte ? Toutes vos donnees seront effacees. Cette action est irreversible.')) return;
     fetch('/clients/' + user.id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } })
-      .then(res => { if (res.ok) window.location.href = '/logout'; else showToast('Erreur.', 'error'); })
-      .catch(() => showToast('Erreur de connexion.', 'error'));
+      .then(function(res) { if (res.ok) window.location.href = '/logout'; else showToast('Erreur.', 'error'); })
+      .catch(function() { showToast('Erreur de connexion.', 'error'); });
   }
 
   loadReservations();

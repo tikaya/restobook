@@ -17,111 +17,76 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', sans-serif; color: var(--brun); background: var(--creme); }
     .layout { display: flex; min-height: 100vh; }
-
-    .sidebar {
-      width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark);
-      display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50;
-    }
+    .sidebar { width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50; }
     .sidebar-logo { padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--creme-dark); }
     .sidebar-logo-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--bordeaux); }
     .sidebar-logo-text span { color: var(--or); }
     .sidebar-logo-sub { font-size: 0.7rem; color: var(--brun-light); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; }
     .sidebar-nav { flex: 1; padding: 1rem 0; }
-    .sidebar-link {
-      display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem;
-      text-decoration: none; color: var(--brun-light); font-size: 0.85rem;
-      transition: all 0.15s; border-left: 3px solid transparent;
-    }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem; text-decoration: none; color: var(--brun-light); font-size: 0.85rem; transition: all 0.15s; border-left: 3px solid transparent; }
     .sidebar-link:hover { background: var(--creme); color: var(--brun); }
     .sidebar-link.active { background: var(--bordeaux-pale); color: var(--bordeaux); font-weight: 600; border-left-color: var(--bordeaux); }
     .sidebar-badge { margin-left: auto; background: var(--bordeaux); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 50px; }
     .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--creme-dark); }
     .sidebar-footer-label { font-size: 0.7rem; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
-    .sidebar-footer-email { font-size: 0.82rem; font-weight: 600; color: var(--bordeaux); word-break: break-all; }
-    .sidebar-footer-role  { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.15rem; }
-    .btn-logout {
-      display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem;
-      padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark);
-      border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem;
-      text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; width: 100%;
-    }
+    .sidebar-footer-role { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.15rem; }
+    .btn-logout { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; width: 100%; }
     .btn-logout:hover { background: var(--rouge-pale); color: var(--rouge); }
-
     .admin-main { flex: 1; margin-left: 230px; }
-    .topbar {
-      background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px;
-      display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40;
-    }
+    .topbar { background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
     .topbar-left { display: flex; align-items: center; gap: 1rem; }
     .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; }
     .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
     .topbar-avatar { width: 36px; height: 36px; background: var(--or); color: var(--bordeaux-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
-
     .admin-content { padding: 2rem; }
-
-    /* Stats */
     .stats-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
     .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.5rem 1.1rem; font-size: 0.82rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; box-shadow: var(--shadow); }
     .stat-chip strong { color: var(--bordeaux); font-weight: 700; }
-
-    /* Filtres */
     .filters { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
     .filter-btn { padding: 0.45rem 1rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
     .filter-btn:hover, .filter-btn.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
-
-    /* Alerte indisponibles */
-    .alert-indispo {
-      background: var(--rouge-pale); border: 1px solid rgba(198,40,40,0.15);
-      border-radius: var(--radius-sm); padding: 1rem 1.25rem;
-      margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 0.75rem;
-    }
+    .alert-indispo { background: var(--rouge-pale); border: 1px solid rgba(198,40,40,0.15); border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 0.75rem; }
     .alert-indispo-icon { font-size: 1.2rem; flex-shrink: 0; }
     .alert-indispo-title { font-weight: 600; color: var(--rouge); font-size: 0.85rem; margin-bottom: 0.4rem; }
     .alert-indispo-list { font-size: 0.8rem; color: var(--rouge); opacity: 0.8; }
-
-    /* Section catégorie */
     .cat-section { margin-bottom: 2.5rem; }
     .cat-section.hidden { display: none; }
     .cat-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
     .cat-header h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--bordeaux); font-weight: 700; white-space: nowrap; }
     .cat-header .sep-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--creme-dark), transparent); }
     .cat-count { font-size: 0.72rem; background: var(--bordeaux-pale); color: var(--bordeaux); padding: 0.2rem 0.6rem; border-radius: 50px; font-weight: 500; }
-
-    /* Grille plats */
     .plats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-
-    .plat-card {
-      background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius);
-      padding: 1.25rem; transition: all 0.2s; position: relative;
-    }
-    .plat-card.indispo {
-      opacity: 0.6;
-      border-color: rgba(198,40,40,0.2);
-      background: var(--rouge-pale);
-    }
+    .plat-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.25rem; transition: all 0.2s; position: relative; }
+    .plat-card.indispo { opacity: 0.65; border-color: rgba(198,40,40,0.2); background: var(--rouge-pale); }
     .plat-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
-
     .plat-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.5rem; }
     .plat-nom { font-weight: 600; font-size: 0.95rem; color: var(--brun); flex: 1; }
     .plat-prix { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--bordeaux); white-space: nowrap; }
     .plat-desc { font-size: 0.8rem; color: var(--brun-light); line-height: 1.5; margin-bottom: 0.75rem; font-style: italic; }
-
     .plat-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 0.65rem; border-top: 1px solid var(--creme-dark); }
     .plat-allergenes { font-size: 0.7rem; color: #b45309; background: #fef3c7; padding: 0.18rem 0.5rem; border-radius: 4px; }
     .badge-dispo { font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 50px; }
-    .badge-dispo.ok   { background: var(--vert-pale); color: var(--vert); }
-    .badge-dispo.non  { background: var(--rouge-pale); color: var(--rouge); }
-
+    .badge-dispo.ok  { background: var(--vert-pale); color: var(--vert); }
+    .badge-dispo.non { background: var(--rouge-pale); color: var(--rouge); }
     .empty-state { text-align: center; padding: 3rem; color: var(--brun-light); }
     .empty-state span { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
     .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; }
-
     .admin-footer { text-align: center; padding: 1.25rem 2rem; color: var(--brun-light); font-size: 0.75rem; border-top: 1px solid var(--creme-dark); font-family: 'Cormorant Garamond', serif; font-style: italic; }
-
     @media (max-width: 1024px) { .sidebar { display: none; } .admin-main { margin-left: 0; } .plats-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+
+<%
+  var pendingCount   = avis ? avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length : 0;
+  var displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+  var displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+  var totalPlats     = plats.length;
+  var disponibles    = plats.filter(function(p) { return p.disponible_item_menu; }).length;
+  var indispos       = plats.filter(function(p) { return !p.disponible_item_menu; });
+  var indisposNoms   = indispos.map(function(p) { return p.nom_item_menu; }).join(' · ');
+%>
+
 <div class="layout">
 
   <aside class="sidebar">
@@ -130,75 +95,71 @@
       <div class="sidebar-logo-sub">Espace serveur</div>
     </div>
     <nav class="sidebar-nav">
-      <a href="/espace-serveur" class="sidebar-link">📊 Dashboard</a>
-      <a href="/espace-serveur/reservations" class="sidebar-link">📅 Réservations</a>
-      <a href="/espace-serveur/menu" class="sidebar-link active">🍽️ Menu</a>
-      <a href="/espace-serveur/avis" class="sidebar-link">⭐ Avis</a>
+      <a href="/espace-serveur"              class="sidebar-link">Dashboard</a>
+      <a href="/espace-serveur/reservations" class="sidebar-link">Reservations</a>
+      <a href="/espace-serveur/menu"         class="sidebar-link active">Menu</a>
+      <a href="/espace-serveur/avis"         class="sidebar-link">
+        Avis
+        <% if (pendingCount > 0) { %><span class="sidebar-badge"><%= pendingCount %></span><% } %>
+      </a>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-footer-label">Connecté en tant que</div>
-      <div class="sidebar-footer-email"><%= user.email %></div>
+      <div class="sidebar-footer-label">Connecte en tant que</div>
+      <div style="font-size:0.88rem;font-weight:700;color:var(--brun);"><%= displayName %></div>
+      <div style="font-size:0.75rem;color:var(--brun-light);margin-top:0.1rem;word-break:break-all;"><%= user.email %></div>
       <div class="sidebar-footer-role">Serveur</div>
-      <a href="/logout" class="btn-logout">⏻ Se déconnecter</a>
+      <a href="/logout" class="btn-logout">Se deconnecter</a>
     </div>
   </aside>
 
   <main class="admin-main">
     <div class="topbar">
       <div class="topbar-left">
-        <span class="topbar-title">Menu & Carte</span>
+        <span class="topbar-title">Menu et Carte</span>
       </div>
       <div class="topbar-right">
-        <div class="topbar-avatar"><%= user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase() %></div>
-        <span style="color:rgba(255,255,255,0.8); font-size:0.85rem;"><%= user.prenom || user.email.split('@')[0] %></span>
+        <div class="topbar-avatar"><%= displayInitial %></div>
+        <span style="color:rgba(255,255,255,0.8);font-size:0.85rem;"><%= displayName %></span>
       </div>
     </div>
 
     <div class="admin-content">
-      <%
-        const totalPlats  = plats.length;
-        const disponibles = plats.filter(p => p.disponible_item_menu).length;
-        const indispos    = plats.filter(p => !p.disponible_item_menu);
-      %>
 
-      <!-- Stats -->
       <div class="stats-bar">
-        <div class="stat-chip">🍽️ <strong><%= totalPlats %></strong> plats au total</div>
-        <div class="stat-chip">✅ <strong><%= disponibles %></strong> disponibles</div>
+        <div class="stat-chip">&#127869; <strong><%= totalPlats %></strong> plats au total</div>
+        <div class="stat-chip">&#10003; <strong><%= disponibles %></strong> disponibles</div>
         <% if (indispos.length > 0) { %>
-          <div class="stat-chip">❌ <strong><%= indispos.length %></strong> indisponible<%= indispos.length > 1 ? 's' : '' %></div>
+          <div class="stat-chip">&#10007; <strong><%= indispos.length %></strong> indisponible<%= indispos.length > 1 ? 's' : '' %></div>
         <% } %>
-        <div class="stat-chip">📂 <strong><%= categories.length %></strong> catégories</div>
+        <div class="stat-chip">&#128194; <strong><%= categories.length %></strong> categories</div>
       </div>
 
-      <!-- Alerte indisponibles -->
       <% if (indispos.length > 0) { %>
         <div class="alert-indispo">
-          <span class="alert-indispo-icon">⚠️</span>
+          <span class="alert-indispo-icon">&#9888;</span>
           <div>
-            <div class="alert-indispo-title"><%= indispos.length %> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %> ce soir — à signaler aux clients</div>
-            <div class="alert-indispo-list"><%= indispos.map(p => p.nom_item_menu).join(' · ') %></div>
+            <div class="alert-indispo-title"><%= indispos.length %> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %> ce soir — a signaler aux clients</div>
+            <div class="alert-indispo-list"><%= indisposNoms %></div>
           </div>
         </div>
       <% } %>
 
-      <!-- Filtres -->
       <div class="filters">
         <button class="filter-btn active" onclick="filterMenu('all', this)">Tout voir</button>
-        <button class="filter-btn" onclick="filterMenu('dispo', this)">✅ Disponibles</button>
-        <button class="filter-btn" onclick="filterMenu('indispo', this)">❌ Indisponibles</button>
-        <% categories.forEach(cat => { %>
+        <button class="filter-btn" onclick="filterMenu('dispo', this)">Disponibles</button>
+        <button class="filter-btn" onclick="filterMenu('indispo', this)">Indisponibles</button>
+        <% categories.forEach(function(cat) { %>
           <button class="filter-btn" onclick="filterCat(<%= cat.id_categorie %>, this)"><%= cat.nom_categorie %></button>
-        <% }) %>
+        <% }); %>
       </div>
 
-      <!-- Par catégorie -->
       <% if (plats.length === 0) { %>
-        <div class="empty-state"><span>🍽️</span><p>Aucun plat enregistré.</p></div>
+        <div class="empty-state"><span>&#127869;</span><p>Aucun plat enregistre.</p></div>
       <% } %>
 
-      <% categories.forEach(cat => { %>
-        <% const platsDeCat = plats.filter(p => p.id_categorie === cat.id_categorie); %>
+      <% categories.forEach(function(cat) {
+        var platsDeCat = plats.filter(function(p) { return String(p.id_categorie) === String(cat.id_categorie); });
+      %>
         <% if (platsDeCat.length > 0) { %>
           <div class="cat-section" id="cat-<%= cat.id_categorie %>" data-cat="<%= cat.id_categorie %>">
             <div class="cat-header">
@@ -207,66 +168,63 @@
               <div class="sep-line"></div>
             </div>
             <div class="plats-grid">
-              <% platsDeCat.forEach(p => { %>
+              <% platsDeCat.forEach(function(p) { %>
                 <div class="plat-card <%= !p.disponible_item_menu ? 'indispo' : '' %>"
                      data-dispo="<%= p.disponible_item_menu ? 'dispo' : 'indispo' %>"
                      data-cat="<%= p.id_categorie %>">
                   <div class="plat-top">
                     <span class="plat-nom"><%= p.nom_item_menu %></span>
-                    <span class="plat-prix"><%= parseFloat(p.prix_item_menu).toFixed(2) %> €</span>
+                    <span class="plat-prix"><%= p.prix_item_menu ? parseFloat(p.prix_item_menu).toFixed(2) : '—' %> &#8364;</span>
                   </div>
                   <% if (p.description_item_menu) { %>
                     <p class="plat-desc"><%= p.description_item_menu %></p>
                   <% } %>
                   <div class="plat-footer">
                     <% if (p.allergenes_item_menu) { %>
-                      <span class="plat-allergenes">⚠️ <%= p.allergenes_item_menu %></span>
+                      <span class="plat-allergenes">&#9888; <%= p.allergenes_item_menu %></span>
                     <% } else { %><span></span><% } %>
                     <span class="badge-dispo <%= p.disponible_item_menu ? 'ok' : 'non' %>">
-                      <%= p.disponible_item_menu ? '● Disponible' : '● Indisponible' %>
+                      <%= p.disponible_item_menu ? 'Disponible' : 'Indisponible' %>
                     </span>
                   </div>
                 </div>
-              <% }) %>
+              <% }); %>
             </div>
           </div>
         <% } %>
-      <% }) %>
+      <% }); %>
+
     </div>
 
-    <div class="admin-footer">RestoBook Manager — Espace Serveur — © 2026 Le Gourmet Parisien</div>
+    <div class="admin-footer">RestoBook Manager — Espace Serveur — 2026 Le Gourmet Parisien</div>
   </main>
 </div>
 
 <script>
   function filterMenu(filtre, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-
-    document.querySelectorAll('.plat-card').forEach(card => {
-      let show = false;
+    document.querySelectorAll('.plat-card').forEach(function(card) {
+      var show = false;
       if      (filtre === 'all')    show = true;
       else if (filtre === 'dispo')  show = card.dataset.dispo === 'dispo';
       else if (filtre === 'indispo')show = card.dataset.dispo === 'indispo';
       card.style.display = show ? '' : 'none';
     });
-
-    // Afficher/cacher les sections vides
-    document.querySelectorAll('.cat-section').forEach(sec => {
-      const visible = [...sec.querySelectorAll('.plat-card')].some(c => c.style.display !== 'none');
+    document.querySelectorAll('.cat-section').forEach(function(sec) {
+      var visible = Array.from(sec.querySelectorAll('.plat-card')).some(function(c) { return c.style.display !== 'none'; });
       sec.style.display = visible ? '' : 'none';
     });
   }
 
   function filterCat(catId, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-
-    document.querySelectorAll('.plat-card').forEach(card => {
+    document.querySelectorAll('.plat-card').forEach(function(card) {
       card.style.display = String(card.dataset.cat) === String(catId) ? '' : 'none';
     });
-    document.querySelectorAll('.cat-section').forEach(sec => {
-      const visible = [...sec.querySelectorAll('.plat-card')].some(c => c.style.display !== 'none');
+    document.querySelectorAll('.cat-section').forEach(function(sec) {
+      var visible = Array.from(sec.querySelectorAll('.plat-card')).some(function(c) { return c.style.display !== 'none'; });
       sec.style.display = visible ? '' : 'none';
     });
   }

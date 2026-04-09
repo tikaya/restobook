@@ -1,383 +1,443 @@
 <%- include('partials/header') %>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bordeaux: #6B1A2A; --bordeaux-light: #8B2A3A; --bordeaux-dark: #401018;
+    --bordeaux-pale: #f5eaec; --bordeaux-ultra: #fdf0f2;
+    --or: #C9A84C; --or-light: #fdf6e3; --or-dark: #a8873a;
+    --creme: #FAF6F0; --creme-dark: #EDE5D8; --creme-mid: #F3EDE4;
+    --brun: #3D2B1F; --brun-light: #7A5C4A;
+    --blanc: #FFFFFF;
+    --shadow: 0 4px 24px rgba(61,43,31,0.08);
+    --shadow-lg: 0 12px 48px rgba(61,43,31,0.14);
+    --shadow-gold: 0 4px 20px rgba(201,168,76,0.18);
+  }
 
   /* ── Hero ── */
   .avis-hero {
-    background: var(--bordeaux);
-    padding: 4rem 2rem 5rem;
+    background: linear-gradient(160deg, var(--bordeaux-dark) 0%, var(--bordeaux) 55%, var(--bordeaux-light) 100%);
+    padding: 5rem 2rem 7rem;
     text-align: center;
     position: relative;
     overflow: hidden;
   }
   .avis-hero::before {
     content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,168,76,0.1), transparent);
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(201,168,76,0.15), transparent),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(201,168,76,0.06), transparent);
   }
+  /* Decorative large quote */
   .avis-hero::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 50px;
-    background: var(--creme);
-    clip-path: ellipse(55% 100% at 50% 100%);
+    content: '\201C';
+    position: absolute; bottom: -1rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 18rem; line-height: 1;
+    color: rgba(201,168,76,0.05);
+    pointer-events: none;
   }
   .avis-hero-content { position: relative; z-index: 1; }
+
   .avis-hero-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--or);
-    margin-bottom: 0.75rem;
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.65rem;
+    font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--or); margin-bottom: 1.25rem; opacity: 0.9;
   }
+  .avis-hero-eyebrow::before,
+  .avis-hero-eyebrow::after {
+    content: ''; width: 30px; height: 1px; background: var(--or); opacity: 0.5;
+  }
+
   .avis-hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    color: #fff;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: #fff; font-weight: 700; line-height: 1.1;
+    margin-bottom: 0.75rem;
   }
   .avis-hero h1 em { font-style: italic; color: var(--or); }
-  .avis-hero p {
+
+  .avis-hero-sub {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.65);
-    font-style: italic;
-  }
-
-  /* ── Page body ── */
-  .avis-page {
-    background: var(--creme);
-    padding: 3rem 2rem 5rem;
-  }
-  .avis-inner { max-width: 1100px; margin: 0 auto; }
-
-  /* ── Note globale ── */
-  .rating-block {
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
-  .stars-display {
-    font-size: 2rem;
-    color: var(--or);
-    letter-spacing: 0.1em;
-    margin-bottom: 0.4rem;
-  }
-  .rating-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.05rem;
-    color: var(--brun-light);
-    font-style: italic;
-  }
-
-  /* Barres de répartition */
-  .rating-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    max-width: 280px;
-    margin: 1.25rem auto 0;
-  }
-  .rating-bar-row {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.75rem;
-    color: var(--brun-light);
-    font-family: 'DM Sans', sans-serif;
-  }
-  .rating-bar-label { width: 20px; text-align: right; flex-shrink: 0; }
-  .rating-bar-track {
-    flex: 1;
-    height: 6px;
-    background: var(--creme-dark);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .rating-bar-fill {
-    height: 100%;
-    background: var(--or);
-    border-radius: 3px;
-    transition: width 0.8s ease;
-  }
-  .rating-bar-count { width: 20px; flex-shrink: 0; }
-
-  /* ── Filtres ── */
-  .filters {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    font-size: 1.15rem; color: rgba(255,255,255,0.55); font-style: italic;
     margin-bottom: 2rem;
   }
-  .filter-btn {
-    background: #fff;
-    border: 1.5px solid var(--creme-dark);
-    padding: 0.45rem 1.1rem;
-    border-radius: 50px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--brun-light);
-    cursor: pointer;
-    transition: all 0.2s;
+
+  /* Score global dans le hero */
+  .hero-score {
+    display: inline-flex; align-items: center; gap: 1.25rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 50px; padding: 0.75rem 1.75rem;
+    backdrop-filter: blur(8px);
   }
-  .filter-btn:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
+  .hero-score-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--or); line-height: 1;
+  }
+  .hero-score-stars { font-size: 1rem; color: var(--or); letter-spacing: 0.08em; }
+  .hero-score-lbl { font-size: 0.72rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'DM Sans', sans-serif; }
+
+  /* Wave bottom */
+  .hero-wave {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 60px; background: var(--creme);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  /* ── Page ── */
+  .avis-page { background: var(--creme); padding: 0 2rem 6rem; }
+  .avis-inner { max-width: 1140px; margin: 0 auto; }
+
+  /* ── Stats barre ── */
+  .stats-row {
+    display: grid; grid-template-columns: 1fr 2fr;
+    gap: 2rem; margin-bottom: 3rem; padding-top: 3rem;
+    align-items: start;
+  }
+
+  .repartition-card {
+    background: var(--blanc); border: 1px solid var(--creme-dark);
+    border-radius: 16px; padding: 1.75rem;
+    box-shadow: var(--shadow);
+  }
+  .repartition-title {
+    font-family: 'Playfair Display', serif; font-size: 0.9rem;
+    color: var(--bordeaux); margin-bottom: 1.25rem; font-weight: 700;
+  }
+  .rating-bar-row {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 0.6rem; font-family: 'DM Sans', sans-serif;
+  }
+  .rating-bar-label {
+    font-size: 0.75rem; color: var(--brun-light);
+    width: 24px; text-align: right; flex-shrink: 0; font-weight: 500;
+  }
+  .rating-bar-track {
+    flex: 1; height: 8px; background: var(--creme-dark);
+    border-radius: 4px; overflow: hidden;
+  }
+  .rating-bar-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(to right, var(--or-dark), var(--or));
+    transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .rating-bar-count { font-size: 0.72rem; color: var(--brun-light); width: 20px; text-align: right; }
+
+  /* Filtres */
+  .filtres-card {
+    background: var(--blanc); border: 1px solid var(--creme-dark);
+    border-radius: 16px; padding: 1.75rem; box-shadow: var(--shadow);
+  }
+  .filtres-title {
+    font-family: 'Playfair Display', serif; font-size: 0.9rem;
+    color: var(--bordeaux); margin-bottom: 1.25rem; font-weight: 700;
+  }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .filter-btn {
+    background: var(--creme); border: 1.5px solid var(--creme-dark);
+    padding: 0.45rem 1rem; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500;
+    color: var(--brun-light); cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--bordeaux); color: var(--bordeaux); background: var(--bordeaux-ultra); }
   .filter-btn.active {
-    background: var(--bordeaux);
-    color: #fff;
-    border-color: var(--bordeaux);
-    box-shadow: 0 4px 12px rgba(107,26,42,0.2);
+    background: var(--bordeaux); color: #fff; border-color: var(--bordeaux);
+    box-shadow: 0 4px 14px rgba(107,26,42,0.25);
   }
 
   /* Compteur */
-  .results-count {
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--brun-light);
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 1.5rem;
+  }
+  .results-count {
+    font-size: 0.8rem; color: var(--brun-light);
     font-family: 'DM Sans', sans-serif;
   }
-  .results-count strong { color: var(--bordeaux); }
+  .results-count strong { color: var(--bordeaux); font-weight: 700; }
+  .section-eyebrow {
+    font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--brun-light);
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--creme-dark); display: none; }
 
-  /* ── Grille avis ── */
+  /* ── Grille avis — layout masonry-like ── */
   .avis-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.25rem;
+    columns: 3; column-gap: 1.25rem;
   }
-
   .avis-card {
-    background: #fff;
-    border: 1px solid var(--creme-dark);
-    border-radius: 16px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    background: var(--blanc); border: 1px solid var(--creme-dark);
+    border-radius: 16px; padding: 1.5rem;
+    margin-bottom: 1.25rem; break-inside: avoid;
+    transition: all 0.3s ease; position: relative; overflow: hidden;
   }
-  .avis-card::before {
-    content: '❝';
-    position: absolute;
-    top: 0.75rem; right: 1.25rem;
-    font-size: 2.5rem;
-    color: var(--or);
-    opacity: 0.12;
+  .avis-card::after {
+    content: '\201C';
+    position: absolute; top: 0.5rem; right: 1rem;
     font-family: 'Playfair Display', serif;
-    line-height: 1;
+    font-size: 3rem; line-height: 1;
+    color: var(--or); opacity: 0.08; pointer-events: none;
   }
   .avis-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 35px rgba(107,26,42,0.1);
-    border-color: rgba(107,26,42,0.12);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(107,26,42,0.1);
   }
   .avis-card.hidden { display: none; }
 
-  /* En-tête carte */
-  .avis-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
+  /* Top card avec accent couleur */
+  .avis-card-accent {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
   }
+  .accent-5 { background: linear-gradient(to right, var(--or-dark), var(--or)); }
+  .accent-4 { background: linear-gradient(to right, #c9a84c, #e0c070); }
+  .accent-3 { background: linear-gradient(to right, #9e7c30, #c9a84c); }
+  .accent-2 { background: var(--creme-dark); }
+  .accent-1 { background: #ccc; }
+
+  /* Author */
+  .avis-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
   .avis-author { display: flex; align-items: center; gap: 0.75rem; }
   .avis-avatar {
-    width: 42px; height: 42px;
-    border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
+    font-family: 'Playfair Display', serif; font-size: 1.1rem;
+    font-weight: 700; color: #fff; flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
-  .author-name {
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: var(--brun);
-    font-family: 'DM Sans', sans-serif;
-  }
-  .author-stars {
-    font-size: 0.8rem;
-    color: var(--or);
-    letter-spacing: 0.05em;
-    margin-top: 0.1rem;
-  }
-  .avis-date {
-    font-size: 0.72rem;
-    color: var(--brun-light);
-    opacity: 0.7;
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-  }
+  .author-name { font-weight: 600; font-size: 0.875rem; color: var(--brun); font-family: 'DM Sans', sans-serif; }
+  .author-stars { font-size: 0.75rem; color: var(--or); margin-top: 0.1rem; letter-spacing: 0.05em; }
+  .avis-date { font-size: 0.68rem; color: var(--brun-light); opacity: 0.65; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
 
   /* Note badge */
   .note-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    background: var(--or-light, #fdf6e3);
-    color: #7a5c00;
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 4px;
-    margin-bottom: 0.75rem;
-    font-family: 'DM Sans', sans-serif;
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    background: var(--or-light); color: var(--or-dark);
+    font-size: 0.68rem; font-weight: 700;
+    padding: 0.18rem 0.55rem; border-radius: 4px;
+    margin-bottom: 0.875rem; font-family: 'DM Sans', sans-serif;
+    border: 1px solid rgba(201,168,76,0.2);
   }
 
-  /* Texte avis */
+  /* Texte */
   .avis-text {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    color: var(--brun-light);
-    font-style: italic;
-    line-height: 1.7;
+    font-size: 1.05rem; color: var(--brun-light);
+    font-style: italic; line-height: 1.75;
   }
+  .avis-text-empty { opacity: 0.35; font-size: 0.9rem; }
 
   /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--brun-light);
-    grid-column: 1 / -1;
-  }
-  .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
-  .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
+  .empty-state { text-align: center; padding: 5rem 2rem; color: var(--brun-light); }
+  .empty-state-icon { font-size: 3rem; display: block; margin-bottom: 1rem; opacity: 0.4; }
+  .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; }
 
-  /* ── Reveal ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
+  /* ── Reveal animation ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  @media (max-width: 640px) {
-    .avis-grid { grid-template-columns: 1fr; }
+  /* ── CTA bas de page ── */
+  .avis-cta {
+    text-align: center; padding: 3rem 2rem;
+    background: linear-gradient(135deg, var(--bordeaux-ultra), var(--or-light));
+    border-radius: 20px; margin-top: 3rem;
+    border: 1px solid var(--creme-dark);
   }
+  .avis-cta-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; }
+  .avis-cta-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--brun-light); margin-bottom: 1.5rem; font-size: 1rem; }
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: linear-gradient(135deg, var(--bordeaux), var(--bordeaux-light));
+    color: #fff; padding: 0.8rem 2rem; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(107,26,42,0.25);
+  }
+  .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(107,26,42,0.35); }
+
+  @media (max-width: 900px) { .avis-grid { columns: 2; } .stats-row { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .avis-grid { columns: 1; } }
 </style>
+
+<%
+  var total   = avis.length;
+  var somme   = avis.reduce(function(s, a) { return s + (Number(a.note_avis) || 0); }, 0);
+  var moyenne = total > 0 ? (somme / total).toFixed(1) : '—';
+  var etoiles = total > 0 ? Math.round(parseFloat(moyenne)) : 0;
+  var compteParNote = [5,4,3,2,1].map(function(n) {
+    return { note: n, count: avis.filter(function(a) { return Number(a.note_avis) === n; }).length };
+  });
+  var colors = ['#6B1A2A','#2D6A4F','#5B3A8C','#8B2A3A','#1B4F72','#7D5A1E','#1a5276'];
+  var accentClass = ['','accent-1','accent-2','accent-3','accent-4','accent-5'];
+%>
 
 <!-- Hero -->
 <section class="avis-hero">
   <div class="avis-hero-content">
     <p class="avis-hero-eyebrow">Le Gourmet Parisien</p>
-    <h1>Avis de nos <em>clients</em></h1>
-    <p>Ce que nos clients pensent de nous</p>
+    <h1>Ce que disent<br>nos <em>clients</em></h1>
+    <p class="avis-hero-sub">Des experiences authentiques, des avis verifies</p>
+    <% if (total > 0) { %>
+      <div class="hero-score">
+        <div>
+          <div class="hero-score-val"><%= moyenne %></div>
+          <div class="hero-score-lbl">sur 5</div>
+        </div>
+        <div style="width:1px;height:40px;background:rgba(255,255,255,0.15);"></div>
+        <div>
+          <div class="hero-score-stars">
+            <% for(var s=0;s<5;s++){%><%= s < etoiles ? '★' : '☆' %><% } %>
+          </div>
+          <div class="hero-score-lbl"><%= total %> avis verifies</div>
+        </div>
+      </div>
+    <% } %>
   </div>
+  <div class="hero-wave"></div>
 </section>
 
-<!-- Page body -->
 <div class="avis-page">
   <div class="avis-inner">
 
-    <!-- Note globale + barres -->
-    <% 
-      const total = avis.length;
-      const moyenne = total > 0 ? (avis.reduce((s,a) => s + a.note_avis, 0) / total).toFixed(1) : '—';
-      const etoiles = total > 0 ? Math.round(parseFloat(moyenne)) : 0;
-      const compteParNote = [5,4,3,2,1].map(n => ({ note: n, count: avis.filter(a => a.note_avis === n).length }));
-    %>
+    <div class="stats-row reveal">
 
-    <div class="rating-block reveal">
-      <div class="stars-display">
-        <% for (let s = 0; s < 5; s++) { %><%= s < etoiles ? '★' : '☆' %><% } %>
-      </div>
-      <p class="rating-text"><%= moyenne %> / 5 — <%= total %> avis vérifié<%= total > 1 ? 's' : '' %></p>
-
-      <div class="rating-bars">
-        <% compteParNote.forEach(item => { %>
+      <!-- Repartition par note -->
+      <div class="repartition-card">
+        <div class="repartition-title">Repartition</div>
+        <% compteParNote.forEach(function(item) { %>
           <div class="rating-bar-row">
-            <span class="rating-bar-label"><%= item.note %>★</span>
+            <span class="rating-bar-label"><%= item.note %>&#9733;</span>
             <div class="rating-bar-track">
               <div class="rating-bar-fill" style="width:<%= total > 0 ? Math.round(item.count / total * 100) : 0 %>%"></div>
             </div>
             <span class="rating-bar-count"><%= item.count %></span>
           </div>
-        <% }) %>
+        <% }); %>
       </div>
-    </div>
 
-    <!-- Filtres -->
-    <div class="filters reveal">
-      <button class="filter-btn active" onclick="filterAvis('all', this)">Tous (<%= total %>)</button>
-      <button class="filter-btn" onclick="filterAvis(5, this)">★★★★★</button>
-      <button class="filter-btn" onclick="filterAvis(4, this)">★★★★☆</button>
-      <button class="filter-btn" onclick="filterAvis(3, this)">★★★☆☆</button>
-      <button class="filter-btn" onclick="filterAvis(2, this)">★★☆☆☆</button>
-      <button class="filter-btn" onclick="filterAvis(1, this)">★☆☆☆☆</button>
-    </div>
-
-    <p class="results-count" id="results-count"><strong><%= total %></strong> avis affiché<%= total > 1 ? 's' : '' %></p>
-
-    <!-- Grille -->
-    <div class="avis-grid">
-      <% if (avis.length === 0) { %>
-        <div class="empty-state">
-          <span>💬</span>
-          <p>Aucun avis pour le moment.</p>
+      <!-- Filtres -->
+      <div class="filtres-card">
+        <div class="filtres-title">Filtrer les avis</div>
+        <div class="filters">
+          <button class="filter-btn active" onclick="filterAvis('all', this)">Tous (<%= total %>)</button>
+          <button class="filter-btn" onclick="filterAvis(5, this)">&#9733;&#9733;&#9733;&#9733;&#9733; Excellent</button>
+          <button class="filter-btn" onclick="filterAvis(4, this)">&#9733;&#9733;&#9733;&#9733; Tres bien</button>
+          <button class="filter-btn" onclick="filterAvis(3, this)">&#9733;&#9733;&#9733; Bien</button>
+          <button class="filter-btn" onclick="filterAvis(2, this)">&#9733;&#9733; Moyen</button>
+          <button class="filter-btn" onclick="filterAvis(1, this)">&#9733; Decevant</button>
         </div>
-      <% } %>
+      </div>
 
-      <%
-        const colors = ['#722F37','#2D6A4F','#5B3A8C','#C9A84C','#1a5276','#8B2A3A','#1B4F72'];
-        avis.forEach((a, i) => {
-          const initiale = String(a.id_client).charAt(0);
-          const dateStr  = new Date(a.date_avis).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
-      %>
-        <div class="avis-card reveal" data-note="<%= a.note_avis %>" style="transition-delay:<%= (i % 3) * 0.1 %>s">
-          <div class="avis-header">
-            <div class="avis-author">
-              <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>"><%= initiale %></div>
-              <div>
-                <div class="author-name">Client #<%= a.id_client %></div>
-                <div class="author-stars">
-                  <% for (let s = 0; s < 5; s++) { %><%= s < a.note_avis ? '★' : '☆' %><% } %>
+    </div>
+
+    <!-- Header grille -->
+    <div class="results-header">
+      <p class="results-count" id="results-count">
+        <strong><%= total %></strong> avis affiche<%= total > 1 ? 's' : '' %>
+      </p>
+    </div>
+
+    <!-- Grille avis -->
+    <% if (avis.length === 0) { %>
+      <div class="empty-state reveal">
+        <span class="empty-state-icon">&#128172;</span>
+        <p>Soyez le premier a partager votre experience !</p>
+      </div>
+    <% } else { %>
+      <div class="avis-grid">
+        <% avis.forEach(function(a, i) {
+          var nomClient  = (a.prenom_client && a.nom_client)
+            ? a.prenom_client + ' ' + a.nom_client.charAt(0) + '.'
+            : (a.prenom_client || 'Client');
+          var initiale   = a.prenom_client ? a.prenom_client[0].toUpperCase() : 'C';
+          var note       = Number(a.note_avis) || 0;
+          var dateStr    = new Date(a.date_avis).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
+          var accent     = accentClass[Math.min(note, 5)] || 'accent-3';
+          var delay      = (i % 3) * 0.08;
+        %>
+          <div class="avis-card reveal"
+               data-note="<%= a.note_avis %>"
+               style="transition-delay:<%= delay %>s">
+            <div class="avis-card-accent <%= accent %>"></div>
+
+            <div class="avis-header">
+              <div class="avis-author">
+                <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>">
+                  <%= initiale %>
+                </div>
+                <div>
+                  <div class="author-name"><%= nomClient %></div>
+                  <div class="author-stars">
+                    <% for(var s=0;s<5;s++){%><%= s < note ? '★' : '☆' %><% } %>
+                  </div>
                 </div>
               </div>
+              <span class="avis-date"><%= dateStr %></span>
             </div>
-            <span class="avis-date"><%= dateStr %></span>
-          </div>
 
-          <% if (a.commentaire_avis) { %>
-            <p class="avis-text"><%= a.commentaire_avis %></p>
-          <% } else { %>
-            <p class="avis-text" style="opacity:0.4;">Aucun commentaire laissé.</p>
-          <% } %>
-        </div>
-      <% }) %>
+            <div class="note-badge">
+              &#9733; <%= note %> / 5
+            </div>
+
+            <% if (a.commentaire_avis) { %>
+              <p class="avis-text">« <%= a.commentaire_avis %> »</p>
+            <% } else { %>
+              <p class="avis-text avis-text-empty">Aucun commentaire laisse.</p>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+
+    <!-- CTA -->
+    <div class="avis-cta reveal">
+      <div class="avis-cta-title">Vous avez dine chez nous ?</div>
+      <p class="avis-cta-sub">Partagez votre experience et aidez nos futurs clients a nous decouvrir.</p>
+      <a href="/espace-client" class="btn-cta">Laisser mon avis &#8594;</a>
     </div>
 
   </div>
 </div>
 
 <script>
-  // ── Filtres ──────────────────────────────────────────────
   function filterAvis(note, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-
-    let visible = 0;
-    document.querySelectorAll('.avis-card').forEach(card => {
-      const show = note === 'all' || parseInt(card.dataset.note) === note;
+    var visible = 0;
+    document.querySelectorAll('.avis-card').forEach(function(card) {
+      var show = note === 'all' || parseInt(card.dataset.note) === note;
       card.classList.toggle('hidden', !show);
       if (show) visible++;
     });
-
-    const el = document.getElementById('results-count');
-    el.innerHTML = '<strong>' + visible + '</strong> avis affiché' + (visible > 1 ? 's' : '');
+    document.getElementById('results-count').innerHTML =
+      '<strong>' + visible + '</strong> avis affiche' + (visible > 1 ? 's' : '');
   }
 
-  // ── Reveal ───────────────────────────────────────────────
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // Reveal au scroll
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+  // Animer les barres au chargement
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      document.querySelectorAll('.rating-bar-fill').forEach(function(bar) {
+        var w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(function() { bar.style.width = w; }, 100);
+      });
+    }, 300);
+  });
 </script>
 
 <%- include('partials/footer') %>

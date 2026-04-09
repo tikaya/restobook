@@ -50,7 +50,6 @@
     .topbar-name { font-size: 0.85rem; opacity: 0.85; }
 
     .admin-content { padding: 2rem; }
-
     .section-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--bordeaux); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--creme-dark); margin-left: 0.5rem; }
 
@@ -72,7 +71,7 @@
     .admin-table tbody tr:hover { background: var(--creme); }
     .admin-table td { padding: 0.75rem 1rem; font-size: 0.82rem; vertical-align: middle; }
 
-    .badge { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 50px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.03em; white-space: nowrap; }
+    .badge { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 50px; font-size: 0.68rem; font-weight: 600; white-space: nowrap; }
     .badge-confirmee  { background: var(--bleu-pale);   color: var(--bleu); }
     .badge-honoree    { background: var(--vert-pale);   color: var(--vert); }
     .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
@@ -94,14 +93,13 @@
     .badge-indispo { background: var(--rouge-pale); color: var(--rouge); font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 50px; margin-left: 0.5rem; }
 
     .avis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; padding: 1.25rem; }
-    .avis-card { background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); padding: 1.25rem; transition: all 0.2s; position: relative; }
-    .avis-card::before { content: '❝'; position: absolute; top: 0.75rem; right: 1rem; font-size: 2rem; color: var(--or); opacity: 0.15; font-family: 'Playfair Display', serif; line-height: 1; }
+    .avis-card { background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); padding: 1.25rem; transition: all 0.2s; }
     .avis-card:hover { box-shadow: var(--shadow-soft); }
     .avis-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
     .avis-author { display: flex; align-items: center; gap: 0.6rem; }
     .avis-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; flex-shrink: 0; }
     .avis-name { font-weight: 600; font-size: 0.82rem; color: var(--brun); }
-    .avis-stars { font-size: 0.75rem; color: var(--or); letter-spacing: 0.05em; }
+    .avis-stars { font-size: 0.75rem; color: var(--or); }
     .avis-date { font-size: 0.68rem; color: var(--brun-light); }
     .avis-comment { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--brun-light); line-height: 1.6; margin-bottom: 0.85rem; border-left: 2px solid var(--creme-dark); padding-left: 0.65rem; }
     .avis-actions { display: flex; gap: 0.4rem; }
@@ -124,60 +122,59 @@
   </style>
 </head>
 <body>
+
+<%
+  var pendingCount    = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
+  var today           = new Date().toLocaleDateString('fr-FR');
+  var todayRes        = reservations.filter(function(r) {
+    return r.date_reservation && new Date(r.date_reservation).toLocaleDateString('fr-FR') === today;
+  });
+  var todayConfirmees = todayRes.filter(function(r) { return r.statut_reservation === 'confirmee'; });
+  var todayCouverts   = todayRes.reduce(function(s, r) { return s + r.nb_personnes; }, 0);
+  var upcoming        = reservations
+    .filter(function(r) { return r.statut_reservation === 'confirmee' && new Date(r.date_reservation) >= new Date(); })
+    .slice(0, 10);
+  var speciales       = todayRes.filter(function(r) { return r.demandes_speciales && r.statut_reservation === 'confirmee'; });
+  var indispos        = plats ? plats.filter(function(p) { return !p.disponible_item_menu; }) : [];
+  var pending         = avis.filter(function(a) { return a.statut_avis === 'en_attente'; });
+  var displayName     = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+  var displayInitial  = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+  var platsAffiches   = indispos.concat(
+    plats ? plats.filter(function(p) { return p.disponible_item_menu; }) : []
+  ).slice(0, 8);
+  var colors = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276'];
+%>
+
 <div class="layout">
 
-  <%
-    // ── TOUS les calculs en haut — zéro problème de scope ──
-    const pendingCount    = avis.filter(a => a.statut_avis === 'en_attente').length;
-    const today           = new Date().toLocaleDateString('fr-FR');
-    const todayRes        = reservations.filter(r =>
-      r.date_reservation &&
-      new Date(r.date_reservation).toLocaleDateString('fr-FR') === today
-    );
-    const todayConfirmees = todayRes.filter(r => r.statut_reservation === 'confirmee');
-    const todayCouverts   = todayRes.reduce((s, r) => s + r.nb_personnes, 0);
-    const upcoming        = reservations
-      .filter(r => r.statut_reservation === 'confirmee' && new Date(r.date_reservation) >= new Date())
-      .slice(0, 10);
-    const speciales       = todayRes.filter(r => r.demandes_speciales && r.statut_reservation === 'confirmee');
-    const indispos        = plats ? plats.filter(p => !p.disponible_item_menu) : [];
-    const pending         = avis.filter(a => a.statut_avis === 'en_attente');
-
-    // Nom affiché — dispo si nom+prenom ajoutés dans le token JWT (authService.loginEmploye)
-    const displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
-    const displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
-  %>
-
-  <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="sidebar-logo-text"><span>Resto</span>Book</div>
       <div class="sidebar-logo-sub">Espace serveur</div>
     </div>
     <nav class="sidebar-nav">
-      <a href="/espace-serveur" class="sidebar-link active">📊 Dashboard</a>
+      <a href="/espace-serveur"              class="sidebar-link active">Dashboard</a>
       <a href="/espace-serveur/reservations" class="sidebar-link">
-        📅 Réservations
-        <span class="sidebar-badge"><%= reservations.filter(r => r.statut_reservation === 'confirmee').length %></span>
+        Reservations
+        <span class="sidebar-badge"><%= reservations.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length %></span>
       </a>
-      <a href="/espace-serveur/menu" class="sidebar-link">🍽️ Menu / Carte</a>
+      <a href="/espace-serveur/menu" class="sidebar-link">Menu / Carte</a>
       <a href="/espace-serveur/avis" class="sidebar-link">
-        ⭐ Avis
+        Avis
         <% if (pendingCount > 0) { %>
           <span class="sidebar-badge"><%= pendingCount %></span>
         <% } %>
       </a>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-footer-label">Connecté en tant que</div>
+      <div class="sidebar-footer-label">Connecte en tant que</div>
       <div class="sidebar-footer-name"><%= displayName %></div>
       <div class="sidebar-footer-email"><%= user.email %></div>
       <div class="sidebar-footer-role">Serveur</div>
-      <a href="/logout" class="btn-logout">⏻ Se déconnecter</a>
+      <a href="/logout" class="btn-logout">Se deconnecter</a>
     </div>
   </aside>
 
-  <!-- ══ MAIN ══ -->
   <main class="admin-main">
 
     <div class="topbar">
@@ -197,86 +194,86 @@
 
       <!-- Stats -->
       <div class="stats-bar">
-        <div class="stat-chip">📅 <strong><%= todayRes.length %></strong> réservation<%= todayRes.length > 1 ? 's' : '' %> aujourd'hui</div>
-        <div class="stat-chip">👥 <strong><%= todayCouverts %></strong> couvert<%= todayCouverts > 1 ? 's' : '' %> attendus</div>
-        <div class="stat-chip">✅ <strong><%= todayConfirmees.length %></strong> à honorer</div>
+        <div class="stat-chip">&#128197; <strong><%= todayRes.length %></strong> reservation<%= todayRes.length > 1 ? 's' : '' %> aujourd'hui</div>
+        <div class="stat-chip">&#128101; <strong><%= todayCouverts %></strong> couvert<%= todayCouverts > 1 ? 's' : '' %> attendus</div>
+        <div class="stat-chip">&#10003; <strong><%= todayConfirmees.length %></strong> a honorer</div>
         <% if (indispos.length > 0) { %>
-          <div class="stat-chip" style="border-color:rgba(198,40,40,0.3); color:var(--rouge);">
-            ⚠️ <strong><%= indispos.length %></strong> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %>
+          <div class="stat-chip" style="border-color:rgba(198,40,40,0.3);color:var(--rouge);">
+            &#9888; <strong><%= indispos.length %></strong> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %>
           </div>
         <% } %>
         <% if (pendingCount > 0) { %>
-          <div class="stat-chip">⭐ <strong><%= pendingCount %></strong> avis en attente</div>
+          <div class="stat-chip">&#11088; <strong><%= pendingCount %></strong> avis en attente</div>
         <% } %>
       </div>
 
-      <!-- Réservations du jour -->
-      <p class="section-title">Réservations du jour</p>
+      <!-- Reservations du jour -->
+      <p class="section-title">Reservations du jour</p>
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">
-            📅 Service du jour
+            Service du jour
             <span style="background:var(--bordeaux);color:#fff;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:50px;"><%= todayRes.length %></span>
           </span>
-          <a href="/espace-serveur/reservations" class="panel-link">Voir toutes →</a>
+          <a href="/espace-serveur/reservations" class="panel-link">Voir toutes</a>
         </div>
         <table class="admin-table">
           <thead>
             <tr>
               <th>Heure</th><th>Client</th><th>Pers.</th>
-              <th>Table</th><th>Demandes spéciales</th><th>Statut</th><th>Actions</th>
+              <th>Table</th><th>Demandes speciales</th><th>Statut</th><th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <% if (todayRes.length === 0) { %>
-              <tr><td colspan="7" class="empty-cell">Aucune réservation aujourd'hui 🎉</td></tr>
+              <tr><td colspan="7" class="empty-cell">Aucune reservation aujourd'hui</td></tr>
             <% } else { %>
-              <% todayRes.forEach(r => { %>
+              <% todayRes.forEach(function(r) {
+                var nomClient = (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client;
+              %>
                 <tr id="res-<%= r.id_reservation %>">
                   <td style="font-weight:600;"><%= r.heure_reservation ? r.heure_reservation.slice(0,5) : '—' %></td>
-                  <td style="font-weight:600;">
-                    <%= (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client %>
-                  </td>
+                  <td style="font-weight:600;"><%= nomClient %></td>
                   <td style="text-align:center;"><%= r.nb_personnes %></td>
                   <td>Table <%= r.numero_table || r.id_table %></td>
-                  <td style="font-size:0.78rem; color:var(--brun-light);">
-                    <% if (r.demandes_speciales) { %><span style="color:var(--orange);">⚠️</span> <%= r.demandes_speciales %><% } else { %>—<% } %>
+                  <td style="font-size:0.78rem;color:var(--brun-light);">
+                    <% if (r.demandes_speciales) { %>&#9888; <%= r.demandes_speciales %><% } else { %>—<% } %>
                   </td>
                   <td>
                     <span class="badge badge-<%= r.statut_reservation %>">
-                      <% if (r.statut_reservation === 'confirmee')      { %>🔵 Confirmée
-                      <% } else if (r.statut_reservation === 'honoree') { %>✅ Honorée
-                      <% } else if (r.statut_reservation === 'no_show') { %>🚫 No-show
-                      <% } else if (r.statut_reservation === 'annulee') { %>❌ Annulée
+                      <% if      (r.statut_reservation === 'confirmee') { %>Confirmee
+                      <% } else if (r.statut_reservation === 'honoree')  { %>Honoree
+                      <% } else if (r.statut_reservation === 'no_show')  { %>No-show
+                      <% } else if (r.statut_reservation === 'annulee')  { %>Annulee
                       <% } else { %><%= r.statut_reservation %><% } %>
                     </span>
                   </td>
                   <td>
                     <% if (r.statut_reservation === 'confirmee') { %>
                       <div style="display:flex;gap:0.4rem;">
-                        <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>, 'honoree')">✓ Arrivé</button>
-                        <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>, 'no_show')">✗ No-show</button>
+                        <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>, 'honoree')">Arrive</button>
+                        <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>, 'no_show')">No-show</button>
                       </div>
                     <% } else { %>—<% } %>
                   </td>
                 </tr>
-              <% }) %>
+              <% }); %>
             <% } %>
           </tbody>
         </table>
         <% if (speciales.length > 0) { %>
           <div class="alert-bar">
-            ⚠️ <%= speciales.length %> réservation<%= speciales.length > 1 ? 's' : '' %> avec demande<%= speciales.length > 1 ? 's' : '' %> spéciale<%= speciales.length > 1 ? 's' : '' %> — vérifiez avant le service !
+            &#9888; <%= speciales.length %> reservation<%= speciales.length > 1 ? 's' : '' %> avec demande<%= speciales.length > 1 ? 's' : '' %> speciale<%= speciales.length > 1 ? 's' : '' %> — verifiez avant le service !
           </div>
         <% } %>
       </div>
 
-      <!-- Prochaines réservations -->
-      <p class="section-title">Prochaines réservations</p>
+      <!-- Prochaines reservations -->
+      <p class="section-title">Prochaines reservations</p>
       <div class="panel">
         <div class="panel-header">
-          <span class="panel-title">📋 Réservations confirmées à venir</span>
-          <a href="/espace-serveur/reservations" class="panel-link">Voir toutes →</a>
+          <span class="panel-title">Reservations confirmees a venir</span>
+          <a href="/espace-serveur/reservations" class="panel-link">Voir toutes</a>
         </div>
         <table class="admin-table">
           <thead>
@@ -284,51 +281,45 @@
           </thead>
           <tbody>
             <% if (upcoming.length === 0) { %>
-              <tr><td colspan="7" class="empty-cell">Aucune réservation à venir</td></tr>
+              <tr><td colspan="7" class="empty-cell">Aucune reservation a venir</td></tr>
             <% } else { %>
-              <% upcoming.forEach(r => { %>
+              <% upcoming.forEach(function(r) {
+                var nomClient = (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client;
+              %>
                 <tr>
                   <td><%= new Date(r.date_reservation).toLocaleDateString('fr-FR', { day:'2-digit', month:'long' }) %></td>
                   <td style="font-weight:600;"><%= r.heure_reservation ? r.heure_reservation.slice(0,5) : '—' %></td>
-                  <td><%= (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client %></td>
+                  <td><%= nomClient %></td>
                   <td style="text-align:center;"><%= r.nb_personnes %></td>
                   <td>Table <%= r.numero_table || r.id_table %></td>
-                  <td style="font-size:0.78rem; color:var(--brun-light);">
-                    <% if (r.demandes_speciales) { %>⚠️ <%= r.demandes_speciales.substring(0,25) %><%= r.demandes_speciales.length > 25 ? '…' : '' %><% } else { %>—<% } %>
+                  <td style="font-size:0.78rem;color:var(--brun-light);">
+                    <% if (r.demandes_speciales) { %>&#9888; <%= r.demandes_speciales.substring(0,25) %><%= r.demandes_speciales.length > 25 ? '…' : '' %><% } else { %>—<% } %>
                   </td>
-                  <td><span class="badge badge-confirmee">🔵 Confirmée</span></td>
+                  <td><span class="badge badge-confirmee">Confirmee</span></td>
                 </tr>
-              <% }) %>
+              <% }); %>
             <% } %>
           </tbody>
         </table>
       </div>
 
-      <!-- Menu & plats indisponibles -->
-      <p class="section-title">Menu & plats indisponibles</p>
+      <!-- Menu -->
+      <p class="section-title">Menu et plats indisponibles</p>
       <div class="panel">
         <div class="panel-header">
-          <span class="panel-title">🍽️ État du menu ce soir</span>
-          <a href="/espace-serveur/menu" class="panel-link">Voir tout →</a>
+          <span class="panel-title">Etat du menu ce soir</span>
+          <a href="/espace-serveur/menu" class="panel-link">Voir tout</a>
         </div>
         <% if (!plats || plats.length === 0) { %>
-          <div class="empty-cell">Aucun plat enregistré</div>
+          <div class="empty-cell">Aucun plat enregistre</div>
         <% } else { %>
           <% if (indispos.length > 0) { %>
-            <div class="alert-bar">⚠️ <%= indispos.length %> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %> ce soir — à signaler aux clients</div>
+            <div class="alert-bar">&#9888; <%= indispos.length %> plat<%= indispos.length > 1 ? 's' : '' %> indisponible<%= indispos.length > 1 ? 's' : '' %> ce soir — a signaler aux clients</div>
           <% } %>
-          <%
-            // Indisponibles en premier, puis disponibles — limité à 8
-            const platsAffiches = [
-              ...indispos,
-              ...plats.filter(p => p.disponible_item_menu)
-            ].slice(0, 8);
+          <% platsAffiches.forEach(function(p) {
+            var cat    = categories ? categories.find(function(c) { return String(c.id_categorie) === String(p.id_categorie); }) : null;
+            var nomCat = cat ? cat.nom_categorie : '';
           %>
-          <% platsAffiches.forEach(p => { %>
-            <%
-              const cat    = categories ? categories.find(c => c.id_categorie === p.id_categorie) : null;
-              const nomCat = cat ? cat.nom_categorie : '';
-            %>
             <div class="menu-item">
               <div>
                 <div class="menu-item-nom">
@@ -337,15 +328,13 @@
                 </div>
                 <div class="menu-item-cat"><%= nomCat %></div>
               </div>
-              <span class="menu-item-prix">
-                <%= p.prix_item_menu ? parseFloat(p.prix_item_menu).toFixed(2) : '—' %> €
-              </span>
+              <span class="menu-item-prix"><%= p.prix_item_menu ? parseFloat(p.prix_item_menu).toFixed(2) : '—' %> &#8364;</span>
             </div>
-          <% }) %>
+          <% }); %>
           <% if (plats.length > 8) { %>
-            <div style="padding:0.75rem 1.5rem; text-align:center;">
-              <a href="/espace-serveur/menu" style="font-size:0.8rem; color:var(--bordeaux); text-decoration:none; font-weight:500;">
-                Voir la carte complète (<%= plats.length %> plats) →
+            <div style="padding:0.75rem 1.5rem;text-align:center;">
+              <a href="/espace-serveur/menu" style="font-size:0.8rem;color:var(--bordeaux);text-decoration:none;font-weight:500;">
+                Voir la carte complete (<%= plats.length %> plats)
               </a>
             </div>
           <% } %>
@@ -354,45 +343,46 @@
 
       <!-- Avis en attente -->
       <% if (pendingCount > 0) { %>
-        <p class="section-title">Modération des avis</p>
+        <p class="section-title">Moderation des avis</p>
         <div class="panel">
           <div class="panel-header">
             <span class="panel-title">
-              ⭐ Avis en attente
+              Avis en attente
               <span style="background:var(--bordeaux);color:#fff;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:50px;"><%= pendingCount %></span>
             </span>
-            <a href="/espace-serveur/avis" class="panel-link">Voir tous →</a>
+            <a href="/espace-serveur/avis" class="panel-link">Voir tous</a>
           </div>
-          <% const colors = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276']; %>
           <div class="avis-grid">
-            <% pending.slice(0, 3).forEach((a, i) => { %>
+            <% pending.slice(0, 3).forEach(function(a, i) {
+              var avisNom      = (a.prenom_client && a.nom_client) ? a.prenom_client + ' ' + a.nom_client : 'Client #' + a.id_client;
+              var avisInitiale = a.prenom_client ? a.prenom_client[0].toUpperCase() : 'C';
+              var avisNote     = Number(a.note_avis) || 0;
+            %>
               <div class="avis-card" id="avis-<%= a.id_avis %>">
                 <div class="avis-card-top">
                   <div class="avis-author">
-                    <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>">
-                      <%= String(a.id_client).charAt(0).toUpperCase() %>
-                    </div>
+                    <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>"><%= avisInitiale %></div>
                     <div>
-                      <div class="avis-name">Client #<%= a.id_client %></div>
-                      <div class="avis-stars"><% for(let s=0;s<5;s++){%><%= s < a.note_avis ? '★' : '☆' %><% } %></div>
+                      <div class="avis-name"><%= avisNom %></div>
+                      <div class="avis-stars"><% for(var s=0;s<5;s++){%><%= s < avisNote ? '★' : '☆' %><% } %></div>
                     </div>
                   </div>
                   <span class="avis-date"><%= new Date(a.date_avis).toLocaleDateString('fr-FR', { day:'numeric', month:'short' }) %></span>
                 </div>
                 <p class="avis-comment">« <%= a.commentaire_avis || 'Aucun commentaire.' %> »</p>
                 <div class="avis-actions">
-                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>, 'approuve')">✓ Approuver</button>
-                  <button class="btn-reject"  onclick="moderateAvis(<%= a.id_avis %>, 'rejete')">✗ Rejeter</button>
+                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>, 'approuve')">Approuver</button>
+                  <button class="btn-reject"  onclick="moderateAvis(<%= a.id_avis %>, 'rejete')">Rejeter</button>
                 </div>
               </div>
-            <% }) %>
+            <% }); %>
           </div>
         </div>
       <% } %>
 
     </div>
 
-    <div class="admin-footer">RestoBook Manager — Espace Serveur — © 2026 Le Gourmet Parisien</div>
+    <div class="admin-footer">RestoBook Manager — Espace Serveur — 2026 Le Gourmet Parisien</div>
   </main>
 </div>
 
@@ -402,39 +392,40 @@
   function getToken() {
     return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
   }
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = (type === 'success' ? '✓ ' : type === 'warning' ? '⚠ ' : '✗ ') + msg;
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
     t.className = 'toast show ' + type;
-    setTimeout(() => { t.className = 'toast'; }, 3000);
+    setTimeout(function() { t.className = 'toast'; }, 3000);
   }
 
   async function updateStatut(id, statut) {
     try {
-      const res = await fetch('/reservations/' + id, {
+      var res = await fetch('/reservations/' + id, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
         body: JSON.stringify({ statut_reservation: statut })
       });
       if (!res.ok) throw new Error();
-      showToast(statut === 'honoree' ? 'Client marqué arrivé !' : 'Client marqué no-show.', statut === 'honoree' ? 'success' : 'warning');
-      setTimeout(() => location.reload(), 900);
-    } catch { showToast('Erreur lors de la mise à jour.', 'error'); }
+      showToast(statut === 'honoree' ? 'Client marque arrive !' : 'Client marque no-show.', statut === 'honoree' ? 'success' : 'warning');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(e) { showToast('Erreur lors de la mise a jour.', 'error'); }
   }
 
   async function moderateAvis(id, statut) {
     try {
-      const res = await fetch('/avis/' + id + '/moderate', {
+      var res = await fetch('/avis/' + id + '/moderate', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
         body: JSON.stringify({ statut_avis: statut })
       });
       if (!res.ok) throw new Error();
-      const card = document.getElementById('avis-' + id);
+      var card = document.getElementById('avis-' + id);
       if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
-      showToast(statut === 'approuve' ? 'Avis approuvé !' : 'Avis rejeté.');
-      setTimeout(() => location.reload(), 900);
-    } catch { showToast('Erreur lors de la modération.', 'error'); }
+      showToast(statut === 'approuve' ? 'Avis approuve !' : 'Avis rejete.', statut === 'approuve' ? 'success' : 'warning');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(e) { showToast('Erreur lors de la moderation.', 'error'); }
   }
 </script>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Réservations — RestoBook Serveur</title>
+  <title>Reservations — RestoBook Serveur</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -20,81 +20,44 @@
     body { font-family: 'DM Sans', sans-serif; color: var(--brun); background: var(--creme); }
     .layout { display: flex; min-height: 100vh; }
 
-    /* Sidebar */
-    .sidebar {
-      width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark);
-      display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50;
-    }
+    .sidebar { width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50; }
     .sidebar-logo { padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--creme-dark); }
     .sidebar-logo-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--bordeaux); }
     .sidebar-logo-text span { color: var(--or); }
     .sidebar-logo-sub { font-size: 0.7rem; color: var(--brun-light); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; }
     .sidebar-nav { flex: 1; padding: 1rem 0; }
-    .sidebar-link {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.65rem 1.5rem; text-decoration: none; color: var(--brun-light);
-      font-size: 0.85rem; transition: all 0.15s; border-left: 3px solid transparent;
-    }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem; text-decoration: none; color: var(--brun-light); font-size: 0.85rem; transition: all 0.15s; border-left: 3px solid transparent; }
     .sidebar-link:hover { background: var(--creme); color: var(--brun); }
     .sidebar-link.active { background: var(--bordeaux-pale); color: var(--bordeaux); font-weight: 600; border-left-color: var(--bordeaux); }
-    .sidebar-badge {
-      margin-left: auto; background: var(--bordeaux); color: #fff;
-      font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 50px;
-    }
+    .sidebar-badge { margin-left: auto; background: var(--bordeaux); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 50px; }
     .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--creme-dark); }
     .sidebar-footer-label { font-size: 0.7rem; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
-    .sidebar-footer-email { font-size: 0.82rem; font-weight: 600; color: var(--bordeaux); word-break: break-all; }
-    .sidebar-footer-role  { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.15rem; }
-    .btn-logout {
-      display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem;
-      padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark);
-      border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem;
-      text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; width: 100%;
-    }
+    .sidebar-footer-role { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.15rem; }
+    .btn-logout { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; width: 100%; }
     .btn-logout:hover { background: var(--rouge-pale); color: var(--rouge); }
 
-    /* Main */
     .admin-main { flex: 1; margin-left: 230px; }
-    .topbar {
-      background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px;
-      display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40;
-    }
+    .topbar { background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
     .topbar-left { display: flex; align-items: center; gap: 1rem; }
     .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; }
     .topbar-date { font-size: 0.78rem; opacity: 0.5; font-family: 'Cormorant Garamond', serif; font-style: italic; }
     .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
-    .topbar-avatar {
-      width: 36px; height: 36px; background: var(--or); color: var(--bordeaux-dark);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 0.85rem;
-    }
+    .topbar-avatar { width: 36px; height: 36px; background: var(--or); color: var(--bordeaux-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
 
     .admin-content { padding: 2rem; }
 
-    /* Stats */
     .stats-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-    .stat-chip {
-      background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px;
-      padding: 0.5rem 1.1rem; font-size: 0.82rem; color: var(--brun-light);
-      display: flex; align-items: center; gap: 0.4rem; box-shadow: var(--shadow);
-    }
+    .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.5rem 1.1rem; font-size: 0.82rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; box-shadow: var(--shadow); }
     .stat-chip strong { color: var(--bordeaux); font-weight: 700; }
 
-    /* Filtres */
     .filters { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .filter-btn {
-      padding: 0.45rem 1rem; border-radius: 50px; border: 1.5px solid var(--creme-dark);
-      background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
-    }
+    .filter-btn { padding: 0.45rem 1rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
     .filter-btn:hover, .filter-btn.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
 
-    /* Panel */
     .panel { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 1.5rem; }
     .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid var(--creme-dark); }
     .panel-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--brun); font-weight: 700; }
 
-    /* Table */
     .admin-table { width: 100%; border-collapse: collapse; }
     .admin-table thead tr { background: var(--creme); }
     .admin-table th { padding: 0.6rem 1rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brun-light); text-align: left; border-bottom: 1px solid var(--creme-dark); }
@@ -110,33 +73,16 @@
     .badge-no_show    { background: var(--orange-pale); color: var(--orange); }
     .badge-en_attente { background: var(--or-light);    color: #7a5c00; }
 
-    .btn-arrive {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2);
-      padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
-      font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
-      cursor: pointer; transition: all 0.2s; white-space: nowrap;
-    }
+    .btn-arrive { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); padding: 0.35rem 0.7rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .btn-arrive:hover { background: var(--vert); color: #fff; }
-    .btn-noshow {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(230,81,0,0.2);
-      padding: 0.35rem 0.7rem; border-radius: var(--radius-sm);
-      font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
-      cursor: pointer; transition: all 0.2s; white-space: nowrap;
-    }
+    .btn-noshow { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(230,81,0,0.2); padding: 0.35rem 0.7rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .btn-noshow:hover { background: var(--orange); color: #fff; }
 
     .alert-bar { background: var(--orange-pale); color: var(--orange); padding: 0.65rem 1.5rem; font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; border-top: 1px solid rgba(230,81,0,0.15); }
     .empty-cell { text-align: center; padding: 2.5rem; color: var(--brun-light); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
-
     .res-row.hidden { display: none; }
 
-    .toast {
-      position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff;
-      padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.82rem; z-index: 9999;
-      transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.82rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { background: var(--vert); }
     .toast.error   { background: var(--rouge); }
@@ -148,6 +94,21 @@
   </style>
 </head>
 <body>
+
+<%
+  var pendingCount  = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
+  var displayName   = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+  var displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+  var today         = new Date().toLocaleDateString('fr-FR');
+  var todayRes      = reservations.filter(function(r) {
+    return r.date_reservation && new Date(r.date_reservation).toLocaleDateString('fr-FR') === today;
+  });
+  var confirmees    = reservations.filter(function(r) { return r.statut_reservation === 'confirmee'; });
+  var honorees      = reservations.filter(function(r) { return r.statut_reservation === 'honoree'; });
+  var noshows       = reservations.filter(function(r) { return r.statut_reservation === 'no_show'; });
+  var speciales     = todayRes.filter(function(r) { return r.demandes_speciales && r.statut_reservation === 'confirmee'; });
+%>
+
 <div class="layout">
 
   <aside class="sidebar">
@@ -156,79 +117,66 @@
       <div class="sidebar-logo-sub">Espace serveur</div>
     </div>
     <nav class="sidebar-nav">
-      <a href="/espace-serveur" class="sidebar-link">📊 Dashboard</a>
+      <a href="/espace-serveur"              class="sidebar-link">Dashboard</a>
       <a href="/espace-serveur/reservations" class="sidebar-link active">
-        📅 Réservations
-        <span class="sidebar-badge"><%= reservations.filter(r => r.statut_reservation === 'confirmee').length %></span>
+        Reservations
+        <span class="sidebar-badge"><%= confirmees.length %></span>
       </a>
-      <a href="/espace-serveur/menu" class="sidebar-link">🍽️ Menu</a>
+      <a href="/espace-serveur/menu" class="sidebar-link">Menu</a>
       <a href="/espace-serveur/avis" class="sidebar-link">
-        ⭐ Avis
-        <% const pendingCount = avis.filter(a => a.statut_avis === 'en_attente').length; %>
+        Avis
         <% if (pendingCount > 0) { %><span class="sidebar-badge"><%= pendingCount %></span><% } %>
       </a>
     </nav>
     <div class="sidebar-footer">
-      <%
-        const displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
-        const displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
-      %>
-      <div class="sidebar-footer-label">Connecté en tant que</div>
-      <div style="font-size:0.88rem; font-weight:700; color:var(--brun);"><%= displayName %></div>
-      <div class="sidebar-footer-email"><%= user.email %></div>
+      <div class="sidebar-footer-label">Connecte en tant que</div>
+      <div style="font-size:0.88rem;font-weight:700;color:var(--brun);"><%= displayName %></div>
+      <div style="font-size:0.75rem;color:var(--brun-light);margin-top:0.1rem;word-break:break-all;"><%= user.email %></div>
       <div class="sidebar-footer-role">Serveur</div>
-      <a href="/logout" class="btn-logout">⏻ Se déconnecter</a>
+      <a href="/logout" class="btn-logout">Se deconnecter</a>
     </div>
   </aside>
 
   <main class="admin-main">
     <div class="topbar">
       <div class="topbar-left">
-        <span class="topbar-title">Réservations</span>
+        <span class="topbar-title">Reservations</span>
         <span class="topbar-date"><%= new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }) %></span>
       </div>
       <div class="topbar-right">
         <div class="topbar-avatar"><%= displayInitial %></div>
-        <span style="color:rgba(255,255,255,0.8); font-size:0.85rem;"><%= displayName %></span>
+        <span style="color:rgba(255,255,255,0.8);font-size:0.85rem;"><%= displayName %></span>
       </div>
     </div>
 
     <div class="admin-content">
-      <%
-        const today       = new Date().toLocaleDateString('fr-FR');
-        const todayRes    = reservations.filter(r => r.date_reservation && new Date(r.date_reservation).toLocaleDateString('fr-FR') === today);
-        const confirmees  = reservations.filter(r => r.statut_reservation === 'confirmee');
-        const honorees    = reservations.filter(r => r.statut_reservation === 'honoree');
-        const noshows     = reservations.filter(r => r.statut_reservation === 'no_show');
-        const speciales   = todayRes.filter(r => r.demandes_speciales && r.statut_reservation === 'confirmee');
-      %>
 
       <!-- Stats -->
       <div class="stats-bar">
-        <div class="stat-chip">📅 <strong><%= todayRes.length %></strong> aujourd'hui</div>
-        <div class="stat-chip">🔵 <strong><%= confirmees.length %></strong> confirmées</div>
-        <div class="stat-chip">✅ <strong><%= honorees.length %></strong> honorées</div>
-        <div class="stat-chip">🚫 <strong><%= noshows.length %></strong> no-show</div>
+        <div class="stat-chip">&#128197; <strong><%= todayRes.length %></strong> aujourd'hui</div>
+        <div class="stat-chip">&#128309; <strong><%= confirmees.length %></strong> confirmees</div>
+        <div class="stat-chip">&#10003; <strong><%= honorees.length %></strong> honorees</div>
+        <div class="stat-chip">&#128683; <strong><%= noshows.length %></strong> no-show</div>
       </div>
 
       <!-- Filtres -->
       <div class="filters">
         <button class="filter-btn" onclick="filterRes('all', this)">Toutes</button>
-        <button class="filter-btn active" onclick="filterRes('today', this)">📅 Aujourd'hui</button>
-        <button class="filter-btn" onclick="filterRes('confirmee', this)">🔵 Confirmées</button>
-        <button class="filter-btn" onclick="filterRes('honoree', this)">✅ Honorées</button>
-        <button class="filter-btn" onclick="filterRes('no_show', this)">🚫 No-show</button>
-        <button class="filter-btn" onclick="filterRes('annulee', this)">❌ Annulées</button>
+        <button class="filter-btn active" onclick="filterRes('today', this)">Aujourd'hui</button>
+        <button class="filter-btn" onclick="filterRes('confirmee', this)">Confirmees</button>
+        <button class="filter-btn" onclick="filterRes('honoree', this)">Honorees</button>
+        <button class="filter-btn" onclick="filterRes('no_show', this)">No-show</button>
+        <button class="filter-btn" onclick="filterRes('annulee', this)">Annulees</button>
       </div>
 
       <!-- Tableau -->
       <div class="panel">
         <div class="panel-header">
-          <span class="panel-title">📋 Toutes les réservations (<%= reservations.length %>)</span>
+          <span class="panel-title">Toutes les reservations (<%= reservations.length %>)</span>
         </div>
 
         <% if (speciales.length > 0) { %>
-          <div class="alert-bar">⚠️ <%= speciales.length %> demande<%= speciales.length > 1 ? 's' : '' %> spéciale<%= speciales.length > 1 ? 's' : '' %> pour aujourd'hui !</div>
+          <div class="alert-bar">&#9888; <%= speciales.length %> demande<%= speciales.length > 1 ? 's' : '' %> speciale<%= speciales.length > 1 ? 's' : '' %> pour aujourd'hui !</div>
         <% } %>
 
         <table class="admin-table">
@@ -239,57 +187,60 @@
               <th>Client</th>
               <th>Pers.</th>
               <th>Table</th>
-              <th>Demandes spéciales</th>
+              <th>Demandes speciales</th>
               <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <% if (reservations.length === 0) { %>
-              <tr><td colspan="8" class="empty-cell">Aucune réservation</td></tr>
+              <tr><td colspan="8" class="empty-cell">Aucune reservation</td></tr>
             <% } %>
-            <% reservations.forEach(r => {
-              const dateStr = new Date(r.date_reservation).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
-              const dateLocale = new Date(r.date_reservation).toLocaleDateString('fr-FR');
-              const isToday = dateLocale === today;
+            <% reservations.forEach(function(r) {
+              var dateStr   = new Date(r.date_reservation).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+              var dateLocale = new Date(r.date_reservation).toLocaleDateString('fr-FR');
+              var isToday   = dateLocale === today;
+              var nomClient = (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client;
             %>
               <tr class="res-row" data-statut="<%= r.statut_reservation %>" data-today="<%= isToday %>">
                 <td>
                   <%= dateStr %>
-                  <% if (isToday) { %><span style="background:var(--bordeaux);color:#fff;font-size:0.6rem;padding:0.1rem 0.4rem;border-radius:4px;margin-left:0.3rem;">Auj.</span><% } %>
+                  <% if (isToday) { %>
+                    <span style="background:var(--bordeaux);color:#fff;font-size:0.6rem;padding:0.1rem 0.4rem;border-radius:4px;margin-left:0.3rem;">Auj.</span>
+                  <% } %>
                 </td>
                 <td style="font-weight:600;"><%= r.heure_reservation ? r.heure_reservation.slice(0,5) : '—' %></td>
-                <td style="font-weight:600;"><%= (r.prenom_client && r.nom_client) ? r.prenom_client + ' ' + r.nom_client : 'Client #' + r.id_client %></td>
+                <td style="font-weight:600;"><%= nomClient %></td>
                 <td style="text-align:center;"><%= r.nb_personnes %></td>
                 <td>Table <%= r.numero_table || r.id_table %></td>
-                <td style="font-size:0.78rem; color:var(--brun-light); max-width:180px;">
-                  <% if (r.demandes_speciales) { %><span style="color:var(--orange);">⚠️</span> <%= r.demandes_speciales %><% } else { %>—<% } %>
+                <td style="font-size:0.78rem;color:var(--brun-light);max-width:180px;">
+                  <% if (r.demandes_speciales) { %>&#9888; <%= r.demandes_speciales %><% } else { %>—<% } %>
                 </td>
                 <td>
                   <span class="badge badge-<%= r.statut_reservation %>">
-                    <% if (r.statut_reservation === 'confirmee')      { %>🔵 Confirmée
-                    <% } else if (r.statut_reservation === 'honoree') { %>✅ Honorée
-                    <% } else if (r.statut_reservation === 'no_show') { %>🚫 No-show
-                    <% } else if (r.statut_reservation === 'annulee') { %>❌ Annulée
-                    <% } else { %>⏳ En attente<% } %>
+                    <% if      (r.statut_reservation === 'confirmee') { %>Confirmee
+                    <% } else if (r.statut_reservation === 'honoree')  { %>Honoree
+                    <% } else if (r.statut_reservation === 'no_show')  { %>No-show
+                    <% } else if (r.statut_reservation === 'annulee')  { %>Annulee
+                    <% } else { %>En attente<% } %>
                   </span>
                 </td>
                 <td>
                   <% if (r.statut_reservation === 'confirmee') { %>
-                    <div style="display:flex; gap:0.4rem;">
-                      <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>, 'honoree')">✓ Arrivé</button>
-                      <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>, 'no_show')">✗ No-show</button>
+                    <div style="display:flex;gap:0.4rem;">
+                      <button class="btn-arrive" onclick="updateStatut(<%= r.id_reservation %>, 'honoree')">Arrive</button>
+                      <button class="btn-noshow" onclick="updateStatut(<%= r.id_reservation %>, 'no_show')">No-show</button>
                     </div>
                   <% } else { %>—<% } %>
                 </td>
               </tr>
-            <% }) %>
+            <% }); %>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="admin-footer">RestoBook Manager — Espace Serveur — © 2026 Le Gourmet Parisien</div>
+    <div class="admin-footer">RestoBook Manager — Espace Serveur — 2026 Le Gourmet Parisien</div>
   </main>
 </div>
 
@@ -299,43 +250,43 @@
   function getToken() {
     return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
   }
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = (type === 'success' ? '✓ ' : type === 'warning' ? '⚠ ' : '✗ ') + msg;
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
     t.className = 'toast show ' + type;
-    setTimeout(() => { t.className = 'toast'; }, 3000);
+    setTimeout(function() { t.className = 'toast'; }, 3000);
   }
 
   function filterRes(filtre, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-    document.querySelectorAll('.res-row').forEach(row => {
-      let show = false;
-      if      (filtre === 'all')    show = true;
-      else if (filtre === 'today')  show = row.dataset.today === 'true';
-      else                          show = row.dataset.statut === filtre;
+    document.querySelectorAll('.res-row').forEach(function(row) {
+      var show = false;
+      if      (filtre === 'all')   show = true;
+      else if (filtre === 'today') show = row.dataset.today === 'true';
+      else                         show = row.dataset.statut === filtre;
       row.classList.toggle('hidden', !show);
     });
   }
 
-  // Appliquer le filtre "aujourd'hui" au chargement
-  window.addEventListener('DOMContentLoaded', () => {
-    const todayBtn = document.querySelector('.filter-btn.active');
+  // Filtre "aujourd'hui" actif au chargement
+  window.addEventListener('DOMContentLoaded', function() {
+    var todayBtn = document.querySelector('.filter-btn.active');
     if (todayBtn) filterRes('today', todayBtn);
   });
 
   async function updateStatut(id, statut) {
     try {
-      const res = await fetch('/reservations/' + id, {
+      var res = await fetch('/reservations/' + id, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
         body: JSON.stringify({ statut_reservation: statut })
       });
       if (!res.ok) throw new Error();
-      const labels = { honoree: 'Client marqué arrivé !', no_show: 'Client marqué no-show.' };
-      showToast(labels[statut], statut === 'honoree' ? 'success' : 'warning');
-      setTimeout(() => location.reload(), 900);
-    } catch { showToast('Erreur lors de la mise à jour.', 'error'); }
+      showToast(statut === 'honoree' ? 'Client marque arrive !' : 'Client marque no-show.', statut === 'honoree' ? 'success' : 'warning');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(e) { showToast('Erreur lors de la mise a jour.', 'error'); }
   }
 </script>
 </body>

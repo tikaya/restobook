@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modération Avis — RestoBook Serveur</title>
+  <title>Moderation Avis — RestoBook Serveur</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -19,113 +19,86 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', sans-serif; color: var(--brun); background: var(--creme); }
     .layout { display: flex; min-height: 100vh; }
-
-    .sidebar {
-      width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark);
-      display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50;
-    }
+    .sidebar { width: 230px; background: var(--blanc); border-right: 1px solid var(--creme-dark); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50; }
     .sidebar-logo { padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--creme-dark); }
     .sidebar-logo-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--bordeaux); }
     .sidebar-logo-text span { color: var(--or); }
     .sidebar-logo-sub { font-size: 0.7rem; color: var(--brun-light); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; }
     .sidebar-nav { flex: 1; padding: 1rem 0; }
-    .sidebar-link {
-      display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem;
-      text-decoration: none; color: var(--brun-light); font-size: 0.85rem;
-      transition: all 0.15s; border-left: 3px solid transparent;
-    }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem; text-decoration: none; color: var(--brun-light); font-size: 0.85rem; transition: all 0.15s; border-left: 3px solid transparent; }
     .sidebar-link:hover { background: var(--creme); color: var(--brun); }
     .sidebar-link.active { background: var(--bordeaux-pale); color: var(--bordeaux); font-weight: 600; border-left-color: var(--bordeaux); }
     .sidebar-badge { margin-left: auto; background: var(--bordeaux); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 50px; }
     .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--creme-dark); }
     .sidebar-footer-label { font-size: 0.7rem; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
-    .sidebar-footer-email { font-size: 0.82rem; font-weight: 600; color: var(--bordeaux); word-break: break-all; }
-    .sidebar-footer-role  { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.15rem; }
-    .btn-logout {
-      display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem;
-      padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark);
-      border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem;
-      text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; width: 100%;
-    }
+    .sidebar-footer-role { font-size: 0.72rem; color: var(--brun-light); margin-top: 0.15rem; }
+    .btn-logout { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: var(--radius-sm); color: var(--brun-light); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; width: 100%; }
     .btn-logout:hover { background: var(--rouge-pale); color: var(--rouge); }
-
     .admin-main { flex: 1; margin-left: 230px; }
-    .topbar {
-      background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px;
-      display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40;
-    }
+    .topbar { background: var(--bordeaux-dark); color: #fff; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
     .topbar-left { display: flex; align-items: center; gap: 1rem; }
     .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; }
     .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
     .topbar-avatar { width: 36px; height: 36px; background: var(--or); color: var(--bordeaux-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
-
     .admin-content { padding: 2rem; }
-
     .stats-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
     .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.5rem 1.1rem; font-size: 0.82rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; box-shadow: var(--shadow); }
     .stat-chip strong { color: var(--bordeaux); font-weight: 700; }
-
     .filters { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
     .filter-btn { padding: 0.45rem 1rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
     .filter-btn:hover, .filter-btn.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
-
-    /* Grille avis */
     .avis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
-
-    .avis-card {
-      background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius);
-      padding: 1.5rem; transition: all 0.25s ease; position: relative; overflow: hidden;
-    }
-    .avis-card::before {
-      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-    }
+    .avis-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.5rem; transition: all 0.25s ease; position: relative; overflow: hidden; }
+    .avis-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
     .avis-card.statut-en_attente::before { background: var(--orange); }
     .avis-card.statut-approuve::before   { background: var(--vert); }
     .avis-card.statut-rejete::before     { background: var(--rouge); }
     .avis-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
     .avis-card.hidden { display: none; }
-
     .avis-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
     .avis-author { display: flex; align-items: center; gap: 0.6rem; }
     .avis-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: #fff; flex-shrink: 0; }
     .avis-name { font-weight: 600; font-size: 0.85rem; color: var(--brun); }
-    .avis-stars { font-size: 0.78rem; color: var(--or); letter-spacing: 0.05em; }
+    .avis-stars { font-size: 0.78rem; color: var(--or); }
     .avis-date { font-size: 0.68rem; color: var(--brun-light); }
-
     .badge-statut { font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 50px; white-space: nowrap; }
     .badge-en_attente { background: var(--orange-pale); color: var(--orange); }
     .badge-approuve   { background: var(--vert-pale);   color: var(--vert); }
     .badge-rejete     { background: var(--rouge-pale);  color: var(--rouge); }
-
-    .avis-comment {
-      font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic;
-      color: var(--brun-light); line-height: 1.65; margin-bottom: 0.85rem;
-      border-left: 2px solid var(--creme-dark); padding-left: 0.75rem;
-    }
+    .avis-comment { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--brun-light); line-height: 1.65; margin-bottom: 0.85rem; border-left: 2px solid var(--creme-dark); padding-left: 0.75rem; }
     .avis-actions { display: flex; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid var(--creme-dark); }
     .btn-approve { flex: 1; padding: 0.45rem; background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
     .btn-approve:hover { background: var(--vert); color: #fff; }
     .btn-reject  { flex: 1; padding: 0.45rem; background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.15); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
     .btn-reject:hover { background: var(--rouge); color: #fff; }
-
     .results-count { font-size: 0.8rem; color: var(--brun-light); margin-bottom: 1rem; }
     .results-count strong { color: var(--bordeaux); }
-
     .empty-state { text-align: center; padding: 4rem 2rem; color: var(--brun-light); }
     .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
     .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
-
     .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.82rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { background: var(--vert); }
     .toast.error   { background: var(--rouge); }
-
     .admin-footer { text-align: center; padding: 1.25rem 2rem; color: var(--brun-light); font-size: 0.75rem; border-top: 1px solid var(--creme-dark); font-family: 'Cormorant Garamond', serif; font-style: italic; }
-
     @media (max-width: 1024px) { .sidebar { display: none; } .admin-main { margin-left: 0; } .avis-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+
+<%
+  var pendingCount  = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
+  var displayName   = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
+  var displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
+  var total         = avis.length;
+  var attente       = avis.filter(function(a) { return a.statut_avis === 'en_attente'; }).length;
+  var approuves     = avis.filter(function(a) { return a.statut_avis === 'approuve'; }).length;
+  var rejetes       = avis.filter(function(a) { return a.statut_avis === 'rejete'; }).length;
+  var sommeNotes    = avis.filter(function(a) { return a.statut_avis === 'approuve'; }).reduce(function(s,a) { return s + (Number(a.note_avis)||0); }, 0);
+  var moyenne       = approuves > 0 ? (sommeNotes / approuves).toFixed(1) : '—';
+  var colors        = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276','#8B2A3A'];
+%>
+
 <div class="layout">
 
   <aside class="sidebar">
@@ -134,99 +107,79 @@
       <div class="sidebar-logo-sub">Espace serveur</div>
     </div>
     <nav class="sidebar-nav">
-      <a href="/espace-serveur" class="sidebar-link">📊 Dashboard</a>
-      <a href="/espace-serveur/reservations" class="sidebar-link">📅 Réservations</a>
-      <a href="/espace-serveur/menu" class="sidebar-link">🍽️ Menu</a>
-      <a href="/espace-serveur/avis" class="sidebar-link active">
-        ⭐ Avis
-        <% const pendingCount = avis.filter(a => a.statut_avis === 'en_attente').length; %>
+      <a href="/espace-serveur"              class="sidebar-link">Dashboard</a>
+      <a href="/espace-serveur/reservations" class="sidebar-link">Reservations</a>
+      <a href="/espace-serveur/menu"         class="sidebar-link">Menu</a>
+      <a href="/espace-serveur/avis"         class="sidebar-link active">
+        Avis
         <% if (pendingCount > 0) { %><span class="sidebar-badge"><%= pendingCount %></span><% } %>
       </a>
     </nav>
     <div class="sidebar-footer">
-      <%
-        const displayName    = user.prenom ? user.prenom + ' ' + (user.nom || '') : user.email.split('@')[0];
-        const displayInitial = user.prenom ? user.prenom[0].toUpperCase() : user.email[0].toUpperCase();
-      %>
-      <div class="sidebar-footer-label">Connecté en tant que</div>
-      <div style="font-size:0.88rem; font-weight:700; color:var(--brun);"><%= displayName %></div>
-      <div class="sidebar-footer-email"><%= user.email %></div>
+      <div class="sidebar-footer-label">Connecte en tant que</div>
+      <div style="font-size:0.88rem;font-weight:700;color:var(--brun);"><%= displayName %></div>
+      <div style="font-size:0.75rem;color:var(--brun-light);margin-top:0.1rem;word-break:break-all;"><%= user.email %></div>
       <div class="sidebar-footer-role">Serveur</div>
-      <a href="/logout" class="btn-logout">⏻ Se déconnecter</a>
+      <a href="/logout" class="btn-logout">Se deconnecter</a>
     </div>
   </aside>
 
   <main class="admin-main">
     <div class="topbar">
       <div class="topbar-left">
-        <span class="topbar-title">Modération des avis</span>
+        <span class="topbar-title">Moderation des avis</span>
       </div>
       <div class="topbar-right">
         <div class="topbar-avatar"><%= displayInitial %></div>
-        <span style="color:rgba(255,255,255,0.8); font-size:0.85rem;"><%= displayName %></span>
+        <span style="color:rgba(255,255,255,0.8);font-size:0.85rem;"><%= displayName %></span>
       </div>
     </div>
 
     <div class="admin-content">
-      <%
-        const total     = avis.length;
-        const attente   = avis.filter(a => a.statut_avis === 'en_attente').length;
-        const approuves = avis.filter(a => a.statut_avis === 'approuve').length;
-        const rejetes   = avis.filter(a => a.statut_avis === 'rejete').length;
-        const moyenne   = approuves > 0
-          ? (avis.filter(a => a.statut_avis === 'approuve').reduce((s,a) => s + a.note_avis, 0) / approuves).toFixed(1)
-          : '—';
-      %>
 
-      <!-- Stats -->
       <div class="stats-bar">
-        <div class="stat-chip">💬 <strong><%= total %></strong> avis au total</div>
-        <div class="stat-chip">⏳ <strong><%= attente %></strong> en attente</div>
-        <div class="stat-chip">✅ <strong><%= approuves %></strong> approuvés</div>
-        <div class="stat-chip">❌ <strong><%= rejetes %></strong> rejetés</div>
-        <div class="stat-chip">⭐ <strong><%= moyenne %></strong> / 5 moyenne</div>
+        <div class="stat-chip">&#128172; <strong><%= total %></strong> avis au total</div>
+        <div class="stat-chip">&#9203; <strong><%= attente %></strong> en attente</div>
+        <div class="stat-chip">&#10003; <strong><%= approuves %></strong> approuves</div>
+        <div class="stat-chip">&#10007; <strong><%= rejetes %></strong> rejetes</div>
+        <div class="stat-chip">&#11088; <strong><%= moyenne %></strong> / 5 moyenne</div>
       </div>
 
-      <!-- Filtres -->
       <div class="filters">
         <button class="filter-btn active" onclick="filterAvis('all', this)">Tous</button>
-        <button class="filter-btn" onclick="filterAvis('en_attente', this)">⏳ En attente</button>
-        <button class="filter-btn" onclick="filterAvis('approuve', this)">✅ Approuvés</button>
-        <button class="filter-btn" onclick="filterAvis('rejete', this)">❌ Rejetés</button>
+        <button class="filter-btn" onclick="filterAvis('en_attente', this)">En attente</button>
+        <button class="filter-btn" onclick="filterAvis('approuve', this)">Approuves</button>
+        <button class="filter-btn" onclick="filterAvis('rejete', this)">Rejetes</button>
       </div>
 
-      <p class="results-count" id="results-count"><strong><%= total %></strong> avis affiché<%= total > 1 ? 's' : '' %></p>
+      <p class="results-count" id="results-count"><strong><%= total %></strong> avis affiche<%= total > 1 ? 's' : '' %></p>
 
-      <!-- Grille -->
       <% if (avis.length === 0) { %>
         <div class="empty-state">
-          <span>💬</span>
+          <span>&#128172;</span>
           <p>Aucun avis pour le moment.</p>
         </div>
       <% } else { %>
         <div class="avis-grid">
-          <% const colors = ['#6B1A2A','#2D6A4F','#5B3A8C','#C9A84C','#1a5276','#8B2A3A']; %>
-          <% avis.forEach((a, i) => { %>
-            <%
-              const nomClient     = (a.prenom_client && a.nom_client) ? a.prenom_client + ' ' + a.nom_client : 'Client #' + a.id_client;
-              const initialeClient = a.prenom_client ? a.prenom_client[0].toUpperCase() : String(a.id_client).charAt(0).toUpperCase();
-            %>
+          <% avis.forEach(function(a, i) {
+            var nomClient      = (a.prenom_client && a.nom_client) ? a.prenom_client + ' ' + a.nom_client : 'Client #' + a.id_client;
+            var initialeClient = a.prenom_client ? a.prenom_client[0].toUpperCase() : 'C';
+            var avisNote       = Number(a.note_avis) || 0;
+          %>
             <div class="avis-card statut-<%= a.statut_avis %>" id="avis-<%= a.id_avis %>" data-statut="<%= a.statut_avis %>">
               <div class="avis-card-top">
                 <div class="avis-author">
-                  <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>">
-                    <%= initialeClient %>
-                  </div>
+                  <div class="avis-avatar" style="background:<%= colors[i % colors.length] %>"><%= initialeClient %></div>
                   <div>
                     <div class="avis-name"><%= nomClient %></div>
-                    <div class="avis-stars"><% for(let s=0;s<5;s++){%><%= s < a.note_avis ? '★' : '☆' %><% } %></div>
+                    <div class="avis-stars"><% for(var s=0;s<5;s++){%><%= s < avisNote ? '★' : '☆' %><% } %></div>
                   </div>
                 </div>
                 <div style="text-align:right;">
                   <span class="badge-statut badge-<%= a.statut_avis %>">
-                    <% if (a.statut_avis === 'en_attente') { %>⏳ En attente
-                    <% } else if (a.statut_avis === 'approuve') { %>✅ Approuvé
-                    <% } else { %>❌ Rejeté<% } %>
+                    <% if      (a.statut_avis === 'en_attente') { %>En attente
+                    <% } else if (a.statut_avis === 'approuve')  { %>Approuve
+                    <% } else { %>Rejete<% } %>
                   </span>
                   <div class="avis-date" style="margin-top:0.3rem;"><%= new Date(a.date_avis).toLocaleDateString('fr-FR', { day:'numeric', month:'short' }) %></div>
                 </div>
@@ -234,19 +187,19 @@
               <p class="avis-comment">« <%= a.commentaire_avis || 'Aucun commentaire.' %> »</p>
               <div class="avis-actions">
                 <% if (a.statut_avis === 'en_attente' || a.statut_avis === 'rejete') { %>
-                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>, 'approuve')">✓ Approuver</button>
+                  <button class="btn-approve" onclick="moderateAvis(<%= a.id_avis %>, 'approuve')">Approuver</button>
                 <% } %>
                 <% if (a.statut_avis === 'en_attente' || a.statut_avis === 'approuve') { %>
-                  <button class="btn-reject" onclick="moderateAvis(<%= a.id_avis %>, 'rejete')">✗ Rejeter</button>
+                  <button class="btn-reject" onclick="moderateAvis(<%= a.id_avis %>, 'rejete')">Rejeter</button>
                 <% } %>
               </div>
             </div>
-          <% }) %>
+          <% }); %>
         </div>
       <% } %>
     </div>
 
-    <div class="admin-footer">RestoBook Manager — Espace Serveur — © 2026 Le Gourmet Parisien</div>
+    <div class="admin-footer">RestoBook Manager — Espace Serveur — 2026 Le Gourmet Parisien</div>
   </main>
 </div>
 
@@ -256,39 +209,37 @@
   function getToken() {
     return document.cookie.split('; ').find(c => c.startsWith('token='))?.split('=')[1];
   }
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg;
+  function showToast(msg, type) {
+    type = type || 'success';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
     t.className = 'toast show ' + type;
-    setTimeout(() => { t.className = 'toast'; }, 3000);
+    setTimeout(function() { t.className = 'toast'; }, 3000);
   }
-
   function filterAvis(statut, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
-    let visible = 0;
-    document.querySelectorAll('.avis-card').forEach(card => {
-      const show = statut === 'all' || card.dataset.statut === statut;
+    var visible = 0;
+    document.querySelectorAll('.avis-card').forEach(function(card) {
+      var show = statut === 'all' || card.dataset.statut === statut;
       card.classList.toggle('hidden', !show);
       if (show) visible++;
     });
-    document.getElementById('results-count').innerHTML =
-      '<strong>' + visible + '</strong> avis affiché' + (visible > 1 ? 's' : '');
+    document.getElementById('results-count').innerHTML = '<strong>' + visible + '</strong> avis affiche' + (visible > 1 ? 's' : '');
   }
-
   async function moderateAvis(id, statut) {
     try {
-      const res = await fetch('/avis/' + id + '/moderate', {
+      var res = await fetch('/avis/' + id + '/moderate', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
         body: JSON.stringify({ statut_avis: statut })
       });
       if (!res.ok) throw new Error();
-      const card = document.getElementById('avis-' + id);
+      var card = document.getElementById('avis-' + id);
       if (card) { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; card.style.transition = '0.3s'; }
-      showToast(statut === 'approuve' ? 'Avis approuvé !' : 'Avis rejeté.');
-      setTimeout(() => location.reload(), 900);
-    } catch { showToast('Erreur lors de la modération.', 'error'); }
+      showToast(statut === 'approuve' ? 'Avis approuve !' : 'Avis rejete.');
+      setTimeout(function() { location.reload(); }, 900);
+    } catch(e) { showToast('Erreur lors de la moderation.', 'error'); }
   }
 </script>
 </body>

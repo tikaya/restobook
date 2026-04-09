@@ -23,7 +23,7 @@
   .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--bordeaux); line-height: 1; }
   .page-header p { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brun-light); margin-top: 0.3rem; font-style: italic; }
 
-  .btn-new { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--bordeaux); color: #fff; padding: 0.65rem 1.25rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .btn-new { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--bordeaux); color: #fff; padding: 0.65rem 1.25rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
   .btn-new:hover { background: var(--bordeaux-light); transform: translateY(-1px); }
 
   .stats-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -52,8 +52,7 @@
 
   .res-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
   .res-id { font-size: 0.7rem; color: var(--brun-light); opacity: 0.5; }
-
-  .badge-statut { font-size: 0.7rem; font-weight: 500; padding: 0.22rem 0.7rem; border-radius: 50px; letter-spacing: 0.03em; white-space: nowrap; }
+  .badge-statut { font-size: 0.7rem; font-weight: 500; padding: 0.22rem 0.7rem; border-radius: 50px; white-space: nowrap; }
   .badge-confirmee  { background: var(--bleu-pale);   color: var(--bleu); }
   .badge-honoree    { background: var(--vert-pale);   color: var(--vert); }
   .badge-annulee    { background: var(--rouge-pale);  color: var(--rouge); }
@@ -67,22 +66,21 @@
   .res-time-client { line-height: 1.6; }
   .res-heure { font-size: 1rem; font-weight: 600; color: var(--brun); }
   .res-client { font-size: 0.82rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.35rem; }
-  .res-client-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--bordeaux-pale); color: var(--bordeaux); font-size: 0.6rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .res-client-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--bordeaux-pale); color: var(--bordeaux); font-size: 0.6rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
 
   .res-details { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
   .res-tag { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--creme); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.2rem 0.65rem; font-size: 0.75rem; color: var(--brun-light); }
-
   .res-demandes { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: var(--brun-light); background: var(--creme); border-left: 3px solid var(--or); padding: 0.5rem 0.75rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 0.75rem; line-height: 1.5; }
 
   .res-actions { display: flex; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid var(--creme-dark); flex-wrap: wrap; }
-  .btn-sm { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.3rem; padding: 0.45rem 0.5rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; border: 1px solid transparent; }
+  .btn-sm { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0.45rem 0.5rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; border: 1px solid transparent; }
   .btn-edit    { background: var(--bordeaux-pale); color: var(--bordeaux); border-color: rgba(107,26,42,0.15); }
   .btn-edit:hover { background: var(--bordeaux); color: #fff; }
-  .btn-honoree { background: var(--vert-pale);   color: var(--vert);    border-color: rgba(46,125,50,0.2); }
+  .btn-honoree { background: var(--vert-pale);   color: var(--vert);   border-color: rgba(46,125,50,0.2); }
   .btn-honoree:hover { background: var(--vert); color: #fff; }
-  .btn-noshow  { background: var(--orange-pale); color: var(--orange);  border-color: rgba(230,81,0,0.2); }
+  .btn-noshow  { background: var(--orange-pale); color: var(--orange); border-color: rgba(230,81,0,0.2); }
   .btn-noshow:hover { background: var(--orange); color: #fff; }
-  .btn-annuler { background: var(--rouge-pale);  color: var(--rouge);   border-color: rgba(198,40,40,0.15); }
+  .btn-annuler { background: var(--rouge-pale);  color: var(--rouge);  border-color: rgba(198,40,40,0.15); }
   .btn-annuler:hover { background: var(--rouge); color: #fff; }
   .btn-delete  { background: var(--creme); color: var(--brun-light); border-color: var(--creme-dark); }
   .btn-delete:hover { background: var(--rouge-pale); color: var(--rouge); }
@@ -91,7 +89,6 @@
   .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
   .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
 
-  /* Modal */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(61,43,31,0.45); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
   .modal-overlay.show { display: flex; }
   .modal { background: var(--blanc); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(61,43,31,0.25); animation: slideUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
@@ -101,15 +98,19 @@
   .form-label { display: block; font-size: 0.72rem; font-weight: 500; color: var(--brun-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
   .form-input { width: 100%; padding: 0.65rem 0.875rem; border: 1.5px solid var(--creme-dark); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: var(--brun); background: var(--creme); outline: none; transition: border-color 0.2s; }
   .form-input:focus { border-color: var(--bordeaux); background: var(--blanc); }
+  .form-input.invalid { border-color: var(--rouge); background: #fff8f8; }
+  .form-hint { font-size: 0.7rem; color: var(--brun-light); font-style: italic; margin-top: 0.2rem; display: block; }
+  .form-hint.error-hint { color: var(--rouge); }
+  .form-hint.ok-hint    { color: var(--vert); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
   .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
   .btn-save { flex: 1; padding: 0.75rem; background: var(--bordeaux); color: #fff; border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .btn-save:hover { background: var(--bordeaux-light); }
-  .btn-cancel { flex: 0.5; padding: 0.75rem; background: var(--blanc); color: var(--brun-light); border: 1.5px solid var(--creme-dark); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+  .btn-cancel { flex: 0.5; padding: 0.75rem; background: var(--blanc); color: var(--brun-light); border: 1.5px solid var(--creme-dark); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; cursor: pointer; }
   .btn-cancel:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
   .feedback-msg { display: none; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 500; margin-bottom: 1rem; }
-  .feedback-msg.error { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
-  .feedback-msg.success { background: var(--vert-pale); color: var(--vert); border: 1px solid rgba(46,125,50,0.2); }
+  .feedback-msg.error   { background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.2); }
+  .feedback-msg.success { background: var(--vert-pale);  color: var(--vert);  border: 1px solid rgba(46,125,50,0.2); }
 
   .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
   .toast.show { transform: translateY(0); opacity: 1; }
@@ -119,12 +120,12 @@
 </style>
 
 <%
-  var nbTotal    = reservations.length;
-  var nbConfirm  = reservations.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length;
-  var nbHonoree  = reservations.filter(function(r){ return r.statut_reservation === 'honoree'; }).length;
-  var nbAttente  = reservations.filter(function(r){ return r.statut_reservation === 'en_attente'; }).length;
-  var nbNoshow   = reservations.filter(function(r){ return r.statut_reservation === 'no_show'; }).length;
-  var nbAnnulee  = reservations.filter(function(r){ return r.statut_reservation === 'annulee'; }).length;
+  var nbTotal   = reservations.length;
+  var nbConfirm = reservations.filter(function(r){ return r.statut_reservation === 'confirmee'; }).length;
+  var nbHonoree = reservations.filter(function(r){ return r.statut_reservation === 'honoree'; }).length;
+  var nbAttente = reservations.filter(function(r){ return r.statut_reservation === 'en_attente'; }).length;
+  var nbNoshow  = reservations.filter(function(r){ return r.statut_reservation === 'no_show'; }).length;
+  var nbAnnulee = reservations.filter(function(r){ return r.statut_reservation === 'annulee'; }).length;
 %>
 
 <div class="res-page">
@@ -176,6 +177,7 @@
       var initiale   = r.prenom_client ? r.prenom_client[0].toUpperCase() : '?';
       var numTable   = r.numero_table ? 'Table ' + r.numero_table : 'Table #' + r.id_table;
       var demEncoded = encodeURIComponent(r.demandes_speciales || '');
+      var dateISO    = r.date_reservation ? new Date(r.date_reservation).toISOString().split('T')[0] : '';
     %>
       <div class="res-card statut-<%= r.statut_reservation %>"
            id="card-<%= r.id_reservation %>"
@@ -222,7 +224,7 @@
         <div class="res-actions">
           <button class="btn-sm btn-edit" onclick="openModalEdit(
             <%= r.id_reservation %>,
-            '<%= r.date_reservation ? new Date(r.date_reservation).toISOString().split('T')[0] : '' %>',
+            '<%= dateISO %>',
             '<%= heure %>',
             <%= r.nb_personnes %>,
             '<%= r.id_table %>',
@@ -254,10 +256,12 @@
         <div class="form-group">
           <label class="form-label">Date *</label>
           <input type="date" name="date_reservation" class="form-input" required id="new-date">
+          <span class="form-hint" id="hint-new-date">Ferme le lundi</span>
         </div>
         <div class="form-group">
           <label class="form-label">Heure *</label>
-          <input type="time" name="heure_reservation" class="form-input" required>
+          <input type="time" name="heure_reservation" class="form-input" required id="new-heure">
+          <span class="form-hint" id="hint-new-heure">Choisir une date d'abord</span>
         </div>
       </div>
       <div class="form-row">
@@ -266,16 +270,14 @@
           <input type="number" name="nb_personnes" class="form-input" min="1" max="20" value="2" required>
         </div>
         <div class="form-group">
-  <label class="form-label">Client *</label>
-  <select name="id_client" class="form-input" required>
-    <option value="">Choisir un client...</option>
-    <% clients.forEach(function(c) { %>
-      <option value="<%= c.id_client %>">
-        <%= c.prenom_client %> <%= c.nom_client %> — <%= c.email_client %>
-      </option>
-    <% }); %>
-  </select>
-</div>
+          <label class="form-label">Client *</label>
+          <select name="id_client" class="form-input" required>
+            <option value="">Choisir un client...</option>
+            <% clients.forEach(function(c) { %>
+              <option value="<%= c.id_client %>"><%= c.prenom_client %> <%= c.nom_client %> — <%= c.email_client %></option>
+            <% }); %>
+          </select>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">Emplacement souhaite</label>
@@ -309,10 +311,12 @@
         <div class="form-group">
           <label class="form-label">Date *</label>
           <input type="date" name="date_reservation" id="edit-date" class="form-input" required>
+          <span class="form-hint" id="hint-edit-date">Ferme le lundi</span>
         </div>
         <div class="form-group">
           <label class="form-label">Heure *</label>
           <input type="time" name="heure_reservation" id="edit-heure" class="form-input" required>
+          <span class="form-hint" id="hint-edit-heure">Choisir une date d'abord</span>
         </div>
       </div>
       <div class="form-row">
@@ -365,14 +369,79 @@
     el.style.display = 'block';
     el.textContent = text;
   }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('show');
-  }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
   document.querySelectorAll('.modal-overlay').forEach(function(o) {
     o.addEventListener('click', function(e) { if (e.target === o) o.classList.remove('show'); });
   });
 
-  // Filtres
+  // ── Validation horaires ───────────────────────────────────
+  var horaires = {
+    0: { label: 'Dimanche : 12h-14h30',            services: [[720, 870]] },
+    1: { label: 'Ferme le lundi',                   services: [] },
+    2: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    3: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    4: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    5: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
+    6: { label: 'Samedi : 12h-15h · 19h-23h',      services: [[720, 900], [1140, 1380]] }
+  };
+
+  function getJour(dateVal) {
+    if (!dateVal) return null;
+    var parts = dateVal.split('-');
+    return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])).getDay();
+  }
+
+  function isHeureValide(jour, heure) {
+    if (!heure || jour === null || !horaires[jour]) return false;
+    var parts = heure.split(':');
+    var totalMin = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    return horaires[jour].services.some(function(s) { return totalMin >= s[0] && totalMin <= s[1]; });
+  }
+
+  // Bind validation sur une paire date/heure
+  function bindDateHeure(dateId, heureId, hintDateId, hintHeureId) {
+    var dateEl  = document.getElementById(dateId);
+    var heureEl = document.getElementById(heureId);
+    var hintD   = document.getElementById(hintDateId);
+    var hintH   = document.getElementById(hintHeureId);
+
+    dateEl.addEventListener('change', function() {
+      var jour = getJour(this.value);
+      if (jour === null) return;
+      if (jour === 1) {
+        this.classList.add('invalid');
+        hintD.className = 'form-hint error-hint';
+        hintD.textContent = 'Ferme le lundi — choisissez un autre jour.';
+        this.value = ''; heureEl.value = '';
+      } else {
+        this.classList.remove('invalid');
+        hintD.className = 'form-hint';
+        hintD.textContent = horaires[jour].label;
+        heureEl.value = '';
+        hintH.className = 'form-hint';
+        hintH.textContent = horaires[jour].label;
+      }
+    });
+
+    heureEl.addEventListener('change', function() {
+      var jour = getJour(dateEl.value);
+      if (jour === null) { this.value = ''; return; }
+      if (!isHeureValide(jour, this.value)) {
+        this.classList.add('invalid');
+        hintH.className = 'form-hint error-hint';
+        hintH.textContent = 'Heure hors service — ' + horaires[jour].label;
+      } else {
+        this.classList.remove('invalid');
+        hintH.className = 'form-hint ok-hint';
+        hintH.textContent = 'Heure valide';
+      }
+    });
+  }
+
+  bindDateHeure('new-date',  'new-heure',  'hint-new-date',  'hint-new-heure');
+  bindDateHeure('edit-date', 'edit-heure', 'hint-edit-date', 'hint-edit-heure');
+
+  // ── Filtres ───────────────────────────────────────────────
   var currentFilter = 'all';
   function setFilter(f, el) {
     currentFilter = f;
@@ -389,16 +458,32 @@
     });
   }
 
-  // Nouvelle reservation
+  // ── Nouvelle reservation ──────────────────────────────────
   function openModalNew() {
     document.getElementById('form-new').reset();
     document.getElementById('new-msg').style.display = 'none';
     document.getElementById('new-date').min = new Date().toISOString().split('T')[0];
+    document.getElementById('hint-new-date').className  = 'form-hint';
+    document.getElementById('hint-new-date').textContent = 'Ferme le lundi';
+    document.getElementById('hint-new-heure').className  = 'form-hint';
+    document.getElementById('hint-new-heure').textContent = 'Choisir une date d\'abord';
+    document.getElementById('new-date').classList.remove('invalid');
+    document.getElementById('new-heure').classList.remove('invalid');
     document.getElementById('modal-new').classList.add('show');
   }
+
   document.getElementById('form-new').addEventListener('submit', async function(e) {
     e.preventDefault();
     var f = e.target;
+
+    // Validation horaires
+    var jour = getJour(f.date_reservation.value);
+    if (jour === 1) { showFeedback('new-msg', false, 'Nous sommes fermes le lundi.'); return; }
+    if (!isHeureValide(jour, f.heure_reservation.value)) {
+      showFeedback('new-msg', false, 'Heure invalide. ' + (horaires[jour] ? horaires[jour].label : ''));
+      return;
+    }
+
     var data = {
       date_reservation:   f.date_reservation.value,
       heure_reservation:  f.heure_reservation.value,
@@ -424,7 +509,7 @@
     } catch(err) { showFeedback('new-msg', false, 'Erreur de connexion.'); }
   });
 
-  // Modifier reservation
+  // ── Modifier reservation ──────────────────────────────────
   function openModalEdit(id, date, heure, nb, idTable, demEncoded) {
     document.getElementById('edit-id').value       = id;
     document.getElementById('edit-date').value     = date;
@@ -434,12 +519,32 @@
     document.getElementById('edit-demandes').value = decodeURIComponent(demEncoded);
     document.getElementById('edit-date').min       = new Date().toISOString().split('T')[0];
     document.getElementById('edit-msg').style.display = 'none';
+    // Init hints selon la date existante
+    var jour = getJour(date);
+    var hintD = document.getElementById('hint-edit-date');
+    var hintH = document.getElementById('hint-edit-heure');
+    hintD.className = 'form-hint';
+    hintD.textContent = jour !== null ? horaires[jour].label : 'Ferme le lundi';
+    hintH.className = isHeureValide(jour, heure) ? 'form-hint ok-hint' : 'form-hint';
+    hintH.textContent = isHeureValide(jour, heure) ? 'Heure valide' : (jour !== null ? horaires[jour].label : 'Choisir une date d\'abord');
+    document.getElementById('edit-date').classList.remove('invalid');
+    document.getElementById('edit-heure').classList.remove('invalid');
     document.getElementById('modal-edit').classList.add('show');
   }
+
   document.getElementById('form-edit').addEventListener('submit', async function(e) {
     e.preventDefault();
     var f  = e.target;
     var id = document.getElementById('edit-id').value;
+
+    // Validation horaires
+    var jour = getJour(f.date_reservation.value);
+    if (jour === 1) { showFeedback('edit-msg', false, 'Nous sommes fermes le lundi.'); return; }
+    if (!isHeureValide(jour, f.heure_reservation.value)) {
+      showFeedback('edit-msg', false, 'Heure invalide. ' + (horaires[jour] ? horaires[jour].label : ''));
+      return;
+    }
+
     var data = {
       date_reservation:   f.date_reservation.value,
       heure_reservation:  f.heure_reservation.value,
@@ -465,7 +570,7 @@
     } catch(err) { showFeedback('edit-msg', false, 'Erreur de connexion.'); }
   });
 
-  // Changer statut
+  // ── Changer statut ────────────────────────────────────────
   async function updateRes(id, statut) {
     var labels = { honoree: 'Reservation honoree.', no_show: 'Client no-show.', annulee: 'Reservation annulee.' };
     var types  = { honoree: 'success', no_show: 'warning', annulee: 'error' };
@@ -481,7 +586,7 @@
     } catch(err) { showToast(err.message, 'error'); }
   }
 
-  // Supprimer
+  // ── Supprimer ─────────────────────────────────────────────
   async function deleteRes(id) {
     if (!confirm('Supprimer definitivement cette reservation ?')) return;
     try {

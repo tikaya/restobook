@@ -3,14 +3,14 @@ const db = require('../db');
 const avisModel = {
     // Avis approuvés uniquement (public)
     findAllApproved: async () => {
-    const result = await db.query(`
-        SELECT a.*, c.nom_client, c.prenom_client
-        FROM avis a
-        LEFT JOIN client c ON a.id_client = c.id_client
-        WHERE a.statut_avis = 'approuve'
-        ORDER BY a.date_avis DESC
-    `);
-    return result.rows || [];
+    const result = await db.query(
+        `SELECT a.*, c.prenom_client, c.nom_client
+         FROM avis a
+         LEFT JOIN client c ON a.id_client = c.id_client
+         WHERE a.statut_avis = 'approuve'
+         ORDER BY a.date_avis DESC`
+    );
+    return result.rows;
 },
 
     // Tous les avis (admin/serveur)

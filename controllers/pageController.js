@@ -189,8 +189,9 @@ serveurMenu: async (req,res,next) => {
      // Premier effet de bord : récuperer tous les plats et catégories
     const categories = await categorieService.getAllCategories();
     const plats = await platService.getAllPlats();
+    const avis = await avisService.getAllAvis();
     // Deuxième effet de bord : rendre le HTML au client
-    res.render("serveur/menu",{title:'Gestion menu',user:req.user,plats,categories})
+    res.render("serveur/menu",{title:'Gestion menu',user:req.user,plats,categories,avis})
   } catch (error) {
     next(error)
 
