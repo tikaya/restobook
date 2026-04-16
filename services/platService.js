@@ -50,7 +50,12 @@ const platService = {
             throw error;
         }
         return deleted;
-    }
+    },
+    updatePlatImage: async (id, imagePath) => {
+    const plat = await platModel.updateImage(id, imagePath);
+    if (!plat) throw new Error('Plat introuvable.');
+    return plat;
+}
 }
 
 module.exports = platService;

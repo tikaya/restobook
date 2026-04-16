@@ -78,10 +78,13 @@ const pageController = {
 
 espaceClient: async (req, res, next) => {
     try {
-        res.render('espace-client', { title: 'Mon espace', user: req.user })
-    } catch (error) {
-        next(error)
-    }
+        // ← Récupérer les données complètes du client depuis la BDD
+        const client = await clientService.getClientById(req.user.id);
+        res.render('espace-client', {
+            title: 'Mon espace',
+            user: { ...req.user, ...client } // ← merge JWT + données BDD
+        });
+    } catch (error) { next(error); }
 },
 
 espaceServeur: async (req, res, next) => {

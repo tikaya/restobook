@@ -45,33 +45,31 @@ const platModel = {
     },
 
     // Mettons à jour un plat existant
-    update: async (id,data) => {
-        const result = await db.query(
-            `
-            UPDATE item_menu
-            SET nom_item_menu = $1,
-                description_item_menu = $2,
-                prix_item_menu = $3,
-                image_item_menu = $4,
-                allergenes_item_menu = $5,
-                disponible_item_menu = $6,
-                id_categorie = $7
-            WHERE id_item_menu = $8
-            RETURNING *`,
-            [
-                data.nom_item_menu,
-                data.description_item_menu,
-                data.prix_item_menu,
-                data.image_item_menu,
-                data.allergenes_item_menu,
-                data.disponible_item_menu,
-                data.id_categorie,
-                id
-            ]
-        );
-        return result.rows[0] || null;
-    },
-
+   update: async (id, data) => {
+    const result = await db.query(
+        `UPDATE item_menu
+         SET nom_item_menu       = $1,
+             description_item_menu = $2,
+             prix_item_menu      = $3,
+             image_item_menu     = COALESCE($4, image_item_menu), -- ← garde l'ancienne si null
+             allergenes_item_menu = $5,
+             disponible_item_menu = $6,
+             id_categorie        = $7
+         WHERE id_item_menu = $8
+         RETURNING *`,
+        [
+            data.nom_item_menu,
+            data.description_item_menu,
+            data.prix_item_menu,
+            data.image_item_menu || null,  // ← null si pas de nouvelle image
+            data.allergenes_item_menu,
+            data.disponible_item_menu,
+            data.id_categorie,
+            id
+        ]
+    );
+    return result.rows[0] || null;
+},
     // Supprimons un plat
     delete: async (id) => {
         const result = await db.query(
@@ -80,7 +78,18 @@ const platModel = {
             RETURNING *`, [id]
         );
         return result.rows[0] || null;
-    }
+    },
+    // Dans platModel.js — ajouter cette méthode
+updateImage: async (id, imagePath) => {
+    const result = await db.query(
+        `UPDATE item_menu
+         SET image_item_menu = $1
+         WHERE id_item_menu = $2
+         RETURNING *`,
+        [imagePath, id]
+    );
+    return result.rows[0] || null;
+}
 }
 
 module.exports =  platModel;

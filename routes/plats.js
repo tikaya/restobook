@@ -1,6 +1,9 @@
 // Importons le controller platController pour gérer les requêtes liées aux plats
 const platController = require('../controllers/platController');
 
+// Importons le  middleware pour telecharger les images
+const upload = require('../middlewares/upload')
+
 // Importons le middleware de validation pour valider les données des requêtes
 const { validatePlat, validatePlatUpdate } = require('../middlewares/validate');
 
@@ -14,9 +17,10 @@ const router = express.Router();
 // Définissons les routes pour les opérations CRUD sur les plats
 router.get('/', platController.getAll); // Récupérer tous les plats
 router.get('/:id', platController.getById); // Récupérer un plat par son ID
-router.post('/',verifyToken, requireRole("gerant"), validatePlat, platController.create); // Créer un nouveau plat avec validation
-router.put('/:id',verifyToken, requireRole("gerant"), validatePlatUpdate, platController.update); // Mettre à jour un plat existant avec validation
+router.post('/', verifyToken, requireRole("gerant"), upload.single('image_item_menu'), validatePlat, platController.create);
+router.put('/:id', verifyToken, requireRole("gerant"), upload.single('image_item_menu'), validatePlatUpdate, platController.update);
 router.delete('/:id', verifyToken, requireRole("gerant"),platController.delete); // Supprimer un plat
+router.post('/:id/image', verifyToken, requireRole('gerant'), upload.single('image_item_menu'), platController.updateImage);
 
 // Exportons le routeur pour l'utiliser dans l'application principale
 module.exports = router;

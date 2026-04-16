@@ -99,6 +99,24 @@ app.use((err, req, res, next) => {
 })
 
 // 5. Démarrer
-app.listen(PORT, () => {
-    console.log(`Le serveur est en cours d'exécution sur le port ${PORT}`)
-})
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log('\n');
+        console.log('  ╔════════════════════════════════════════════╗');
+        console.log('  ║        🍽️  RestoBook Manager               ║');
+        console.log('  ╠════════════════════════════════════════════╣');
+        console.log(`  ║  🚀 Serveur    → http://localhost:${PORT}      ║`);
+        console.log(`  ║  🗄️  Base       → PostgreSQL                ║`);
+        console.log(`  ║  📦 MongoDB    → Logs actifs                ║`);
+        console.log(`  ║  🌍 Env        → ${process.env.NODE_ENV || 'development'}                 ║`);
+        console.log('  ╠════════════════════════════════════════════╣');
+        console.log('  ║  📌 Espaces disponibles :                   ║');
+        console.log(`  ║     /espace-client   → Client               ║`);
+        console.log(`  ║     /espace-serveur  → Serveur              ║`);
+        console.log(`  ║     /espace-admin    → Gerant               ║`);
+        console.log('  ╚════════════════════════════════════════════╝');
+        console.log('\n');
+    });
+}
+
+module.exports = app

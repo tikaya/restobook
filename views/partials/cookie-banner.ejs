@@ -1,0 +1,210 @@
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- COOKIE BANNER — Le Gourmet Parisien                    -->
+<!-- A inclure dans partials/footer.ejs juste avant </body> -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<style>
+  /* Overlay de fond */
+  .cookie-overlay {
+    position: fixed; inset: 0;
+    background: rgba(42,10,16,0.55);
+    backdrop-filter: blur(6px);
+    z-index: 9998;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .cookie-overlay.show { opacity: 1; pointer-events: all; }
+  .cookie-overlay.hide { opacity: 0; pointer-events: none; }
+
+  .cookie-banner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    z-index: 9999;
+    width: calc(100% - 3rem);
+    max-width: 580px;
+    background: var(--bordeaux-dark, #401018);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 22px;
+    padding: 2.25rem 2rem;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(201,168,76,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .cookie-banner.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+  .cookie-banner.hide {
+    transform: translate(-50%, -50%) scale(0.88);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Icone cookie */
+  .cookie-icon {
+    width: 58px; height: 58px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.22);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem;
+    flex-shrink: 0;
+  }
+
+  /* Texte */
+  .cookie-content { flex: 1; min-width: 0; }
+  .cookie-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem; font-weight: 700;
+    color: #fff; margin-bottom: 0.25rem;
+    letter-spacing: 0.01em;
+  }
+  .cookie-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem; font-style: italic;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+  .cookie-text a {
+    color: var(--or, #C9A84C);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    transition: border-color 0.2s;
+  }
+  .cookie-text a:hover { border-color: var(--or, #C9A84C); }
+
+  /* Actions */
+  .cookie-actions { display: flex; gap: 0.6rem; justify-content: center; }
+  .cookie-btn-accept {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: linear-gradient(135deg, var(--or, #C9A84C), #a8873a);
+    color: #401018;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.65rem 1.25rem;
+    border: none; border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 16px rgba(201,168,76,0.25);
+    white-space: nowrap;
+  }
+  .cookie-btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(201,168,76,0.4);
+    background: linear-gradient(135deg, #d4b050, #c9a84c);
+  }
+  .cookie-btn-close {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    color: rgba(255,255,255,0.35);
+    font-size: 1rem; line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .cookie-btn-close:hover {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  /* Barre de progression decorative */
+  .cookie-progress {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--or, #C9A84C), rgba(201,168,76,0.3));
+    border-radius: 0 0 18px 18px;
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: none;
+  }
+  .cookie-progress.animate {
+    transform: scaleX(1);
+    transition: transform 8s linear;
+  }
+
+  @media (max-width: 600px) {
+    .cookie-banner { padding: 1.75rem 1.5rem; }
+    .cookie-actions { width: 100%; }
+    .cookie-btn-accept { flex: 1; justify-content: center; }
+  }
+</style>
+
+<div class="cookie-overlay" id="cookie-overlay"></div>
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Bandeau cookies">
+  <div class="cookie-progress" id="cookie-progress"></div>
+
+  <div class="cookie-icon">&#127850;</div>
+
+  <div class="cookie-content">
+    <div class="cookie-title">Ce site utilise des cookies</div>
+    <p class="cookie-text">
+      Nous utilisons uniquement des cookies <strong style="color:rgba(255,255,255,0.75);font-style:normal;">strictement necessaires</strong>
+      a votre authentification et a la securite de votre session.
+      Aucun cookie publicitaire ni de tracking.
+    </p>
+  </div>
+
+  <div class="cookie-actions">
+    <button class="cookie-btn-accept" onclick="acceptCookies()" aria-label="Accepter les cookies">
+      &#10003; Compris
+    </button>
+    <button class="cookie-btn-close" onclick="closeCookieBanner()" aria-label="Fermer">&#10005;</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var banner   = document.getElementById('cookie-banner');
+    var overlay  = document.getElementById('cookie-overlay');
+    var progress = document.getElementById('cookie-progress');
+
+    // Verifier si deja accepte
+    function getCookie(name) {
+      return document.cookie.split('; ').find(function(c) { return c.startsWith(name + '='); });
+    }
+
+    if (!getCookie('cookie_consent')) {
+      // Afficher apres un court delai pour que la page charge d'abord
+      setTimeout(function() {
+        banner.classList.add('show');
+        overlay.classList.add('show');
+        // Barre de progression — disparait automatiquement apres 8s
+        setTimeout(function() { progress.classList.add('animate'); }, 50);
+        setTimeout(function() {
+          if (banner.classList.contains('show')) closeCookieBanner();
+        }, 8500);
+      }, 1200);
+    }
+
+    window.acceptCookies = function() {
+      // Stocker le consentement 12 mois
+      var expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      document.cookie = 'cookie_consent=true; path=/; expires=' + expires.toUTCString() + '; SameSite=Lax';
+      closeCookieBanner();
+    };
+
+    window.closeCookieBanner = function() {
+      banner.classList.remove('show');
+      banner.classList.add('hide');
+      overlay.classList.remove('show');
+      overlay.classList.add('hide');
+    };
+  })();
+</script>

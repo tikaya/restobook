@@ -4,8 +4,8 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
 
   :root {
-    --bordeaux: #6B1A2A; --bordeaux-light: #8B2A3A; --bordeaux-pale: #f5eaec;
-    --or: #C9A84C; --or-light: #fdf6e3;
+    --bordeaux: #6B1A2A; --bordeaux-light: #8B2A3A; --bordeaux-pale: #f5eaec; --bordeaux-ultra: #fdf0f2;
+    --or: #C9A84C; --or-light: #fdf6e3; --or-dark: #a8873a;
     --creme: #FAF6F0; --creme-dark: #EDE5D8;
     --brun: #3D2B1F; --brun-light: #7A5C4A; --blanc: #FFFFFF;
     --vert: #2e7d32; --vert-pale: #e8f5e9;
@@ -31,13 +31,10 @@
   .stat-chip { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.8rem; color: var(--brun-light); display: flex; align-items: center; gap: 0.4rem; }
   .stat-chip strong { color: var(--bordeaux); font-weight: 600; }
 
-  /* Categories bar */
   .cat-bar { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .cat-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 1rem; border-radius: 50px; border: 1.5px solid var(--creme-dark); background: var(--blanc); color: var(--brun-light); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
   .cat-pill:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
   .cat-pill.active { background: var(--bordeaux); color: #fff; border-color: var(--bordeaux); }
-  .cat-pill-edit { font-size: 0.68rem; opacity: 0.7; cursor: pointer; padding: 0 0.25rem; transition: opacity 0.2s; }
-  .cat-pill-edit:hover { opacity: 1; }
 
   .category-block { margin-bottom: 2.5rem; }
   .category-label { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
@@ -50,37 +47,69 @@
   .btn-cat-del { padding: 0.2rem 0.6rem; border-radius: 50px; border: 1px solid rgba(198,40,40,0.15); background: var(--rouge-pale); color: var(--rouge); font-size: 0.72rem; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
   .btn-cat-del:hover { background: var(--rouge); color: #fff; }
 
+  /* ── Grille plats ── */
   .plats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-  .plat-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); padding: 1.25rem; transition: all 0.25s ease; position: relative; overflow: hidden; }
-  .plat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--bordeaux); opacity: 0; transition: opacity 0.2s; }
+
+  .plat-card { background: var(--blanc); border: 1px solid var(--creme-dark); border-radius: var(--radius); overflow: hidden; transition: all 0.25s ease; position: relative; display: flex; flex-direction: column; }
   .plat-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); border-color: var(--bordeaux-pale); }
-  .plat-card:hover::before { opacity: 1; }
   .plat-card.hidden { display: none; }
 
-  .plat-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; }
+  /* Zone image cliquable */
+  .plat-img-zone {
+    height: 140px; position: relative; overflow: hidden; flex-shrink: 0; cursor: pointer;
+    background: linear-gradient(135deg, var(--creme-dark), #e8ddd0);
+  }
+  .plat-img-zone img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .plat-card:hover .plat-img-zone img { transform: scale(1.04); }
+  .plat-img-placeholder {
+    width: 100%; height: 100%; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 0.35rem;
+  }
+  .plat-img-placeholder-icon { font-size: 2rem; opacity: 0.18; }
+  .plat-img-placeholder-txt { font-size: 0.62rem; color: var(--brun-light); opacity: 0.5; font-family: 'DM Sans', sans-serif; }
+  .plat-img-overlay {
+    position: absolute; inset: 0; background: rgba(61,43,31,0.5);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.35rem;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .plat-img-zone:hover .plat-img-overlay { opacity: 1; }
+  .plat-img-overlay-icon { font-size: 1.4rem; }
+  .plat-img-overlay-txt { color: #fff; font-size: 0.7rem; font-weight: 600; font-family: 'DM Sans', sans-serif; }
+  .badge-dispo-img {
+    position: absolute; top: 0.5rem; right: 0.5rem;
+    font-size: 0.62rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .badge-dispo-img.ok  { background: var(--vert-pale);   color: var(--vert); }
+  .badge-dispo-img.non { background: var(--rouge-pale);   color: var(--rouge); }
+
+  /* Corps carte */
+  .plat-body { padding: 1.1rem 1.1rem 1rem; flex: 1; display: flex; flex-direction: column; }
+  .plat-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
   .plat-nom { font-weight: 600; font-size: 0.95rem; color: var(--brun); flex: 1; margin-right: 0.75rem; line-height: 1.3; }
   .plat-prix { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--bordeaux); white-space: nowrap; }
-  .plat-desc { font-size: 0.8rem; color: var(--brun-light); line-height: 1.5; margin-bottom: 0.75rem; min-height: 2.4em; }
-  .plat-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--creme-dark); }
-  .plat-allergenes { font-size: 0.72rem; color: var(--brun-light); background: var(--creme); padding: 0.2rem 0.5rem; border-radius: 4px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .badge-dispo { font-size: 0.7rem; font-weight: 500; padding: 0.22rem 0.65rem; border-radius: 50px; }
+  .plat-desc { font-size: 0.8rem; color: var(--brun-light); line-height: 1.5; margin-bottom: 0.6rem; flex: 1; font-style: italic; }
+  .plat-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem; padding-top: 0.65rem; border-top: 1px solid var(--creme-dark); }
+  .plat-allergenes { font-size: 0.7rem; color: var(--brun-light); background: var(--creme); padding: 0.18rem 0.5rem; border-radius: 4px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .badge-dispo { font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 50px; }
   .badge-oui { background: var(--vert-pale); color: var(--vert); }
   .badge-non { background: var(--rouge-pale); color: var(--rouge); }
 
-  .plat-actions { display: flex; gap: 0.4rem; margin-top: 0.75rem; }
-  .btn-edit { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.35rem; background: var(--bordeaux-pale); color: var(--bordeaux); border: 1px solid rgba(107,26,42,0.15); padding: 0.5rem; border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .plat-actions { display: flex; gap: 0.4rem; margin-top: 0.65rem; }
+  .btn-edit { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.3rem; background: var(--bordeaux-pale); color: var(--bordeaux); border: 1px solid rgba(107,26,42,0.15); padding: 0.45rem; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
   .btn-edit:hover { background: var(--bordeaux); color: #fff; }
-  .btn-delete { display: flex; align-items: center; justify-content: center; background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.15); padding: 0.5rem 0.65rem; border-radius: var(--radius-sm); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+  .btn-delete { display: flex; align-items: center; justify-content: center; background: var(--rouge-pale); color: var(--rouge); border: 1px solid rgba(198,40,40,0.15); padding: 0.45rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
   .btn-delete:hover { background: var(--rouge); color: #fff; }
 
   .empty-state { text-align: center; padding: 3rem; color: var(--brun-light); }
   .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
   .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; }
 
+  /* ── Modals ── */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(61,43,31,0.45); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
   .modal-overlay.show { display: flex; }
-  .modal { background: var(--blanc); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(61,43,31,0.25); animation: slideUp 0.25s ease; }
-  @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+  .modal { background: var(--blanc); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(61,43,31,0.25); animation: slideUp 0.25s ease; }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
   .modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--bordeaux); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--creme-dark); }
   .form-group { margin-bottom: 1rem; }
   .form-label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--brun-light); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.06em; }
@@ -93,19 +122,33 @@
   .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
   .btn-submit { flex: 1; background: var(--bordeaux); color: #fff; border: none; padding: 0.75rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background 0.2s; }
   .btn-submit:hover { background: var(--bordeaux-light); }
-  .btn-cancel { background: var(--creme); color: var(--brun-light); border: 1.5px solid var(--creme-dark); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+  .btn-cancel { background: var(--creme); color: var(--brun-light); border: 1.5px solid var(--creme-dark); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; cursor: pointer; }
   .btn-cancel:hover { border-color: var(--brun-light); color: var(--brun); }
 
-  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  /* ── Upload image ── */
+  .img-upload-zone {
+    border: 2px dashed var(--creme-dark); border-radius: var(--radius-sm);
+    padding: 1.25rem; text-align: center; cursor: pointer;
+    transition: all 0.2s; background: var(--creme); position: relative;
+  }
+  .img-upload-zone:hover { border-color: var(--bordeaux); background: var(--bordeaux-ultra); }
+  .img-upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .img-upload-icon { font-size: 1.5rem; margin-bottom: 0.3rem; opacity: 0.35; }
+  .img-upload-txt { font-size: 0.75rem; color: var(--brun-light); }
+  .img-upload-txt strong { color: var(--bordeaux); }
+  .img-preview { width: 100%; height: 130px; object-fit: cover; border-radius: var(--radius-sm); margin-top: 0.65rem; display: none; border: 1px solid var(--creme-dark); }
+
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--brun); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.3s ease; }
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast.success { background: var(--vert); }
   .toast.error   { background: var(--rouge); }
 </style>
 
 <%
-  var nbPlats    = plats.length;
-  var nbDispo    = plats.filter(function(p){ return p.disponible_item_menu; }).length;
-  var nbCats     = categories.length;
+  var nbPlats  = plats.length;
+  var nbDispo  = plats.filter(function(p){ return p.disponible_item_menu; }).length;
+  var nbCats   = categories.length;
+  var nbImages = plats.filter(function(p){ return p.image_item_menu; }).length;
 %>
 
 <div class="menu-page">
@@ -113,7 +156,7 @@
   <div class="page-header">
     <div>
       <h1>Gestion du menu</h1>
-      <p>CRUD plats et categories</p>
+      <p>Plats, categories et photos</p>
     </div>
     <div class="header-actions">
       <button class="btn-secondary" onclick="openModalAddCat()">+ Categorie</button>
@@ -125,19 +168,22 @@
     <div class="stat-chip"><strong><%= nbPlats %></strong> plats au total</div>
     <div class="stat-chip"><strong><%= nbDispo %></strong> disponibles</div>
     <div class="stat-chip"><strong><%= nbCats %></strong> categories</div>
+    <div class="stat-chip">&#128247; <strong><%= nbImages %></strong> avec photo</div>
+    <% if (nbPlats - nbImages > 0) { %>
+      <div class="stat-chip" style="border-color:rgba(198,40,40,0.2);color:var(--rouge);">
+        &#128247; <strong><%= nbPlats - nbImages %></strong> sans photo
+      </div>
+    <% } %>
   </div>
 
-  <!-- Filtres par categorie -->
   <div class="cat-bar">
     <span class="cat-pill active" onclick="filterCat('all', this)">Tous</span>
     <% categories.forEach(function(c) { %>
-      <span class="cat-pill" onclick="filterCat(<%= c.id_categorie %>, this)">
-        <%= c.nom_categorie %>
-      </span>
+      <span class="cat-pill" onclick="filterCat(<%= c.id_categorie %>, this)"><%= c.nom_categorie %></span>
     <% }); %>
+    <span class="cat-pill" onclick="filterCat('sans-photo', this)" style="border-color:rgba(198,40,40,0.3);">Sans photo</span>
   </div>
 
-  <!-- Plats par categorie -->
   <% if (nbPlats === 0) { %>
     <div class="empty-state">
       <span>&#127869;</span>
@@ -153,7 +199,6 @@
         <h2><%= cat.nom_categorie %></h2>
         <span class="cat-count"><%= platsDeCat.length %> plat<%= platsDeCat.length > 1 ? 's' : '' %></span>
         <div class="cat-line"></div>
-        <!-- Actions categorie inline -->
         <div class="cat-actions-inline">
           <button class="btn-cat-edit" onclick="openModalEditCat(<%= cat.id_categorie %>, '<%= cat.nom_categorie %>', <%= cat.ordre_affichage_categorie || 0 %>)">Modifier</button>
           <button class="btn-cat-del"  onclick="deleteCat(<%= cat.id_categorie %>)">Supprimer</button>
@@ -167,31 +212,56 @@
       <% } else { %>
         <div class="plats-grid">
           <% platsDeCat.forEach(function(p) { %>
-            <div class="plat-card" id="card-<%= p.id_item_menu %>" data-cat="<%= p.id_categorie %>">
-              <div class="plat-card-top">
-                <span class="plat-nom"><%= p.nom_item_menu %></span>
-                <span class="plat-prix"><%= p.prix_item_menu ? parseFloat(p.prix_item_menu).toFixed(2) : '—' %> &#8364;</span>
-              </div>
-              <p class="plat-desc"><%= p.description_item_menu || 'Aucune description.' %></p>
-              <div class="plat-meta">
-                <span class="plat-allergenes">
-                  <% if (p.allergenes_item_menu) { %>&#9888; <%= p.allergenes_item_menu %><% } else { %>Pas d'allergenes<% } %>
+            <div class="plat-card"
+                 id="card-<%= p.id_item_menu %>"
+                 data-cat="<%= p.id_categorie %>"
+                 data-photo="<%= p.image_item_menu ? '1' : '0' %>">
+
+              <!-- Zone image cliquable pour upload rapide -->
+              <div class="plat-img-zone" onclick="openModalImage(<%= p.id_item_menu %>)" title="Cliquer pour changer la photo">
+                <% if (p.image_item_menu) { %>
+                  <img src="<%= p.image_item_menu %>" alt="<%= p.nom_item_menu %>">
+                <% } else { %>
+                  <div class="plat-img-placeholder">
+                    <span class="plat-img-placeholder-icon">&#127869;</span>
+                    <span class="plat-img-placeholder-txt">Aucune photo — cliquer pour ajouter</span>
+                  </div>
+                <% } %>
+                <div class="plat-img-overlay">
+                  <span class="plat-img-overlay-icon">&#128247;</span>
+                  <span class="plat-img-overlay-txt"><%= p.image_item_menu ? 'Changer la photo' : 'Ajouter une photo' %></span>
+                </div>
+                <span class="badge-dispo-img <%= p.disponible_item_menu ? 'ok' : 'non' %>">
+                  <%= p.disponible_item_menu ? 'Dispo' : 'Indispo' %>
                 </span>
-                <span class="badge-dispo <%= p.disponible_item_menu ? 'badge-oui' : 'badge-non' %>">
-                  <%= p.disponible_item_menu ? 'Disponible' : 'Indisponible' %>
-                </span>
               </div>
-              <div class="plat-actions">
-                <button class="btn-edit" onclick="openModalEdit(
-                  <%= p.id_item_menu %>,
-                  '<%= (p.nom_item_menu || '').replace(/'/g, "\\'") %>',
-                  '<%= (p.description_item_menu || '').replace(/'/g, "\\'") %>',
-                  <%= p.prix_item_menu %>,
-                  <%= p.id_categorie %>,
-                  '<%= (p.allergenes_item_menu || '').replace(/'/g, "\\'") %>',
-                  <%= p.disponible_item_menu ? 'true' : 'false' %>
-                )">Modifier</button>
-                <button class="btn-delete" onclick="deletePlat(<%= p.id_item_menu %>)" title="Supprimer">&#128465;</button>
+
+              <div class="plat-body">
+                <div class="plat-card-top">
+                  <span class="plat-nom"><%= p.nom_item_menu %></span>
+                  <span class="plat-prix"><%= p.prix_item_menu ? parseFloat(p.prix_item_menu).toFixed(2) : '—' %> &#8364;</span>
+                </div>
+                <p class="plat-desc"><%= p.description_item_menu || 'Aucune description.' %></p>
+                <div class="plat-meta">
+                  <span class="plat-allergenes">
+                    <% if (p.allergenes_item_menu) { %>&#9888; <%= p.allergenes_item_menu %><% } else { %>Pas d'allergenes<% } %>
+                  </span>
+                  <span class="badge-dispo <%= p.disponible_item_menu ? 'badge-oui' : 'badge-non' %>">
+                    <%= p.disponible_item_menu ? 'Disponible' : 'Indisponible' %>
+                  </span>
+                </div>
+                <div class="plat-actions">
+                  <button class="btn-edit" onclick="openModalEdit(
+                    <%= p.id_item_menu %>,
+                    '<%= (p.nom_item_menu || '').replace(/'/g, "&#39;") %>',
+                    '<%= (p.description_item_menu || '').replace(/'/g, "&#39;") %>',
+                    <%= p.prix_item_menu %>,
+                    <%= p.id_categorie %>,
+                    '<%= (p.allergenes_item_menu || '').replace(/'/g, "&#39;") %>',
+                    <%= p.disponible_item_menu ? 'true' : 'false' %>
+                  )">Modifier</button>
+                  <button class="btn-delete" onclick="deletePlat(<%= p.id_item_menu %>)" title="Supprimer">&#128465;</button>
+                </div>
               </div>
             </div>
           <% }); %>
@@ -206,7 +276,7 @@
 <div class="modal-overlay" id="modal-add">
   <div class="modal">
     <h3 class="modal-title">Ajouter un plat</h3>
-    <form id="form-add">
+    <form id="form-add" enctype="multipart/form-data">
       <div class="form-group">
         <label class="form-label">Nom *</label>
         <input type="text" name="nom_item_menu" class="form-input" required placeholder="Ex : Boeuf bourguignon">
@@ -233,6 +303,16 @@
         <label class="form-label">Allergenes</label>
         <input type="text" name="allergenes_item_menu" class="form-input" placeholder="gluten, lait, oeuf...">
       </div>
+      <!-- Upload image -->
+      <div class="form-group">
+        <label class="form-label">Photo du plat</label>
+        <div class="img-upload-zone">
+          <input type="file" name="image_item_menu" accept="image/jpeg,image/png,image/webp" onchange="previewImage(this, 'preview-add')">
+          <div class="img-upload-icon">&#128247;</div>
+          <div class="img-upload-txt">Cliquer ou glisser une image<br><strong>JPG, PNG, WebP — max 2Mo</strong></div>
+        </div>
+        <img id="preview-add" class="img-preview" alt="Apercu">
+      </div>
       <div class="form-group">
         <label class="form-label">Disponibilite</label>
         <div class="toggle-group">
@@ -252,7 +332,7 @@
 <div class="modal-overlay" id="modal-edit">
   <div class="modal">
     <h3 class="modal-title">Modifier un plat</h3>
-    <form id="form-edit">
+    <form id="form-edit" enctype="multipart/form-data">
       <input type="hidden" id="edit-id">
       <div class="form-group">
         <label class="form-label">Nom *</label>
@@ -280,6 +360,16 @@
         <label class="form-label">Allergenes</label>
         <input type="text" name="allergenes_item_menu" id="edit-allergenes" class="form-input">
       </div>
+      <!-- Upload image -->
+      <div class="form-group">
+        <label class="form-label">Changer la photo</label>
+        <div class="img-upload-zone">
+          <input type="file" name="image_item_menu" accept="image/jpeg,image/png,image/webp" onchange="previewImage(this, 'preview-edit')">
+          <div class="img-upload-icon">&#128247;</div>
+          <div class="img-upload-txt">Laisser vide pour garder la photo actuelle<br><strong>JPG, PNG, WebP — max 2Mo</strong></div>
+        </div>
+        <img id="preview-edit" class="img-preview" alt="Apercu">
+      </div>
       <div class="form-group">
         <label class="form-label">Disponibilite</label>
         <div class="toggle-group">
@@ -295,6 +385,27 @@
   </div>
 </div>
 
+<!-- Modal upload image rapide (clic sur image) -->
+<div class="modal-overlay" id="modal-image">
+  <div class="modal" style="max-width:380px;">
+    <h3 class="modal-title">&#128247; Changer la photo</h3>
+    <input type="hidden" id="img-plat-id">
+    <div id="img-feedback" class="form-group" style="display:none;padding:0.6rem 0.8rem;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:500;"></div>
+    <div class="form-group">
+      <div class="img-upload-zone">
+        <input type="file" id="img-file-input" accept="image/jpeg,image/png,image/webp" onchange="previewImage(this, 'preview-img-modal')">
+        <div class="img-upload-icon">&#128247;</div>
+        <div class="img-upload-txt">Cliquer ou glisser une image<br><strong>JPG, PNG, WebP — max 2Mo</strong></div>
+      </div>
+      <img id="preview-img-modal" class="img-preview" alt="Apercu">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-submit" onclick="uploadImageRapide()">Enregistrer la photo</button>
+      <button class="btn-cancel" onclick="closeModal('modal-image')">Annuler</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal ajouter categorie -->
 <div class="modal-overlay" id="modal-add-cat">
   <div class="modal">
@@ -306,7 +417,7 @@
       </div>
       <div class="form-group">
         <label class="form-label">Ordre d'affichage</label>
-        <input type="number" name="ordre_affichage_categorie" class="form-input" min="0" value="0" placeholder="0">
+        <input type="number" name="ordre_affichage_categorie" class="form-input" min="0" value="0">
       </div>
       <div class="modal-actions">
         <button type="submit" class="btn-submit">Ajouter</button>
@@ -347,9 +458,7 @@
   function authHeaders() {
     return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
   }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('show');
-  }
+  function closeModal(id) { document.getElementById(id).classList.remove('show'); }
   function showToast(msg, type) {
     type = type || 'success';
     var t = document.getElementById('toast');
@@ -361,12 +470,25 @@
     o.addEventListener('click', function(e) { if (e.target === o) o.classList.remove('show'); });
   });
 
-  // Filtre par categorie
+  // Preview image avant upload
+  function previewImage(input, previewId) {
+    var preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // ── Filtres ──────────────────────────────────────────────
   function filterCat(catId, el) {
     document.querySelectorAll('.cat-pill').forEach(function(p) { p.classList.remove('active'); });
     el.classList.add('active');
     document.querySelectorAll('.plat-card').forEach(function(card) {
-      card.classList.toggle('hidden', catId !== 'all' && String(card.dataset.cat) !== String(catId));
+      var show = true;
+      if (catId === 'sans-photo') show = card.dataset.photo === '0';
+      else if (catId !== 'all')   show = String(card.dataset.cat) === String(catId);
+      card.classList.toggle('hidden', !show);
     });
   }
 
@@ -375,22 +497,21 @@
   function openModalAdd() {
     document.getElementById('form-add').reset();
     document.getElementById('add-dispo').checked = true;
+    document.getElementById('preview-add').style.display = 'none';
     document.getElementById('modal-add').classList.add('show');
   }
 
   document.getElementById('form-add').addEventListener('submit', async function(e) {
     e.preventDefault();
-    var f = e.target;
-    var body = {
-      nom_item_menu:         f.nom_item_menu.value.trim(),
-      description_item_menu: f.description_item_menu.value.trim(),
-      prix_item_menu:        parseFloat(f.prix_item_menu.value),
-      id_categorie:          parseInt(f.id_categorie.value),
-      allergenes_item_menu:  f.allergenes_item_menu.value.trim(),
-      disponible_item_menu:  f.disponible_item_menu.checked
-    };
+    var formData = new FormData(e.target);
+    // Checkbox non cochee n'est pas dans FormData — on force la valeur
+    formData.set('disponible_item_menu', document.getElementById('add-dispo').checked ? 'true' : 'false');
     try {
-      var res = await fetch('/plats', { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+      var res = await fetch('/plats', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + getToken() },
+        body: formData
+      });
       if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
       showToast('Plat ajoute !');
       closeModal('modal-add');
@@ -399,30 +520,29 @@
   });
 
   function openModalEdit(id, nom, desc, prix, catId, allergenes, dispo) {
-    document.getElementById('edit-id').value          = id;
-    document.getElementById('edit-nom').value         = nom;
-    document.getElementById('edit-desc').value        = desc;
-    document.getElementById('edit-prix').value        = prix;
-    document.getElementById('edit-cat').value         = catId;
-    document.getElementById('edit-allergenes').value  = allergenes;
-    document.getElementById('edit-dispo').checked     = dispo;
+    document.getElementById('edit-id').value         = id;
+    document.getElementById('edit-nom').value        = nom;
+    document.getElementById('edit-desc').value       = desc;
+    document.getElementById('edit-prix').value       = prix;
+    document.getElementById('edit-cat').value        = catId;
+    document.getElementById('edit-allergenes').value = allergenes;
+    document.getElementById('edit-dispo').checked    = dispo === true || dispo === 'true';
+    document.getElementById('preview-edit').style.display = 'none';
+    document.getElementById('form-edit').querySelector('input[type="file"]').value = '';
     document.getElementById('modal-edit').classList.add('show');
   }
 
   document.getElementById('form-edit').addEventListener('submit', async function(e) {
     e.preventDefault();
-    var f  = e.target;
-    var id = document.getElementById('edit-id').value;
-    var body = {
-      nom_item_menu:         f.nom_item_menu.value.trim(),
-      description_item_menu: f.description_item_menu.value.trim(),
-      prix_item_menu:        parseFloat(f.prix_item_menu.value),
-      id_categorie:          parseInt(f.id_categorie.value),
-      allergenes_item_menu:  f.allergenes_item_menu.value.trim(),
-      disponible_item_menu:  f.disponible_item_menu.checked
-    };
+    var id       = document.getElementById('edit-id').value;
+    var formData = new FormData(e.target);
+    formData.set('disponible_item_menu', document.getElementById('edit-dispo').checked ? 'true' : 'false');
     try {
-      var res = await fetch('/plats/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
+      var res = await fetch('/plats/' + id, {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + getToken() },
+        body: formData
+      });
       if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
       showToast('Plat mis a jour !');
       closeModal('modal-edit');
@@ -430,8 +550,49 @@
     } catch(err) { showToast(err.message, 'error'); }
   });
 
+  // Upload image rapide via clic sur la zone image
+  function openModalImage(id) {
+    document.getElementById('img-plat-id').value = id;
+    document.getElementById('img-feedback').style.display = 'none';
+    document.getElementById('preview-img-modal').style.display = 'none';
+    document.getElementById('img-file-input').value = '';
+    document.getElementById('modal-image').classList.add('show');
+  }
+
+  async function uploadImageRapide() {
+    var id   = document.getElementById('img-plat-id').value;
+    var file = document.getElementById('img-file-input').files[0];
+    var fb   = document.getElementById('img-feedback');
+    if (!file) {
+      fb.textContent = 'Choisissez une image d\'abord.';
+      fb.style.cssText = 'display:block;background:var(--rouge-pale);color:var(--rouge);padding:0.6rem 0.8rem;border-radius:8px;font-size:0.82rem;';
+      return;
+    }
+    var formData = new FormData();
+    formData.append('image_item_menu', file);
+    try {
+      var res = await fetch('/plats/' + id + '/image', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + getToken() },
+        body: formData
+      });
+      if (res.ok) {
+        showToast('Photo mise a jour !');
+        closeModal('modal-image');
+        setTimeout(function() { location.reload(); }, 800);
+      } else {
+        var err = await res.json();
+        fb.textContent = err.error || 'Erreur lors de l\'upload.';
+        fb.style.cssText = 'display:block;background:var(--rouge-pale);color:var(--rouge);padding:0.6rem 0.8rem;border-radius:8px;font-size:0.82rem;';
+      }
+    } catch(err) {
+      fb.textContent = 'Erreur de connexion.';
+      fb.style.cssText = 'display:block;background:var(--rouge-pale);color:var(--rouge);padding:0.6rem 0.8rem;border-radius:8px;font-size:0.82rem;';
+    }
+  }
+
   async function deletePlat(id) {
-    if (!confirm('Supprimer ce plat definitionnellement ?')) return;
+    if (!confirm('Supprimer ce plat definitivement ?')) return;
     try {
       var res = await fetch('/plats/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() } });
       if (!res.ok && res.status !== 204) throw new Error('Erreur');
@@ -452,12 +613,11 @@
   document.getElementById('form-add-cat').addEventListener('submit', async function(e) {
     e.preventDefault();
     var f = e.target;
-    var body = {
-      nom_categorie: f.nom_categorie.value.trim(),
-      ordre_affichage_categorie: parseInt(f.ordre_affichage_categorie.value) || 0
-    };
     try {
-      var res = await fetch('/categories', { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+      var res = await fetch('/categories', {
+        method: 'POST', headers: authHeaders(),
+        body: JSON.stringify({ nom_categorie: f.nom_categorie.value.trim(), ordre_affichage_categorie: parseInt(f.ordre_affichage_categorie.value) || 0 })
+      });
       if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
       showToast('Categorie ajoutee !');
       closeModal('modal-add-cat');
@@ -476,12 +636,11 @@
     e.preventDefault();
     var f  = e.target;
     var id = document.getElementById('edit-cat-id').value;
-    var body = {
-      nom_categorie: f.nom_categorie.value.trim(),
-      ordre_affichage_categorie: parseInt(f.ordre_affichage_categorie.value) || 0
-    };
     try {
-      var res = await fetch('/categories/' + id, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
+      var res = await fetch('/categories/' + id, {
+        method: 'PUT', headers: authHeaders(),
+        body: JSON.stringify({ nom_categorie: f.nom_categorie.value.trim(), ordre_affichage_categorie: parseInt(f.ordre_affichage_categorie.value) || 0 })
+      });
       if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Erreur'); }
       showToast('Categorie mise a jour !');
       closeModal('modal-edit-cat');

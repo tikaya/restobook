@@ -376,13 +376,13 @@
 
   // ── Validation horaires ───────────────────────────────────
   var horaires = {
-    0: { label: 'Dimanche : 12h-14h30',            services: [[720, 870]] },
-    1: { label: 'Ferme le lundi',                   services: [] },
-    2: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
-    3: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
-    4: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
-    5: { label: 'Mar-Ven : 12h-14h30 · 19h-22h30', services: [[720, 870], [1140, 1350]] },
-    6: { label: 'Samedi : 12h-15h · 19h-23h',      services: [[720, 900], [1140, 1380]] }
+    0: { label: 'Dimanche : 12h-14h30 (derniere resa 14h30)',       services: [[720, 870]] },
+    1: { label: 'Ferme le lundi',                                    services: [] },
+    2: { label: 'Mar-Ven : 12h-14h · 19h-21h30 (dernieres resas)', services: [[720, 840], [1140, 1290]] },
+    3: { label: 'Mar-Ven : 12h-14h · 19h-21h30 (dernieres resas)', services: [[720, 840], [1140, 1290]] },
+    4: { label: 'Mar-Ven : 12h-14h · 19h-21h30 (dernieres resas)', services: [[720, 840], [1140, 1290]] },
+    5: { label: 'Mar-Ven : 12h-14h · 19h-21h30 (dernieres resas)', services: [[720, 840], [1140, 1290]] },
+    6: { label: 'Samedi : 12h-14h30 · 19h-22h (dernieres resas)',  services: [[720, 870], [1140, 1320]] }
   };
 
   function getJour(dateVal) {

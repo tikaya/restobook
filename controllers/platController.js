@@ -27,6 +27,9 @@ const platController = {
     // Créons un nouveau plat
     create: async (req,res, next) => {
         const data = req.body;
+        // Si admin à transmit une image
+        if (req.file) data.image_item_menu = '/uploads/plats/' + req.file.filename;
+
         try {
             const newPlat = await platService.createPlat(data);
             res.status(201).json(newPlat);
@@ -41,6 +44,7 @@ const platController = {
     update: async (req,res,next) => {
         const id = parseInt(req.params.id);
         const data = req.body;
+        if (req.file) data.image_item_menu = '/uploads/plats/' + req.file.filename;
         try {
             const updatedPlat = await platService.updatePlat(id,data);
             res.json(updatedPlat);
@@ -61,6 +65,17 @@ const platController = {
             next(error);
 
 }
-    }
+    },
+
+    // Dans platController.js — ajouter cette méthode
+  updateImage: async (req, res, next) => {
+    const id = parseInt(req.params.id);
+    try {
+        if (!req.file) return res.status(400).json({ error: 'Aucune image fournie.' });
+        const imagePath    = '/uploads/plats/' + req.file.filename;
+        const updatedPlat  = await platService.updatePlatImage(id, imagePath);
+        res.json(updatedPlat);
+    } catch (error) { next(error); }
+}
 }
 module.exports = platController;
