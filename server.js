@@ -93,7 +93,7 @@ app.use('/logs',logRoutes)
 
 // 4. Gardien (toujours à la fin)
 app.use((err, req, res, next) => {
-    console.error('Erreur :', err.message)
+    console.error('Erreur complète :', err.message, err.stack, err)
     const status = err.status || 500
     res.status(status).json({ error: err.message })
 })
