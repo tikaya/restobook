@@ -1,5 +1,13 @@
 -- ============================================================
--- RESTOBOOK — Jeu de données de test
+-- RESTOBOOK — Jeu de données de test (avec hashes bcrypt)
+-- ============================================================
+-- 🔑 MOTS DE PASSE EN CLAIR :
+--    sophie@restobook.fr  → admin123    (GÉRANT / admin)
+--    marc@restobook.fr    → cuisine123
+--    julie@restobook.fr   → serveur123
+--    ali@mail.com         → client123
+--    sara@mail.com        → client123
+--    karim@mail.com       → client123
 -- ============================================================
 
 -- 1. CATEGORIES
@@ -18,11 +26,11 @@ INSERT INTO table_resto (numero_table, capacite_table, emplacement_table) VALUES
 (5, 8, 'salon_prive'),
 (6, 2, 'terrasse');
 
--- 3. EMPLOYES (mot de passe temporaire — bcrypt viendra plus tard)
+-- 3. EMPLOYES (mots de passe hashés bcrypt cost 10)
 INSERT INTO employe (email_employe, mdp_employe, nom_employe, prenom_employe, role_employe) VALUES
-('sophie@restobook.fr', 'temp123', 'Martin', 'Sophie', 'gerant'),
-('marc@restobook.fr', 'temp123', 'Dupont', 'Marc', 'cuisine'),
-('julie@restobook.fr', 'temp123', 'Bernard', 'Julie', 'serveur');
+('sophie@restobook.fr', '$2b$10$OvcsbXcQpQ3cm7KpVONKGeRNXI9UEFxzMUFEgyVcKQ/qLianLKA9.', 'Martin', 'Sophie', 'gerant'),
+('marc@restobook.fr',   '$2b$10$f4cXKLOfr/No.o9DPXvOG.CTDPOnHoF05AASi2Ma02GPDohCM6XP2', 'Dupont', 'Marc', 'cuisine'),
+('julie@restobook.fr',  '$2b$10$KUCMkqixYvkjN3/yU0aytOA3wl7BTZ.p.IeJotJBp4KJ5SjSJ.bXe', 'Bernard', 'Julie', 'serveur');
 
 -- 4. HORAIRES
 INSERT INTO horaire (jour_semaine, heure_ouverture, heure_fermeture, est_ferme) VALUES
@@ -34,11 +42,11 @@ INSERT INTO horaire (jour_semaine, heure_ouverture, heure_fermeture, est_ferme) 
 ('samedi', '12:00', '15:00', FALSE),
 ('dimanche', '12:00', '15:00', FALSE);
 
--- 5. CLIENTS (mot de passe temporaire — bcrypt viendra plus tard)
+-- 5. CLIENTS (mots de passe hashés bcrypt cost 10)
 INSERT INTO client (email_client, mdp_client, nom_client, prenom_client, telephone_client) VALUES
-('ali@mail.com', 'temp123', 'Benali', 'Ali', '0612345678'),
-('sara@mail.com', 'temp123', 'Dubois', 'Sara', '0698765432'),
-('karim@mail.com', 'temp123', 'Hadid', 'Karim', '0611223344');
+('ali@mail.com',   '$2b$10$.7/rGNSeGACZ2dK75vE9n.wyB6iUNZzb5kXaQM2xZhxmHB.Tu9t0q', 'Benali', 'Ali', '0612345678'),
+('sara@mail.com',  '$2b$10$.7/rGNSeGACZ2dK75vE9n.wyB6iUNZzb5kXaQM2xZhxmHB.Tu9t0q', 'Dubois', 'Sara', '0698765432'),
+('karim@mail.com', '$2b$10$.7/rGNSeGACZ2dK75vE9n.wyB6iUNZzb5kXaQM2xZhxmHB.Tu9t0q', 'Hadid', 'Karim', '0611223344');
 
 -- 6. PLATS
 INSERT INTO item_menu (nom_item_menu, description_item_menu, prix_item_menu, allergenes_item_menu, disponible_item_menu, id_categorie) VALUES
