@@ -157,11 +157,17 @@ adminComptes: async(req,res,next) => {
     }
 },
 
-adminLogs : async (req,res,next) => {
+adminLogs: async (req, res, next) => {
     try {
-        const logs = await logService.getAllLogs()
-        res.render('admin/logs',{title:'Gestion logs',user:req.user,logs})
-    }catch(error) {
+        const logs  = await logService.getAllLogs(200);
+        const stats = await logService.getStats();
+        res.render('admin/logs', {
+            title: 'Gestion logs',
+            user:  req.user,
+            logs,
+            stats   // ← total, echecs, warnings, aujourdhui
+        });
+    } catch(error) {
         next(error)
     }
 },
