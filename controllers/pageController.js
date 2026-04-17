@@ -165,10 +165,10 @@ adminLogs: async (req, res, next) => {
             title: 'Gestion logs',
             user:  req.user,
             logs,
-            stats   // ← total, echecs, warnings, aujourdhui
+            stats
         });
     } catch(error) {
-        next(error)
+        next(error);
     }
 },
 

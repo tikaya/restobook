@@ -286,14 +286,19 @@
   </div>
 
   <!-- Stats -->
-  <div class="stats-bar">
-    <div class="stat-chip">📋 <strong><%= logs.length %></strong> logs chargés</div>
-    <div class="stat-chip">✅ <strong><%= logs.filter(l => l.type_action === 'CONNEXION_CLIENT' || l.type_action === 'CONNEXION_EMPLOYE').length %></strong> connexions</div>
-    <div class="stat-chip">❌ <strong><%= logs.filter(l => l.type_action === 'TENTATIVE_CONNEXION_ECHOUEE').length %></strong> échecs</div>
-    <div class="stat-chip">➕ <strong><%= logs.filter(l => l.type_action.startsWith('CREATION')).length %></strong> créations</div>
-    <div class="stat-chip">✏️ <strong><%= logs.filter(l => l.type_action.startsWith('MODIFICATION')).length %></strong> modifications</div>
-    <div class="stat-chip">🗑️ <strong><%= logs.filter(l => l.type_action.startsWith('ANNULATION') || l.type_action.startsWith('SUPPRESSION')).length %></strong> suppressions</div>
-  </div>
+<div class="stats-bar">
+  <div class="stat-chip">📋 <strong><%= logs.length %></strong> logs charges</div>
+  <% if (stats) { %>
+    <div class="stat-chip">📅 <strong><%= stats.aujourdhui %></strong> aujourd'hui</div>
+    <div class="stat-chip">❌ <strong><%= stats.echecs %></strong> echecs</div>
+    <div class="stat-chip">⚠️ <strong><%= stats.warnings %></strong> warnings</div>
+    <div class="stat-chip">📊 <strong><%= stats.total %></strong> total</div>
+  <% } %>
+  <div class="stat-chip">✅ <strong><%= logs.filter(function(l){ return l.type_action === 'CONNEXION_CLIENT' || l.type_action === 'CONNEXION_EMPLOYE'; }).length %></strong> connexions</div>
+  <div class="stat-chip">➕ <strong><%= logs.filter(function(l){ return l.type_action.startsWith('CREATION'); }).length %></strong> creations</div>
+  <div class="stat-chip">✏️ <strong><%= logs.filter(function(l){ return l.type_action.startsWith('MODIFICATION'); }).length %></strong> modifications</div>
+  <div class="stat-chip">🗑️ <strong><%= logs.filter(function(l){ return l.type_action.startsWith('ANNULATION') || l.type_action.startsWith('SUPPRESSION'); }).length %></strong> suppressions</div>
+</div>
 
   <!-- Filtres -->
   <div class="filters">
@@ -369,6 +374,18 @@
             <% if (log.ip) { %>
               <div class="log-user">🌐 <%= log.ip %></div>
             <% } %>
+            <% if (log.url) { %>
+  <div class="log-user">🔗 <%= log.methode_http %> <%= log.url %></div>
+<% } %>
+<% if (log.user_agent) { %>
+  <div class="log-user">💻 <%= log.user_agent.substring(0, 60) %>...</div>
+<% } %>
+<% if (log.duree_ms) { %>
+  <div class="log-user">⚡ <%= log.duree_ms %>ms</div>
+<% } %>
+<% if (log.statut && log.statut !== 'succes') { %>
+  <div class="log-user" style="color:var(--rouge);">⚠️ <%= log.statut %></div>
+<% } %>
           </div>
 
           <!-- Heure -->
