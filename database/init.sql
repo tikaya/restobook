@@ -40,7 +40,7 @@ CREATE TABLE table_resto (
 );
 
 -- ============================================
--- 3. EMPLOYE (table parente)
+-- 3. EMPLOYE (table parente).
 -- ============================================
 CREATE TABLE employe (
     id_employe      SERIAL PRIMARY KEY,
