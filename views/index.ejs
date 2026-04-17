@@ -1176,49 +1176,36 @@
     </div>
   </div>
 
-  <div class="avis-grid">
-    <article class="avis-card reveal delay-1">
-      <div class="avis-header">
-        <div class="avis-author">
-          <div class="avis-avatar" style="background:#722F37" aria-hidden="true">M</div>
-          <div>
-            <div class="author-name">Marie L.</div>
-            <div class="author-stars" aria-label="Note : 5 étoiles sur 5">★★★★★</div>
+<div class="avis-grid">
+  <% if (avis && avis.length > 0) { %>
+    <% avis.slice(0, 3).forEach(function(a, i) { %>
+      <% var initiale = a.prenom_client ? a.prenom_client[0].toUpperCase() : '?'; %>
+      <% var couleurs = ['#722F37','#2D6A4F','#5B3A8C','#1565c0','#e65100']; %>
+      <% var couleur  = couleurs[i % couleurs.length]; %>
+      <% var etoiles  = '★'.repeat(a.note_avis) + '☆'.repeat(5 - a.note_avis); %>
+      <% var dateAvis = new Date(a.date_avis).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'}); %>
+      <% var dateISO  = a.date_avis ? new Date(a.date_avis).toISOString().split('T')[0] : ''; %>
+      <% var delays   = ['delay-1','delay-2','delay-3']; %>
+      <article class="avis-card reveal <%= delays[i] || 'delay-1' %>">
+        <div class="avis-header">
+          <div class="avis-author">
+            <div class="avis-avatar" style="background:<%= couleur %>" aria-hidden="true"><%= initiale %></div>
+            <div>
+              <div class="author-name"><%= a.prenom_client %> <%= a.nom_client ? a.nom_client[0] + '.' : '' %></div>
+              <div class="author-stars" aria-label="Note : <%= a.note_avis %> etoiles sur 5"><%= etoiles %></div>
+            </div>
           </div>
+          <time class="avis-date" datetime="<%= dateISO %>"><%= dateAvis %></time>
         </div>
-        <time class="avis-date" datetime="2026-03-08">8 mars 2026</time>
-      </div>
-      <p class="avis-text">Une soirée magique, des plats divins et un service impeccable.</p>
-    </article>
-
-    <article class="avis-card reveal delay-3">
-      <div class="avis-header">
-        <div class="avis-author">
-          <div class="avis-avatar" style="background:#2D6A4F" aria-hidden="true">J</div>
-          <div>
-            <div class="author-name">Jean-Pierre D.</div>
-            <div class="author-stars" aria-label="Note : 4 étoiles sur 5">★★★★☆</div>
-          </div>
-        </div>
-        <time class="avis-date" datetime="2026-03-05">5 mars 2026</time>
-      </div>
-      <p class="avis-text">Excellente carte, belle terrasse. Un peu d'attente mais ça vaut le coup.</p>
-    </article>
-
-    <article class="avis-card reveal delay-4">
-      <div class="avis-header">
-        <div class="avis-author">
-          <div class="avis-avatar" style="background:#5B3A8C" aria-hidden="true">S</div>
-          <div>
-            <div class="author-name">Sophie M.</div>
-            <div class="author-stars" aria-label="Note : 5 étoiles sur 5">★★★★★</div>
-          </div>
-        </div>
-        <time class="avis-date" datetime="2026-03-01">1 mars 2026</time>
-      </div>
-      <p class="avis-text">Le meilleur restaurant du quartier. On y revient chaque semaine !</p>
-    </article>
-  </div>
+        <p class="avis-text"><%= a.commentaire_avis %></p>
+      </article>
+    <% }); %>
+  <% } else { %>
+    <div style="grid-column:1/-1;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--brun-light);padding:2rem;">
+      Soyez le premier a laisser un avis !
+    </div>
+  <% } %>
+</div>
 
   <div class="voir-plus reveal">
     <a href="/avis" aria-label="Voir tous les avis clients">

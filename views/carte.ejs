@@ -68,7 +68,7 @@
   .carte-hero h1 em { font-style: italic; color: var(--or); }
   .carte-hero-sub {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem; color: rgba(255,255,255,0.55); font-style: italic;
+    font-size: 1.15rem; color: rgba(255,255,255,0.75); font-style: italic;
   }
 
   /* ── Filtres sticky ── */
@@ -128,16 +128,60 @@
     height: 190px; position: relative; overflow: hidden; flex-shrink: 0;
     background: linear-gradient(135deg, var(--creme-dark), #e0d4c4);
   }
+
+  /* ── ✨ Skeleton shimmer pendant le chargement ── */
+  .plat-img::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      90deg,
+      var(--creme-dark) 0%,
+      #f0e6d6 50%,
+      var(--creme-dark) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    z-index: 0;
+  }
+  /* Shimmer doré subtil par-dessus */
+  .plat-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 35% 40%, rgba(201,168,76,0.12), transparent 60%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* Une fois l'image chargée, le skeleton disparaît */
+  .plat-img.img-loaded::before { display: none; }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── ✨ Fade-in des images ── */
   .plat-img img {
     width: 100%; height: 100%; object-fit: cover;
+    position: relative; z-index: 1;
+    opacity: 0;
+    transform: scale(1.03);
+    transition: opacity 0.6s ease, transform 0.8s ease;
+  }
+  .plat-img img.img-loaded {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .plat-card:hover .plat-img img.img-loaded {
+    transform: scale(1.05);
     transition: transform 0.5s ease;
   }
-  .plat-card:hover .plat-img img { transform: scale(1.05); }
+
   .plat-img-placeholder {
     width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
     background: linear-gradient(135deg, var(--creme-dark) 0%, #e8ddd0 50%, var(--creme-dark) 100%);
     position: relative;
+    z-index: 1;
   }
   .plat-img-placeholder::before {
     content: '';
@@ -145,6 +189,9 @@
     background: radial-gradient(circle at 35% 40%, rgba(201,168,76,0.18), transparent 60%);
   }
   .plat-img-icon { font-size: 3rem; opacity: 0.18; position: relative; z-index: 1; }
+
+  /* Si pas d'image, on cache le skeleton animé (le placeholder suffit) */
+  .plat-img.no-image::before { display: none; }
 
   /* Badge categorie sur image */
   .plat-cat-badge {
@@ -154,6 +201,7 @@
     letter-spacing: 0.1em; text-transform: uppercase;
     padding: 0.25rem 0.65rem; border-radius: 50px;
     font-family: 'DM Sans', sans-serif;
+    z-index: 2;
   }
 
   /* Corps carte */
@@ -178,14 +226,14 @@
     padding-top: 0.75rem; border-top: 1px solid var(--creme-dark); margin-top: auto; gap: 0.5rem;
   }
   .plat-allergenes {
-    font-size: 0.7rem; color: #b45309; background: #fef3c7;
+    font-size: 0.7rem; color: #8a4a08; background: #fef3c7;
     padding: 0.2rem 0.55rem; border-radius: 4px;
     display: flex; align-items: center; gap: 0.25rem;
     max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     border: 1px solid rgba(180,83,9,0.15);
   }
   .plat-dispo {
-    font-size: 0.68rem; font-weight: 600; color: #2e7d32;
+    font-size: 0.68rem; font-weight: 600; color: #1e5235;
     display: flex; align-items: center; gap: 0.3rem;
     font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em;
   }
@@ -219,7 +267,7 @@
   .carte-cta h2 em { font-style: italic; color: var(--or); }
   .carte-cta p {
     font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
-    color: rgba(255,255,255,0.6); font-style: italic; margin-bottom: 2rem;
+    color: rgba(255,255,255,0.8); font-style: italic; margin-bottom: 2rem;
   }
   .btn-reserver {
     display: inline-flex; align-items: center; gap: 0.6rem;
@@ -230,11 +278,32 @@
     padding: 0.95rem 2.25rem; border-radius: 50px;
     transition: all 0.25s; box-shadow: 0 6px 24px rgba(201,168,76,0.35);
   }
-  .btn-reserver:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(201,168,76,0.5); background: #fff; }
+  .btn-reserver:hover,
+  .btn-reserver:focus-visible { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(201,168,76,0.5); background: #fff; }
 
   /* Animations */
   .cat-section { animation: fadeUp 0.45s ease both; }
   @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── ♿ Respect des préférences de mouvement réduit ── */
+  @media (prefers-reduced-motion: reduce) {
+    .plat-img img {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.2s ease;
+    }
+    .plat-img::before,
+    .plat-dispo::before {
+      animation: none;
+    }
+    .cat-section {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .plat-card:hover { transform: none; }
+    .plat-card:hover .plat-img img { transform: none; }
+  }
 
   @media (max-width: 768px) {
     .plats-grid { grid-template-columns: 1fr; }
@@ -244,16 +313,16 @@
 
 <!-- Hero -->
 <section class="carte-hero">
-  <div class="carte-hero-deco"></div>
+  <div class="carte-hero-deco" aria-hidden="true"></div>
   <div class="carte-hero-content">
     <p class="carte-hero-eyebrow">Le Gourmet Parisien</p>
     <h1>Notre <em>Carte</em></h1>
-    <p class="carte-hero-sub">Des produits frais, de saison, cuisines avec passion</p>
+    <p class="carte-hero-sub">Des produits frais, de saison, cuisinés avec passion</p>
   </div>
 </section>
 
 <!-- Filtres sticky -->
-<section class="filters-section">
+<section class="filters-section" aria-label="Filtrer les plats par catégorie">
   <div class="filters-inner">
     <button class="filter-btn active" onclick="filterPlats('all', this)">&#10022; Tout voir</button>
     <% categories.forEach(function(cat) { %>
@@ -278,24 +347,28 @@
         <div class="cat-section" data-cat="<%= cat.id_categorie %>">
 
           <div class="cat-header">
-            <div class="cat-header-line"></div>
+            <div class="cat-header-line" aria-hidden="true"></div>
             <div class="cat-title-wrap">
               <span class="cat-title"><%= cat.nom_categorie %></span>
               <span class="cat-count"><%= platsDecat.length %> plat<%= platsDecat.length > 1 ? 's' : '' %></span>
             </div>
-            <div class="cat-header-line rev"></div>
+            <div class="cat-header-line rev" aria-hidden="true"></div>
           </div>
 
           <div class="plats-grid">
             <% platsDecat.forEach(function(plat) { %>
-              <div class="plat-card">
+              <article class="plat-card">
 
                 <!-- Image ou placeholder -->
-                <div class="plat-img">
+                <div class="plat-img <%= plat.image_item_menu ? '' : 'no-image' %>">
                   <% if (plat.image_item_menu) { %>
-                    <img src="<%= plat.image_item_menu %>" alt="<%= plat.nom_item_menu %>" loading="lazy">
+                    <img src="<%= plat.image_item_menu %>"
+                         alt="<%= plat.nom_item_menu %>"
+                         width="320" height="190"
+                         loading="lazy"
+                         decoding="async">
                   <% } else { %>
-                    <div class="plat-img-placeholder">
+                    <div class="plat-img-placeholder" aria-hidden="true">
                       <span class="plat-img-icon">&#127869;</span>
                     </div>
                   <% } %>
@@ -312,12 +385,14 @@
                   <% if (plat.description_item_menu) { %>
                     <p class="plat-desc"><%= plat.description_item_menu %></p>
                   <% } else { %>
-                    <p class="plat-desc" style="opacity:0.35;">Demandez a votre serveur.</p>
+                    <p class="plat-desc" style="opacity:0.35;">Demandez à votre serveur.</p>
                   <% } %>
 
                   <div class="plat-footer">
                     <% if (plat.allergenes_item_menu) { %>
-                      <span class="plat-allergenes">&#9888; <%= plat.allergenes_item_menu %></span>
+                      <span class="plat-allergenes" aria-label="Allergènes : <%= plat.allergenes_item_menu %>">
+                        <span aria-hidden="true">&#9888;</span> <%= plat.allergenes_item_menu %>
+                      </span>
                     <% } else { %>
                       <span></span>
                     <% } %>
@@ -325,7 +400,7 @@
                   </div>
                 </div>
 
-              </div>
+              </article>
             <% }); %>
           </div>
 
@@ -341,12 +416,13 @@
 <section class="carte-cta">
   <div class="carte-cta-content">
     <h2>Un plat vous <em>tente</em> ?</h2>
-    <p>Reservez votre table et venez le deguster ce soir</p>
-    <a href="/reservation" class="btn-reserver">Reserver une table &#8594;</a>
+    <p>Réservez votre table et venez le déguster ce soir</p>
+    <a href="/reservation" class="btn-reserver">Réserver une table <span aria-hidden="true">&#8594;</span></a>
   </div>
 </section>
 
 <script>
+  // ── Filtrage des plats par catégorie ──
   function filterPlats(catId, btn) {
     document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
@@ -358,6 +434,45 @@
       }
     });
   }
+
+  // ── ✨ Chargement fluide des images ──
+  (function() {
+    var images = document.querySelectorAll('.plat-img img');
+
+    images.forEach(function(img) {
+      // Si l'image est déjà chargée (cache navigateur), marquer immédiatement
+      if (img.complete && img.naturalHeight !== 0) {
+        markLoaded(img);
+      } else {
+        // Sinon attendre le chargement
+        img.addEventListener('load', function() { markLoaded(img); });
+
+        // En cas d'erreur, basculer sur le placeholder
+        img.addEventListener('error', function() {
+          var wrapper = img.closest('.plat-img');
+          if (!wrapper) return;
+
+          wrapper.classList.add('no-image', 'img-loaded');
+          img.style.display = 'none';
+
+          // Créer un placeholder dynamiquement si pas déjà présent
+          if (!wrapper.querySelector('.plat-img-placeholder')) {
+            var placeholder = document.createElement('div');
+            placeholder.className = 'plat-img-placeholder';
+            placeholder.setAttribute('aria-hidden', 'true');
+            placeholder.innerHTML = '<span class="plat-img-icon">\u{1F37D}</span>';
+            wrapper.insertBefore(placeholder, wrapper.firstChild);
+          }
+        });
+      }
+    });
+
+    function markLoaded(img) {
+      img.classList.add('img-loaded');
+      var wrapper = img.closest('.plat-img');
+      if (wrapper) wrapper.classList.add('img-loaded');
+    }
+  })();
 </script>
 
 <%- include('partials/footer') %>

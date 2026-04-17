@@ -13,13 +13,14 @@ const { forgotPassword } = require('../services/authService');
 
 //L'objet contenant les methode (midllewares terminaux) rendant des vue au client 
 const pageController = {
-    accueil: async(req,res , next) => {
-        try {
-            res.render('index',{title:'Accueil'})
-        }catch(error) {
-            next(error)
-        }
-    },
+   accueil: async(req, res, next) => {
+    try {
+        const avis = await avisService.getAvisApproves();
+        res.render('index', { title: 'Accueil', avis })
+    } catch(error) {
+        next(error)
+    }
+},
     carte: async (req, res, next) => {
         try {
             const categories = await categorieService.getAllCategories()
