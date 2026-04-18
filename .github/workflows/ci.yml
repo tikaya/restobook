@@ -1,0 +1,58 @@
+name: CI RestoBook
+
+# ── Quand déclencher le workflow ──
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+# ── Les jobs à exécuter ──
+jobs:
+
+  # ═══════════════════════════════
+  # JOB 1 : Tests unitaires
+  # ═══════════════════════════════
+  tests-unitaires:
+    name: Tests unitaires
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js 24.15.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lancer les tests unitaires
+        run: npx jest tests/unit --verbose --forceExit
+
+  # ═══════════════════════════════
+  # JOB 2 : Tests d'intégration
+  # ═══════════════════════════════
+  tests-integration:
+    name: Tests d'intégration
+    runs-on: ubuntu-latest
+    needs: tests-unitaires
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js 24.15.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lancer les tests d'intégration
+        run: npx jest tests/integration --verbose --forceExit
