@@ -1,2 +1,45 @@
+# ─── Node.js ──────────────────
 node_modules/
-.env.env.test
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json.bak
+
+# ─── Environnement (SECRETS) ──
+.env
+.env.local
+.env.test
+.env.*.local
+
+# ─── Uploads utilisateurs ─────
+public/uploads/plats/*
+!public/uploads/plats/.gitkeep
+
+# ─── Logs ─────────────────────
+logs/
+*.log
+
+# ─── OS ───────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Éditeurs ─────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Docker ───────────────────
+.docker/
+
+# ─── Build ────────────────────
+dist/
+build/
+.cache/
+
+# ─── Electron ─────────────────
+dist_electron/
+
+# ─── Coverage tests ───────────
+coverage/
+.nyc_output/

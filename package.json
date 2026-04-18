@@ -9,13 +9,8 @@
     "test": "jest --verbose --forceExit"
   },
   "jest": {
-    "setupFiles": [
-      "<rootDir>/tests/env.js"
-    ],
-    "setupFilesAfterEach": [
-      "<rootDir>/tests/setup.js"
-    ]
-  },
+    "setupFiles": ["<rootDir>/tests/env.js"]
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
