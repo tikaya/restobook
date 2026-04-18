@@ -6,11 +6,14 @@ on:
   pull_request:
     branches: [main]
 
+# Variable globale pour skipper Electron partout
+env:
+  ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+
 jobs:
 
   # ═══════════════════════════════
   # JOB 1 : Tests unitaires
-  # (pas besoin de BDD — logique pure)
   # ═══════════════════════════════
   tests-unitaires:
     name: Tests unitaires
@@ -25,15 +28,14 @@ jobs:
           node-version: '24.15.0'
           cache: 'npm'
 
-      - name: Installer les dépendances
-        run: npm ci
+      - name: Installer les dépendances (sans Electron)
+        run: npm ci --ignore-scripts
 
       - name: Lancer les tests unitaires
         run: npx jest tests/unit --verbose --forceExit
 
   # ═══════════════════════════════
   # JOB 2 : Tests d'intégration
-  # (pas besoin de BDD — juste HTTP)
   # ═══════════════════════════════
   tests-integration:
     name: Tests d'intégration
@@ -49,22 +51,20 @@ jobs:
           node-version: '24.15.0'
           cache: 'npm'
 
-      - name: Installer les dépendances
-        run: npm ci
+      - name: Installer les dépendances (sans Electron)
+        run: npm ci --ignore-scripts
 
       - name: Lancer les tests d'intégration
         run: npx jest tests/integration --verbose --forceExit
 
   # ═══════════════════════════════
-  # JOB 3 : Tests CRITIQUES
-  # (BDD éphémère PostgreSQL + MongoDB)
+  # JOB 3 : Tests CRITIQUES avec BDD
   # ═══════════════════════════════
   tests-critiques:
     name: Tests critiques (BDD réelle)
     runs-on: ubuntu-latest
     needs: tests-integration
 
-    # ── Services éphémères ──
     services:
       postgres:
         image: postgres:16
@@ -84,6 +84,11 @@ jobs:
         image: mongo:7
         ports:
           - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand({ping:1})'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -94,20 +99,27 @@ jobs:
           node-version: '24.15.0'
           cache: 'npm'
 
-      - name: Installer les dépendances
-        run: npm ci
+      - name: Installer les dépendances (sans Electron)
+        run: npm ci --ignore-scripts
+
+      - name: Installer client PostgreSQL
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
       - name: Initialiser le schéma PostgreSQL
-        run: psql postgresql://restobook:restobook123@localhost:5432/restobook_test -f database/init.sql
+        env:
+          PGPASSWORD: restobook123
+        run: psql -h localhost -U restobook -d restobook_test -f database/init.sql
 
       - name: Créer le fichier .env.test
         run: |
-          echo "NODE_ENV=test"                                                              >> .env.test
-          echo "PORT=3001"                                                                  >> .env.test
-          echo "DATABASE_URL=postgresql://restobook:restobook123@localhost:5432/restobook_test" >> .env.test
-          echo "MONGO_URL=mongodb://localhost:27017/restobook_test"                         >> .env.test
-          echo "JWT_SECRET=test_secret_pour_les_tests_uniquement"                           >> .env.test
-          echo "JWT_EXPIRES_IN=1h"                                                          >> .env.test
+          cat > .env.test << 'EOF'
+          NODE_ENV=test
+          PORT=3001
+          DATABASE_URL=postgresql://restobook:restobook123@localhost:5432/restobook_test
+          MONGO_URL=mongodb://localhost:27017/restobook_test
+          JWT_SECRET=test_secret_pour_les_tests_uniquement
+          JWT_EXPIRES_IN=1h
+          EOF
 
       - name: Lancer les tests critiques
         run: npx jest tests/critical --verbose --forceExit
