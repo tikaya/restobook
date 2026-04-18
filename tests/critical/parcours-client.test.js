@@ -9,12 +9,35 @@ describe('🎯 TEST CRITIQUE — Parcours client complet', () => {
     const testEmail  = `test_${timestamp}@restobook.test`;
     const testMdp    = 'Test123!';
 
-    let token       = null;  // JWT obtenu après login
-    let clientId    = null;  // ID du client créé
-    let resaId      = null;  // ID de la réservation créée
+    let token       = null;
+    let clientId    = null;
+    let resaId      = null;
 
     // ─────────────────────────────────────────────
-    // Nettoyage — supprimer les données de test
+    // Seed — créer les données nécessaires AVANT tout
+    // ─────────────────────────────────────────────
+    beforeAll(async () => {
+        // Catégorie (requise pour items_menu si jamais)
+        await pool.query(`
+            INSERT INTO categorie (nom_categorie, ordre_affichage_categorie)
+            VALUES ('TestCat', 1)
+            ON CONFLICT (nom_categorie) DO NOTHING
+        `);
+
+        // Tables (nécessaires pour findAvailableTable)
+        await pool.query(`
+            INSERT INTO table_resto (numero_table, capacite_table, emplacement_table, disponible_table)
+            VALUES
+                (101, 2, 'interieur', TRUE),
+                (102, 4, 'interieur', TRUE),
+                (103, 2, 'terrasse',  TRUE),
+                (104, 6, 'salon_prive', TRUE)
+            ON CONFLICT (numero_table) DO NOTHING
+        `);
+    });
+
+    // ─────────────────────────────────────────────
+    // Nettoyage après les tests
     // ─────────────────────────────────────────────
     afterAll(async () => {
         try {
@@ -70,13 +93,12 @@ describe('🎯 TEST CRITIQUE — Parcours client complet', () => {
     // TEST 3 — Création réservation
     // ─────────────────────────────────────────────
     test('3️⃣  doit permettre la création d\'une réservation avec JWT', async () => {
-        // Mardi à 13h — créneau valide selon validateHoraire
         const response = await request(app)
             .post('/reservations')
             .set('Authorization', `Bearer ${token}`)
             .send({
                 id_client:         clientId,
-                date_reservation:  '2026-05-12',  // un mardi
+                date_reservation:  '2026-05-12',  // mardi
                 heure_reservation: '13:00',
                 nb_personnes:      2,
                 emplacement_table: 'interieur'
@@ -106,7 +128,7 @@ describe('🎯 TEST CRITIQUE — Parcours client complet', () => {
     });
 
     // ─────────────────────────────────────────────
-    // TEST 5 — Sécurité : sans token, accès refusé
+    // TEST 5 — Sécurité sans token
     // ─────────────────────────────────────────────
     test('5️⃣  doit refuser l\'accès à mes-reservations sans token', async () => {
         const response = await request(app)
@@ -116,7 +138,7 @@ describe('🎯 TEST CRITIQUE — Parcours client complet', () => {
     });
 
     // ─────────────────────────────────────────────
-    // TEST 6 — Sécurité : mauvais mot de passe
+    // TEST 6 — Sécurité mauvais mdp
     // ─────────────────────────────────────────────
     test('6️⃣  doit refuser la connexion avec un mauvais mot de passe', async () => {
         const response = await request(app)
