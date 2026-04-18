@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-# Variable globale pour skipper Electron partout
 env:
   ELECTRON_SKIP_BINARY_DOWNLOAD: 1
 
@@ -84,11 +83,6 @@ jobs:
         image: mongo:7
         ports:
           - 27017:27017
-        options: >-
-          --health-cmd "mongosh --eval 'db.adminCommand({ping:1})'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -110,16 +104,12 @@ jobs:
           PGPASSWORD: restobook123
         run: psql -h localhost -U restobook -d restobook_test -f database/init.sql
 
-      - name: Créer le fichier .env.test
-        run: |
-          cat > .env.test << 'EOF'
-          NODE_ENV=test
-          PORT=3001
-          DATABASE_URL=postgresql://restobook:restobook123@localhost:5432/restobook_test
-          MONGO_URL=mongodb://localhost:27017/restobook_test
-          JWT_SECRET=test_secret_pour_les_tests_uniquement
-          JWT_EXPIRES_IN=1h
-          EOF
-
       - name: Lancer les tests critiques
+        env:
+          DATABASE_URL:   postgresql://restobook:restobook123@localhost:5432/restobook_test
+          MONGO_URL:      mongodb://localhost:27017/restobook_test
+          JWT_SECRET:     test_secret_pour_les_tests_uniquement
+          JWT_EXPIRES_IN: 1h
+          NODE_ENV:       test
+          PORT:           3001
         run: npx jest tests/critical --verbose --forceExit
