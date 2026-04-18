@@ -1,7 +1,12 @@
-const { Pool } = require('pg');
+// Chargé APRÈS que Jest soit initialisé
+jest.setTimeout(15000);
 
-// Fermer toutes les connexions apres les tests
+// Fermer les connexions PostgreSQL après chaque suite
 afterAll(async () => {
-    const pool = require('../db');
-    await pool.end();
+    try {
+        const pool = require('../db');
+        if (pool && pool.end) await pool.end();
+    } catch (err) {
+        // pool pas encore créé ou déjà fermé
+    }
 });

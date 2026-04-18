@@ -36,7 +36,8 @@ CREATE TABLE table_resto (
         CHECK (capacite_table > 0),
     emplacement_table   VARCHAR(50) NOT NULL
         CHECK (emplacement_table IN
-            ('interieur','terrasse','salon_prive'))
+            ('interieur','terrasse','salon_prive')),
+    disponible_table BOOLEAN DEFAULT TRUE
 );
 
 -- ============================================
@@ -49,6 +50,7 @@ CREATE TABLE employe (
     nom_employe     VARCHAR(50) NOT NULL,
     prenom_employe  VARCHAR(50) NOT NULL,
     role_employe    VARCHAR(20) NOT NULL DEFAULT 'serveur'
+    
         CHECK (role_employe IN
             ('gerant','serveur','cuisine'))
 );

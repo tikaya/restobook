@@ -8,8 +8,9 @@
     "electron": "electron .",
     "test": "jest --verbose --forceExit",
     "jest": {
-      "globalTeardown": "./tests/setup.js"
-    }
+    "setupFiles":         ["<rootDir>/tests/env.js"],
+    "setupFilesAfterEach": ["<rootDir>/tests/setup.js"]
+}
   },
   "keywords": [],
   "author": "",
