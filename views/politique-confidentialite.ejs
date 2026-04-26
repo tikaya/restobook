@@ -7,11 +7,7 @@
     min-height: 100vh;
     background: var(--creme);
   }
-/* Sections */
-.rgpd-section {
-  margin-bottom: 3rem;
-  scroll-margin-top: 100px;  /* ← Ajoute cette ligne */
-}
+
   /* ═════════════════════════════════════════════
      HERO
   ═════════════════════════════════════════════ */
@@ -170,9 +166,12 @@
   }
   .rgpd-toc a:hover { color: var(--bordeaux); }
 
-  /* Sections */
+  /* ═════════════════════════════════════════════
+     SECTIONS — avec scroll-margin-top pour ancres
+  ═════════════════════════════════════════════ */
   .rgpd-section {
     margin-bottom: 3rem;
+    scroll-margin-top: 120px;
   }
   .rgpd-section h2 {
     font-family: 'Playfair Display', serif;
@@ -419,9 +418,7 @@
         </ol>
       </nav>
 
-      <!-- ─────────────────────────────────────
-           1. Identité
-      ───────────────────────────────────── -->
+      <!-- 1. Identité -->
       <section class="rgpd-section" id="identite">
         <h2><span class="num">01</span>Identité du responsable de traitement</h2>
         <p>
@@ -435,9 +432,7 @@
         </ul>
       </section>
 
-      <!-- ─────────────────────────────────────
-           2. Données collectées
-      ───────────────────────────────────── -->
+      <!-- 2. Données collectées -->
       <section class="rgpd-section" id="donnees">
         <h2><span class="num">02</span>Données personnelles collectées</h2>
         <p>Dans le cadre de l'utilisation de notre plateforme, nous collectons les catégories de données suivantes :</p>
@@ -470,9 +465,7 @@
         </div>
       </section>
 
-      <!-- ─────────────────────────────────────
-           3. Finalités
-      ───────────────────────────────────── -->
+      <!-- 3. Finalités -->
       <section class="rgpd-section" id="finalites">
         <h2><span class="num">03</span>Finalités du traitement</h2>
         <p>Vos données personnelles sont collectées et traitées pour les finalités suivantes :</p>
@@ -486,9 +479,7 @@
         </ul>
       </section>
 
-      <!-- ─────────────────────────────────────
-           4. Base légale
-      ───────────────────────────────────── -->
+      <!-- 4. Base légale -->
       <section class="rgpd-section" id="base-legale">
         <h2><span class="num">04</span>Base légale du traitement</h2>
         <p>Le traitement de vos données repose sur les fondements juridiques suivants au sens du RGPD :</p>
@@ -500,9 +491,7 @@
         </ul>
       </section>
 
-      <!-- ─────────────────────────────────────
-           5. Durée de conservation
-      ───────────────────────────────────── -->
+      <!-- 5. Durée de conservation -->
       <section class="rgpd-section" id="duree">
         <h2><span class="num">05</span>Durée de conservation des données</h2>
         <p>Vos données sont conservées pendant les durées suivantes :</p>
@@ -539,9 +528,7 @@
         </table>
       </section>
 
-      <!-- ─────────────────────────────────────
-           6. Destinataires
-      ───────────────────────────────────── -->
+      <!-- 6. Destinataires -->
       <section class="rgpd-section" id="destinataires">
         <h2><span class="num">06</span>Destinataires des données</h2>
         <p>
@@ -556,9 +543,7 @@
         </ul>
       </section>
 
-      <!-- ─────────────────────────────────────
-           7. Vos droits
-      ───────────────────────────────────── -->
+      <!-- 7. Vos droits -->
       <section class="rgpd-section" id="droits">
         <h2><span class="num">07</span>Vos droits sur vos données</h2>
         <p>Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits suivants :</p>
@@ -581,9 +566,7 @@
         </div>
       </section>
 
-      <!-- ─────────────────────────────────────
-           8. Cookies
-      ───────────────────────────────────── -->
+      <!-- 8. Cookies -->
       <section class="rgpd-section" id="cookies">
         <h2><span class="num">08</span>Politique relative aux cookies</h2>
         <p>
@@ -601,9 +584,7 @@
         </p>
       </section>
 
-      <!-- ─────────────────────────────────────
-           9. Sécurité
-      ───────────────────────────────────── -->
+      <!-- 9. Sécurité -->
       <section class="rgpd-section" id="securite">
         <h2><span class="num">09</span>Mesures de sécurité</h2>
         <p>Nous mettons en œuvre des mesures techniques et organisationnelles strictes pour protéger vos données :</p>
@@ -618,9 +599,7 @@
         </ul>
       </section>
 
-      <!-- ─────────────────────────────────────
-           10. Contact
-      ───────────────────────────────────── -->
+      <!-- 10. Contact -->
       <section class="rgpd-section" id="contact">
         <h2><span class="num">10</span>Contact et droit de réclamation</h2>
         <p>
@@ -652,5 +631,29 @@
     </div>
   </div>
 </div>
+
+<script>
+  // ═══════════════════════════════════════════════
+  // Smooth scroll avec offset pour le header sticky
+  // ═══════════════════════════════════════════════
+  document.querySelectorAll('.rgpd-toc a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var targetId = this.getAttribute('href').substring(1);
+      var target   = document.getElementById(targetId);
+
+      if (target) {
+        var headerOffset    = 120; // Hauteur du header + marge
+        var elementPosition = target.getBoundingClientRect().top;
+        var offsetPosition  = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+</script>
 
 <%- include('partials/footer') %>
