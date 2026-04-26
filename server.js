@@ -91,6 +91,10 @@ app.use('/avis', avisRoutes)
 app.use('/contact', contactRoutes)
 app.use('/logs',logRoutes)
 
+// Politique de confidentialité
+app.get('/politique-confidentialite', (req, res) => {
+    res.render('politique-confidentialite');
+});
 // 4. Gardien (toujours à la fin)
 app.use((err, req, res, next) => {
     console.error('Erreur complète :', err.message, err.stack, err)

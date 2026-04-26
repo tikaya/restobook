@@ -1,0 +1,656 @@
+<%- include('partials/header') %>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  .rgpd-page {
+    min-height: 100vh;
+    background: var(--creme);
+  }
+/* Sections */
+.rgpd-section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 100px;  /* ← Ajoute cette ligne */
+}
+  /* ═════════════════════════════════════════════
+     HERO
+  ═════════════════════════════════════════════ */
+  .rgpd-hero {
+    background: var(--bordeaux);
+    padding: 5rem 2rem 7rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .rgpd-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,168,76,0.15), transparent);
+  }
+  .rgpd-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 70px;
+    background: var(--creme);
+    clip-path: ellipse(60% 100% at 50% 100%);
+  }
+  .rgpd-hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+  .rgpd-hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 1.25rem;
+  }
+  .rgpd-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .rgpd-hero h1 em { font-style: italic; color: var(--or); }
+  .rgpd-hero p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.8);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .hero-ornament-line {
+    width: 60px;
+    height: 1px;
+    background: var(--or);
+    opacity: 0.6;
+  }
+  .hero-ornament-diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--or);
+    transform: rotate(45deg);
+  }
+
+  /* ═════════════════════════════════════════════
+     CONTAINER
+  ═════════════════════════════════════════════ */
+  .rgpd-container {
+    max-width: 900px;
+    margin: -2.5rem auto 5rem;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ═════════════════════════════════════════════
+     CARD principale
+  ═════════════════════════════════════════════ */
+  .rgpd-card {
+    background: #fff;
+    border: 1px solid var(--creme-dark);
+    border-radius: 20px;
+    padding: 4rem 3.5rem;
+    box-shadow: 0 12px 60px rgba(61,43,31,0.12);
+    position: relative;
+  }
+
+  .rgpd-card::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--or), transparent);
+    opacity: 0.3;
+  }
+
+  /* Date de mise à jour */
+  .rgpd-update {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--brun-light);
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--creme-dark);
+  }
+
+  /* Sommaire */
+  .rgpd-toc {
+    background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(107,26,42,0.04));
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 3rem;
+  }
+  .rgpd-toc-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    margin-bottom: 1rem;
+  }
+  .rgpd-toc ol {
+    margin: 0;
+    padding-left: 1.5rem;
+    columns: 2;
+    column-gap: 2rem;
+  }
+  .rgpd-toc li {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    color: var(--brun);
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    break-inside: avoid;
+  }
+  .rgpd-toc a {
+    color: var(--brun);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .rgpd-toc a:hover { color: var(--bordeaux); }
+
+  /* Sections */
+  .rgpd-section {
+    margin-bottom: 3rem;
+  }
+  .rgpd-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--bordeaux);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    font-weight: 700;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .rgpd-section h2 .num {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--or);
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .rgpd-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--bordeaux);
+    margin: 1.5rem 0 0.75rem;
+    font-weight: 600;
+  }
+  .rgpd-section p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--brun);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .rgpd-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+  }
+  .rgpd-section ul li {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--brun);
+    line-height: 1.7;
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+  .rgpd-section ul li::before {
+    content: '▸';
+    color: var(--or);
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+  .rgpd-section strong { color: var(--bordeaux); font-weight: 600; }
+  .rgpd-section a {
+    color: var(--or);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(201,168,76,0.4);
+    text-underline-offset: 3px;
+    transition: all 0.2s;
+  }
+  .rgpd-section a:hover {
+    color: var(--bordeaux);
+    text-decoration-color: var(--bordeaux);
+  }
+
+  /* Card d'info importante */
+  .info-card {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(107,26,42,0.05));
+    border-left: 4px solid var(--or);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .info-card-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--bordeaux);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .info-card p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  /* Tableau de durées de conservation */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+  }
+  .data-table th {
+    background: var(--bordeaux);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child  { border-radius: 0 8px 0 0; }
+  .data-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--creme-dark);
+    color: var(--brun);
+    line-height: 1.5;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:nth-child(even) { background: var(--creme); }
+
+  /* Card de contact */
+  .contact-card {
+    background: var(--bordeaux);
+    color: #fff;
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-top: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,168,76,0.15), transparent);
+  }
+  .contact-card-content { position: relative; z-index: 1; }
+  .contact-card-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 0.75rem;
+  }
+  .contact-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  .contact-card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 1.25rem;
+  }
+  .contact-card a {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background: var(--or);
+    color: var(--bordeaux);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.25s;
+  }
+  .contact-card a:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  }
+
+  /* Bouton retour */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--bordeaux);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: all 0.2s;
+  }
+  .back-link:hover { color: var(--or); transform: translateX(-3px); }
+  .back-link::before { content: '←'; font-size: 1.1rem; }
+
+  /* ═════════════════════════════════════════════
+     RESPONSIVE
+  ═════════════════════════════════════════════ */
+  @media (max-width: 720px) {
+    .rgpd-hero { padding: 3.5rem 1.5rem 5.5rem; }
+    .rgpd-container { padding: 0 1rem; max-width: 100%; }
+    .rgpd-card { padding: 2.5rem 1.75rem; border-radius: 16px; }
+    .rgpd-toc ol { columns: 1; }
+    .data-table { font-size: 0.85rem; }
+    .data-table th, .data-table td { padding: 0.6rem 0.75rem; }
+  }
+</style>
+
+<div class="rgpd-page">
+
+  <!-- HERO -->
+  <div class="rgpd-hero">
+    <div class="rgpd-hero-content">
+      <p class="rgpd-hero-eyebrow">Le Gourmet Parisien</p>
+      <h1>Politique de <em>confidentialité</em></h1>
+      <div class="hero-ornament">
+        <div class="hero-ornament-line"></div>
+        <div class="hero-ornament-diamond"></div>
+        <div class="hero-ornament-line"></div>
+      </div>
+      <p>Votre vie privée est notre priorité. Découvrez comment nous protégeons vos données.</p>
+    </div>
+  </div>
+
+  <!-- CONTENU -->
+  <div class="rgpd-container">
+    <div class="rgpd-card">
+
+      <a href="/" class="back-link">Retour à l'accueil</a>
+
+      <p class="rgpd-update">Dernière mise à jour : <strong>Avril 2026</strong></p>
+
+      <!-- Sommaire -->
+      <nav class="rgpd-toc">
+        <p class="rgpd-toc-title">Sommaire</p>
+        <ol>
+          <li><a href="#identite">Identité du responsable</a></li>
+          <li><a href="#donnees">Données collectées</a></li>
+          <li><a href="#finalites">Finalités du traitement</a></li>
+          <li><a href="#base-legale">Base légale</a></li>
+          <li><a href="#duree">Durée de conservation</a></li>
+          <li><a href="#destinataires">Destinataires des données</a></li>
+          <li><a href="#droits">Vos droits</a></li>
+          <li><a href="#cookies">Cookies</a></li>
+          <li><a href="#securite">Sécurité</a></li>
+          <li><a href="#contact">Contact et réclamation</a></li>
+        </ol>
+      </nav>
+
+      <!-- ─────────────────────────────────────
+           1. Identité
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="identite">
+        <h2><span class="num">01</span>Identité du responsable de traitement</h2>
+        <p>
+          Le responsable du traitement de vos données personnelles est le restaurant
+          <strong>Le Gourmet Parisien</strong>, exploité via la plateforme <strong>RestoBook Manager</strong>.
+        </p>
+        <ul>
+          <li><strong>Adresse :</strong> 15 rue de la Gastronomie, 75001 Paris</li>
+          <li><strong>Email :</strong> contact@gourmet-parisien.fr</li>
+          <li><strong>Téléphone :</strong> 01 23 45 67 89</li>
+        </ul>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           2. Données collectées
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="donnees">
+        <h2><span class="num">02</span>Données personnelles collectées</h2>
+        <p>Dans le cadre de l'utilisation de notre plateforme, nous collectons les catégories de données suivantes :</p>
+
+        <h3>Données d'inscription</h3>
+        <ul>
+          <li>Nom et prénom</li>
+          <li>Adresse e-mail</li>
+          <li>Numéro de téléphone (facultatif)</li>
+          <li>Mot de passe (stocké sous forme chiffrée bcrypt)</li>
+        </ul>
+
+        <h3>Données de réservation</h3>
+        <ul>
+          <li>Date, heure et nombre de convives</li>
+          <li>Préférences d'emplacement (intérieur, terrasse, salon privé)</li>
+          <li>Demandes spéciales éventuelles</li>
+          <li>Historique des réservations passées</li>
+        </ul>
+
+        <h3>Données techniques</h3>
+        <ul>
+          <li>Adresse IP, type de navigateur et système d'exploitation</li>
+          <li>Logs de connexion et d'utilisation</li>
+        </ul>
+
+        <div class="info-card">
+          <p class="info-card-title">À retenir</p>
+          <p>Nous ne collectons <strong>jamais</strong> de données bancaires sur notre plateforme. Aucun paiement en ligne n'est effectué : tout règlement se fait sur place au restaurant.</p>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           3. Finalités
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="finalites">
+        <h2><span class="num">03</span>Finalités du traitement</h2>
+        <p>Vos données personnelles sont collectées et traitées pour les finalités suivantes :</p>
+        <ul>
+          <li><strong>Gestion de votre compte client</strong> : création, modification, suppression</li>
+          <li><strong>Gestion de vos réservations</strong> : création, confirmation, annulation, modification</li>
+          <li><strong>Communication</strong> : envoi d'e-mails de confirmation, rappels et mots de passe oubliés</li>
+          <li><strong>Statistiques internes</strong> : analyse anonymisée pour améliorer nos services</li>
+          <li><strong>Sécurité</strong> : prévention de la fraude et des accès non autorisés</li>
+          <li><strong>Obligations légales</strong> : conservation des données conformément à la réglementation</li>
+        </ul>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           4. Base légale
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="base-legale">
+        <h2><span class="num">04</span>Base légale du traitement</h2>
+        <p>Le traitement de vos données repose sur les fondements juridiques suivants au sens du RGPD :</p>
+        <ul>
+          <li><strong>Exécution d'un contrat</strong> (article 6.1.b) : pour la gestion de votre compte et de vos réservations</li>
+          <li><strong>Consentement</strong> (article 6.1.a) : recueilli explicitement lors de l'inscription</li>
+          <li><strong>Intérêt légitime</strong> (article 6.1.f) : pour la sécurité et l'amélioration de nos services</li>
+          <li><strong>Obligation légale</strong> (article 6.1.c) : pour la conservation imposée par la loi</li>
+        </ul>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           5. Durée de conservation
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="duree">
+        <h2><span class="num">05</span>Durée de conservation des données</h2>
+        <p>Vos données sont conservées pendant les durées suivantes :</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Type de donnée</th>
+              <th>Durée de conservation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Compte client actif</td>
+              <td>Pendant toute la durée d'utilisation</td>
+            </tr>
+            <tr>
+              <td>Compte client inactif</td>
+              <td>3 ans après la dernière connexion</td>
+            </tr>
+            <tr>
+              <td>Réservations passées</td>
+              <td>3 ans pour les statistiques anonymisées</td>
+            </tr>
+            <tr>
+              <td>Logs de connexion</td>
+              <td>1 an maximum</td>
+            </tr>
+            <tr>
+              <td>Données après suppression du compte</td>
+              <td>30 jours, puis suppression définitive</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           6. Destinataires
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="destinataires">
+        <h2><span class="num">06</span>Destinataires des données</h2>
+        <p>
+          Vos données personnelles sont traitées exclusivement par <strong>Le Gourmet Parisien</strong>
+          et ne sont <strong>jamais vendues, louées ni transmises à des tiers</strong> à des fins commerciales.
+        </p>
+        <p>Elles peuvent toutefois être communiquées dans les cas suivants :</p>
+        <ul>
+          <li>Au personnel du restaurant ayant besoin d'y accéder pour gérer votre réservation</li>
+          <li>À nos sous-traitants techniques (hébergeur Railway, prestataire e-mail Gmail SMTP), strictement encadrés contractuellement</li>
+          <li>Sur réquisition judiciaire ou administrative légale</li>
+        </ul>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           7. Vos droits
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="droits">
+        <h2><span class="num">07</span>Vos droits sur vos données</h2>
+        <p>Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits suivants :</p>
+        <ul>
+          <li><strong>Droit d'accès</strong> : connaître les données que nous détenons sur vous</li>
+          <li><strong>Droit de rectification</strong> : corriger les informations inexactes</li>
+          <li><strong>Droit à l'effacement</strong> (« droit à l'oubli ») : supprimer votre compte et vos données</li>
+          <li><strong>Droit à la limitation</strong> : restreindre temporairement le traitement</li>
+          <li><strong>Droit à la portabilité</strong> : récupérer vos données dans un format lisible</li>
+          <li><strong>Droit d'opposition</strong> : refuser certains traitements</li>
+          <li><strong>Droit de retirer votre consentement</strong> à tout moment</li>
+        </ul>
+
+        <div class="info-card">
+          <p class="info-card-title">Comment exercer vos droits ?</p>
+          <p>
+            Vous pouvez exercer ces droits directement depuis votre <a href="/espace-client">espace client</a>
+            ou en nous contactant par e-mail à <strong>contact@gourmet-parisien.fr</strong>. Nous nous engageons à répondre dans un délai maximal de 30 jours.
+          </p>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           8. Cookies
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="cookies">
+        <h2><span class="num">08</span>Politique relative aux cookies</h2>
+        <p>
+          Notre site utilise des cookies techniques essentiels au fonctionnement de la plateforme. Aucun cookie de tracking publicitaire ou de profilage n'est utilisé.
+        </p>
+
+        <h3>Types de cookies utilisés</h3>
+        <ul>
+          <li><strong>Cookie de session JWT</strong> : maintien de votre connexion (expire après 24h)</li>
+          <li><strong>Cookie de préférences</strong> : mémorisation de votre acceptation de cette politique</li>
+        </ul>
+
+        <p>
+          Vous pouvez désactiver les cookies dans les paramètres de votre navigateur, mais certaines fonctionnalités du site pourraient ne plus fonctionner correctement.
+        </p>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           9. Sécurité
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="securite">
+        <h2><span class="num">09</span>Mesures de sécurité</h2>
+        <p>Nous mettons en œuvre des mesures techniques et organisationnelles strictes pour protéger vos données :</p>
+        <ul>
+          <li><strong>Chiffrement des mots de passe</strong> avec bcrypt (algorithme à coût élevé)</li>
+          <li><strong>Connexions sécurisées</strong> en HTTPS/TLS sur l'ensemble du site</li>
+          <li><strong>Authentification JWT</strong> avec cookies httpOnly et sameSite strict</li>
+          <li><strong>Validation des données</strong> côté frontend et backend pour prévenir les injections</li>
+          <li><strong>Sauvegardes régulières</strong> de la base de données</li>
+          <li><strong>Logs d'accès</strong> pour détecter les tentatives d'intrusion</li>
+          <li><strong>Mise à jour régulière</strong> des dépendances logicielles et correctifs de sécurité</li>
+        </ul>
+      </section>
+
+      <!-- ─────────────────────────────────────
+           10. Contact
+      ───────────────────────────────────── -->
+      <section class="rgpd-section" id="contact">
+        <h2><span class="num">10</span>Contact et droit de réclamation</h2>
+        <p>
+          Pour toute question relative à cette politique de confidentialité ou à l'utilisation de vos données,
+          vous pouvez nous contacter à <strong>contact@gourmet-parisien.fr</strong>.
+        </p>
+        <p>
+          Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous avez le droit
+          d'introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l'Informatique
+          et des Libertés) :
+        </p>
+        <ul>
+          <li><strong>Site :</strong> <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a></li>
+          <li><strong>Adresse :</strong> 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07</li>
+          <li><strong>Téléphone :</strong> 01 53 73 22 22</li>
+        </ul>
+      </section>
+
+      <!-- Card de contact final -->
+      <div class="contact-card">
+        <div class="contact-card-content">
+          <p class="contact-card-eyebrow">Une question ?</p>
+          <h3>Nous sommes à votre écoute</h3>
+          <p>Notre équipe vous répond sous 30 jours maximum</p>
+          <a href="mailto:contact@gourmet-parisien.fr">Nous contacter</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -170,6 +170,75 @@
   .pwd-bar.medium { background: var(--or); }
   .pwd-bar.strong { background: #2e7d32; }
 
+  /* ── RGPD ── */
+  .rgpd-notice {
+    background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(107,26,42,0.04));
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem;
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+  .rgpd-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bordeaux);
+    color: var(--or);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+  }
+  .rgpd-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--brun);
+    line-height: 1.5;
+  }
+  .rgpd-text strong { font-weight: 600; color: var(--bordeaux); }
+  .rgpd-text a {
+    color: var(--or);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(201,168,76,0.4);
+    text-underline-offset: 2px;
+    transition: all 0.2s;
+  }
+  .rgpd-text a:hover { color: var(--bordeaux); }
+
+  .rgpd-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: 0.5rem 0;
+  }
+  .rgpd-consent input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--bordeaux);
+    margin-top: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .rgpd-consent label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--brun);
+    line-height: 1.45;
+    cursor: pointer;
+  }
+  .rgpd-consent label a {
+    color: var(--or);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .rgpd-consent label a:hover { color: var(--bordeaux); }
+
   /* ── Bouton ── */
   .btn-submit {
     width: 100%;
@@ -286,6 +355,24 @@
           <input type="password" name="mdp_confirm" class="form-input" id="pwd-confirm" placeholder="••••••••" required>
         </div>
 
+        <!-- ── RGPD ── -->
+        <div class="rgpd-notice">
+          <div class="rgpd-icon">🔒</div>
+          <div class="rgpd-text">
+            <strong>Protection de vos données</strong><br>
+            Vos informations sont collectées par <strong>Le Gourmet Parisien</strong> uniquement pour la gestion de votre compte et de vos réservations. Vous disposez d'un droit d'accès, de rectification et de suppression conformément au RGPD.
+            <br>
+            <a href="/politique-confidentialite">En savoir plus →</a>
+          </div>
+        </div>
+
+        <div class="rgpd-consent">
+          <input type="checkbox" id="rgpd-consent" name="rgpd_consent" required>
+          <label for="rgpd-consent">
+            J'accepte la <a href="/politique-confidentialite">politique de confidentialité</a> et le traitement de mes données. *
+          </label>
+        </div>
+
         <button type="submit" class="btn-submit" id="btn-submit">Créer mon compte</button>
 
         <div class="form-login-link">
@@ -330,6 +417,12 @@
     e.preventDefault();
     const form = e.target;
     const btn  = document.getElementById('btn-submit');
+
+    // Vérification consentement RGPD
+    if (!form.rgpd_consent.checked) {
+      showMsg(false, 'Vous devez accepter la politique de confidentialité.');
+      return;
+    }
 
     // Vérification mots de passe
     if (form.mdp_client.value !== form.mdp_confirm.value) {
