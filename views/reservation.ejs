@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
   .resa-hero {
     background: var(--bordeaux); padding: 4rem 2rem 5rem;
@@ -15,9 +15,200 @@
   .resa-hero h1 em { font-style: italic; color: var(--or); }
   .resa-hero p { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: rgba(255,255,255,0.65); font-style: italic; }
 
-  .resa-page { background: var(--creme); padding: 3rem 2rem 5rem; }
-  .resa-layout { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 1.5rem; align-items: start; }
+  .resa-page { background: var(--creme); padding: 3rem 2rem 5rem; position: relative; }
+  .resa-layout { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 1.5rem; align-items: start; position: relative; }
 
+  /* ═════════════════════════════════════════════
+     OVERLAY AUTH — quand non connecte
+  ═════════════════════════════════════════════ */
+  .resa-locked .resa-card,
+  .resa-locked .resa-sidebar {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.3s ease;
+  }
+
+  .auth-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 2rem 0;
+  }
+  .resa-locked .auth-overlay { display: flex; }
+
+  .auth-overlay-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(250, 247, 242, 0.4);
+  }
+
+  .auth-modal {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border: 1px solid var(--creme-dark);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 80px rgba(61,43,31,0.18);
+    animation: modalAppear 0.5s ease;
+  }
+  @keyframes modalAppear {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .auth-modal::before {
+    content: '';
+    position: absolute;
+    top: 20px; left: 25px; right: 25px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--or), transparent);
+    opacity: 0.4;
+  }
+
+  .auth-icon {
+    width: 70px; height: 70px;
+    margin: 0 auto 1.25rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bordeaux), #8B2A3A);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; color: var(--or);
+    box-shadow: 0 8px 24px rgba(107,26,42,0.25);
+    position: relative;
+  }
+  .auth-icon::after {
+    content: '';
+    position: absolute; inset: -4px;
+    border: 2px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%   { transform: scale(1);    opacity: 0.5; }
+    100% { transform: scale(1.15); opacity: 0;   }
+  }
+
+  .auth-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--or); margin-bottom: 0.6rem;
+  }
+  .auth-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--bordeaux);
+    margin-bottom: 0.5rem; line-height: 1.2; font-weight: 700;
+  }
+  .auth-title em { font-style: italic; color: var(--or); }
+  .auth-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--brun-light);
+    font-style: italic; line-height: 1.5;
+    margin-bottom: 2rem;
+    max-width: 360px; margin-left: auto; margin-right: auto;
+  }
+
+  .auth-perks {
+    background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(107,26,42,0.04));
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+  .auth-perks-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--bordeaux); margin-bottom: 0.75rem;
+    text-align: center;
+  }
+  .auth-perks ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .auth-perks li {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; color: var(--brun); line-height: 1.4;
+  }
+  .auth-perks li::before {
+    content: ''; flex-shrink: 0;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--or); color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M13.485 1.929a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 1 1 1.06-1.06L5.5 8.939l6.97-6.97a.75.75 0 0 1 1.06 0z'/%3E%3C/svg%3E");
+    background-position: center; background-repeat: no-repeat; background-size: 60%;
+  }
+
+  .auth-actions {
+    display: flex; flex-direction: column; gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .auth-btn {
+    display: block; padding: 0.95rem;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; text-align: center;
+    transition: all 0.25s ease;
+    cursor: pointer; border: none; width: 100%;
+  }
+  .auth-btn-primary {
+    background: var(--bordeaux); color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .auth-btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  .auth-btn-primary:hover::before { transform: translateX(100%); }
+  .auth-btn-primary:hover {
+    background: #8B2A3A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(107,26,42,0.3);
+  }
+  .auth-btn-secondary {
+    background: transparent; color: var(--bordeaux);
+    border: 2px solid var(--bordeaux);
+  }
+  .auth-btn-secondary:hover {
+    background: var(--bordeaux); color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(107,26,42,0.2);
+  }
+
+  .auth-divider {
+    display: flex; align-items: center; gap: 0.75rem;
+    color: var(--brun-light); font-size: 0.72rem;
+    font-family: 'DM Sans', sans-serif;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin: 0.25rem 0;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--creme-dark);
+  }
+
+  .auth-back {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; color: var(--brun-light);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .auth-back:hover { color: var(--bordeaux); }
+
+  /* ═════════════════════════════════════════════
+     RESTE DU FORMULAIRE
+  ═════════════════════════════════════════════ */
   .resa-card { background: #fff; border: 1px solid var(--creme-dark); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(61,43,31,0.06); }
   .resa-card-eyebrow { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--or); margin-bottom: 0.4rem; }
   .resa-card-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--bordeaux); margin-bottom: 0.3rem; }
@@ -67,8 +258,16 @@
   .auth-chip { display: flex; align-items: center; gap: 0.5rem; background: #e8f5e9; color: #2e7d32; border: 1px solid rgba(46,125,50,0.2); border-radius: 8px; padding: 0.6rem 0.9rem; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; }
   .auth-chip-warn { background: #fdf6e3; color: #7a5c00; border-color: rgba(201,168,76,0.3); }
 
-  @media (max-width: 768px) { .resa-layout { grid-template-columns: 1fr; } .form-row-3 { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px) { .form-row-2, .form-row-3 { grid-template-columns: 1fr; } .emplacement-pills { flex-direction: column; } }
+  @media (max-width: 768px) {
+    .resa-layout { grid-template-columns: 1fr; }
+    .form-row-3 { grid-template-columns: 1fr 1fr; }
+    .auth-modal { padding: 2.25rem 1.75rem; }
+    .auth-title { font-size: 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .form-row-2, .form-row-3 { grid-template-columns: 1fr; }
+    .emplacement-pills { flex-direction: column; }
+  }
 </style>
 
 <section class="resa-hero">
@@ -79,9 +278,43 @@
   </div>
 </section>
 
-<div class="resa-page">
+<div class="resa-page" id="resa-page-wrapper">
   <div class="resa-layout">
 
+    <!-- ═══════════════════════════════════════════
+         OVERLAY AUTH — affiche si non connecte
+    ═══════════════════════════════════════════ -->
+    <div class="auth-overlay" id="auth-overlay">
+      <div class="auth-overlay-bg"></div>
+      <div class="auth-modal">
+        <div class="auth-icon">🔒</div>
+        <p class="auth-eyebrow">Espace reserve</p>
+        <h2 class="auth-title">Connectez-vous pour <em>reserver</em></h2>
+        <p class="auth-subtitle">La reservation de table est reservee a nos membres. Connectez-vous ou creez votre compte en quelques secondes.</p>
+
+        <div class="auth-perks">
+          <p class="auth-perks-title">Les avantages d'un compte</p>
+          <ul>
+            <li>Reservation en quelques clics</li>
+            <li>Historique de vos visites</li>
+            <li>Modification et annulation faciles</li>
+            <li>Programme de fidelite du restaurant</li>
+          </ul>
+        </div>
+
+        <div class="auth-actions">
+          <a href="/login" class="auth-btn auth-btn-primary">Se connecter</a>
+          <div class="auth-divider">ou</div>
+          <a href="/inscription" class="auth-btn auth-btn-secondary">Creer un compte</a>
+        </div>
+
+        <a href="/" class="auth-back">← Retour a l'accueil</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         FORMULAIRE
+    ═══════════════════════════════════════════ -->
     <div class="resa-card">
       <p class="resa-card-eyebrow">Formulaire</p>
       <h2 class="resa-card-title">Votre reservation</h2>
@@ -247,17 +480,25 @@
 
   var user  = getUserFromCookie();
   var token = getToken();
+  var isAuth = user && token && user.role === 'client';
 
-  // Statut connexion
+  // ═══════════════════════════════════════════════
+  // VERROUILLAGE si non connecte
+  // ═══════════════════════════════════════════════
+  if (!isAuth) {
+    document.getElementById('resa-page-wrapper').classList.add('resa-locked');
+  }
+
+  // Statut connexion (sidebar)
   var authEl = document.getElementById('auth-status');
-  if (user && token) {
+  if (isAuth) {
     var nom = user.prenom || user.email?.split('@')[0] || 'vous';
     authEl.innerHTML = '<div class="auth-chip">Connecte en tant que <strong style="margin-left:0.25rem">' + nom + '</strong></div>';
     if (user.prenom) document.querySelector('input[name="prenom"]').value = user.prenom;
     if (user.nom)    document.querySelector('input[name="nom"]').value    = user.nom;
     if (user.email)  document.querySelector('input[name="email"]').value  = user.email;
   } else {
-    authEl.innerHTML = '<div class="auth-chip auth-chip-warn">Vous n\'etes pas connecte — <a href="/login" style="color:inherit;font-weight:700;">Se connecter</a></div>';
+    authEl.innerHTML = '<div class="auth-chip auth-chip-warn">Connexion requise pour reserver</div>';
   }
 
   // ── Validation horaires ───────────────────────────────────
@@ -379,7 +620,6 @@
       var result = await res.json();
 
       if (res.ok) {
-        // ✅ Afficher confirmation puis rediriger vers l'espace client
         var emplacementLabels = { interieur: 'en interieur', terrasse: 'en terrasse', salon_prive: 'en salon prive' };
         var emplacementMsg = result.emplacement_table
           ? ' (' + (emplacementLabels[result.emplacement_table] || result.emplacement_table) + ')'
@@ -387,24 +627,7 @@
         showMsg(true, 'Reservation confirmee' + emplacementMsg + ' ! Redirection vers votre espace...');
         btn.textContent = 'Reservation confirmee !';
         setTimeout(function() {
-          if (user && token) {
-            window.location.href = '/espace-client';
-          } else {
-            // Pas connecte — rester sur la page avec message de succes
-            form.reset();
-            dateInput.min = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('.emplacement-pill').forEach(function(p) { p.classList.remove('active'); });
-            document.querySelector('.emplacement-pill').classList.add('active');
-            selectedEmplacement = '';
-            heureInput.classList.remove('invalid');
-            dateInput.classList.remove('invalid');
-            hintDate.textContent = 'Nous sommes fermes le lundi';
-            hintHeure.textContent = 'Choisir une date d\'abord';
-            hintDate.classList.remove('error-hint');
-            hintHeure.classList.remove('error-hint');
-            btn.disabled    = false;
-            btn.textContent = 'Confirmer ma reservation';
-          }
+          window.location.href = '/espace-client';
         }, 1800);
       } else {
         showMsg(false, result.error || (result.errors && result.errors.join(', ')) || 'Une erreur est survenue.');
