@@ -51,8 +51,9 @@ describe('🎯 TEST CRITIQUE — Parcours client complet', () => {
 
     // ─────────────────────────────────────────────
     // TEST 1 — Inscription
+    // ✅ Adapté à la nouvelle structure { client, token, user }
     // ─────────────────────────────────────────────
-    test('1️⃣  doit permettre l\'inscription d\'un nouveau client', async () => {
+    test('1️⃣  doit permettre l\'inscription d\'un nouveau client avec connexion auto', async () => {
         const response = await request(app)
             .post('/clients')
             .send({
@@ -64,16 +65,37 @@ describe('🎯 TEST CRITIQUE — Parcours client complet', () => {
             });
 
         expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty('id_client');
-        expect(response.body.email_client).toBe(testEmail);
 
-        clientId = response.body.id_client;
+        // ✅ Nouvelle structure : { client, token, user }
+        expect(response.body).toHaveProperty('client');
+        expect(response.body).toHaveProperty('token');
+        expect(response.body).toHaveProperty('user');
+
+        // Le client créé est dans response.body.client
+        expect(response.body.client).toHaveProperty('id_client');
+        expect(response.body.client.email_client).toBe(testEmail);
+        expect(response.body.client.nom_client).toBe('TestNom');
+        expect(response.body.client.prenom_client).toBe('TestPrenom');
+
+        // ✅ Le mot de passe en clair NE doit JAMAIS être renvoyé
+        expect(response.body.client).not.toHaveProperty('_plainPassword');
+        expect(response.body.client).not.toHaveProperty('mdp_client');
+
+        // ✅ Connexion automatique : token JWT + user dans la réponse
+        expect(typeof response.body.token).toBe('string');
+        expect(response.body.token.length).toBeGreaterThan(20);
+        expect(response.body.user.email).toBe(testEmail);
+        expect(response.body.user.role).toBe('client');
+
+        // On stocke pour les tests suivants
+        clientId = response.body.client.id_client;
+        token    = response.body.token; // 🎁 Plus besoin du test 2 pour avoir un token !
     });
 
     // ─────────────────────────────────────────────
-    // TEST 2 — Login
+    // TEST 2 — Login (vérifie qu'on peut aussi se connecter classiquement)
     // ─────────────────────────────────────────────
-    test('2️⃣  doit permettre la connexion et retourner un JWT', async () => {
+    test('2️⃣  doit permettre la connexion classique et retourner un JWT', async () => {
         const response = await request(app)
             .post('/auth/login/client')
             .send({
@@ -86,6 +108,7 @@ describe('🎯 TEST CRITIQUE — Parcours client complet', () => {
         expect(response.body.user.email).toBe(testEmail);
         expect(response.body.user.role).toBe('client');
 
+        // On rafraîchit le token (le plus récent)
         token = response.body.token;
     });
 
