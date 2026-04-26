@@ -10,7 +10,6 @@
     flex-direction: column;
   }
 
-  /* ── Hero ── */
   .inscription-hero {
     background: var(--bordeaux);
     padding: 3.5rem 2rem 5rem;
@@ -58,7 +57,22 @@
     font-style: italic;
   }
 
-  /* ── Container ── */
+  .redirect-banner {
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin: 1rem auto 0;
+    max-width: 480px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.95);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
   .inscription-container {
     max-width: 520px;
     margin: -1.5rem auto 4rem;
@@ -68,7 +82,6 @@
     flex: 1;
   }
 
-  /* ── Card ── */
   .inscription-card {
     background: #fff;
     border: 1px solid var(--creme-dark);
@@ -101,7 +114,6 @@
     border-bottom: 1px solid var(--creme-dark);
   }
 
-  /* ── Message ── */
   .insc-msg {
     display: none;
     padding: 0.875rem 1rem;
@@ -114,13 +126,9 @@
   .insc-msg.success { background: #e8f5e9; color: #2e7d32; border: 1px solid rgba(46,125,50,0.2); }
   .insc-msg.error   { background: #fdecea; color: #c62828; border: 1px solid rgba(198,40,40,0.2); }
 
-  /* ── Form ── */
   .insc-form { display: flex; flex-direction: column; gap: 1rem; }
-
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-
   .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
-
   .form-label {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.72rem;
@@ -153,16 +161,9 @@
     opacity: 0.8;
   }
 
-  /* Indicateur de force mdp */
-  .pwd-strength {
-    display: flex;
-    gap: 3px;
-    margin-top: 0.4rem;
-  }
+  .pwd-strength { display: flex; gap: 3px; margin-top: 0.4rem; }
   .pwd-bar {
-    flex: 1;
-    height: 3px;
-    border-radius: 2px;
+    flex: 1; height: 3px; border-radius: 2px;
     background: var(--creme-dark);
     transition: background 0.3s;
   }
@@ -170,7 +171,6 @@
   .pwd-bar.medium { background: var(--or); }
   .pwd-bar.strong { background: #2e7d32; }
 
-  /* ── RGPD ── */
   .rgpd-notice {
     background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(107,26,42,0.04));
     border: 1px solid rgba(201,168,76,0.25);
@@ -183,14 +183,11 @@
   }
   .rgpd-icon {
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 28px; height: 28px;
     border-radius: 50%;
     background: var(--bordeaux);
     color: var(--or);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 0.85rem;
   }
   .rgpd-text {
@@ -201,8 +198,7 @@
   }
   .rgpd-text strong { font-weight: 600; color: var(--bordeaux); }
   .rgpd-text a {
-    color: var(--or);
-    font-weight: 600;
+    color: var(--or); font-weight: 600;
     text-decoration: underline;
     text-decoration-color: rgba(201,168,76,0.4);
     text-underline-offset: 2px;
@@ -217,8 +213,7 @@
     padding: 0.5rem 0;
   }
   .rgpd-consent input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     accent-color: var(--bordeaux);
     margin-top: 2px;
     cursor: pointer;
@@ -232,14 +227,12 @@
     cursor: pointer;
   }
   .rgpd-consent label a {
-    color: var(--or);
-    font-weight: 600;
+    color: var(--or); font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   .rgpd-consent label a:hover { color: var(--bordeaux); }
 
-  /* ── Bouton ── */
   .btn-submit {
     width: 100%;
     padding: 0.85rem;
@@ -260,13 +253,8 @@
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(107,26,42,0.3);
   }
-  .btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  /* ── Lien login ── */
   .form-login-link {
     text-align: center;
     padding-top: 1rem;
@@ -278,43 +266,39 @@
     margin-bottom: 0.3rem;
   }
   .form-login-link a {
-    color: var(--or);
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 0.875rem;
+    color: var(--or); font-weight: 700;
+    text-decoration: none; font-size: 0.875rem;
     transition: color 0.2s;
   }
   .form-login-link a:hover { color: var(--bordeaux); }
 
-  /* ── Responsive ── */
-  @media (max-width: 480px) {
-    .form-row { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
 </style>
 
 <div class="inscription-page">
 
-  <!-- Hero -->
   <div class="inscription-hero">
     <div class="inscription-hero-content">
       <p class="inscription-hero-eyebrow">Le Gourmet Parisien</p>
-      <h1>Créer un <em>compte</em></h1>
-      <p>Rejoignez-nous pour réserver en quelques clics</p>
+      <h1>Creer un <em>compte</em></h1>
+      <p>Rejoignez-nous pour reserver en quelques clics</p>
+
+      <div class="redirect-banner" id="redirect-banner" style="display:none;">
+        <span>📍</span>
+        <span id="redirect-message">Inscrivez-vous pour continuer</span>
+      </div>
     </div>
   </div>
 
-  <!-- Card -->
   <div class="inscription-container">
     <div class="inscription-card">
 
       <p class="card-eyebrow">Nouveau client</p>
       <h2 class="card-title">Inscription</h2>
-      <p class="card-subtitle">Remplissez le formulaire ci-dessous pour créer votre compte</p>
+      <p class="card-subtitle">Remplissez le formulaire ci-dessous pour creer votre compte</p>
 
-      <!-- Message -->
       <div class="insc-msg" id="message"></div>
 
-      <!-- Formulaire -->
       <form id="inscription-form" class="insc-form">
 
         <div class="form-row">
@@ -323,7 +307,7 @@
             <input type="text" name="nom_client" class="form-input" placeholder="Dupont" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Prénom *</label>
+            <label class="form-label">Prenom *</label>
             <input type="text" name="prenom_client" class="form-input" placeholder="Jean" required>
           </div>
         </div>
@@ -334,7 +318,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">Téléphone</label>
+          <label class="form-label">Telephone</label>
           <input type="tel" name="telephone_client" class="form-input" placeholder="06 00 00 00 00">
         </div>
 
@@ -355,12 +339,11 @@
           <input type="password" name="mdp_confirm" class="form-input" id="pwd-confirm" placeholder="••••••••" required>
         </div>
 
-        <!-- ── RGPD ── -->
         <div class="rgpd-notice">
           <div class="rgpd-icon">🔒</div>
           <div class="rgpd-text">
-            <strong>Protection de vos données</strong><br>
-            Vos informations sont collectées par <strong>Le Gourmet Parisien</strong> uniquement pour la gestion de votre compte et de vos réservations. Vous disposez d'un droit d'accès, de rectification et de suppression conformément au RGPD.
+            <strong>Protection de vos donnees</strong><br>
+            Vos informations sont collectees par <strong>Le Gourmet Parisien</strong> uniquement pour la gestion de votre compte et de vos reservations. Vous disposez d'un droit d'acces, de rectification et de suppression conformement au RGPD.
             <br>
             <a href="/politique-confidentialite">En savoir plus →</a>
           </div>
@@ -369,15 +352,15 @@
         <div class="rgpd-consent">
           <input type="checkbox" id="rgpd-consent" name="rgpd_consent" required>
           <label for="rgpd-consent">
-            J'accepte la <a href="/politique-confidentialite">politique de confidentialité</a> et le traitement de mes données. *
+            J'accepte la <a href="/politique-confidentialite">politique de confidentialite</a> et le traitement de mes donnees. *
           </label>
         </div>
 
-        <button type="submit" class="btn-submit" id="btn-submit">Créer mon compte</button>
+        <button type="submit" class="btn-submit" id="btn-submit">Creer mon compte</button>
 
         <div class="form-login-link">
-          <p>Déjà un compte ?</p>
-          <a href="/login">Se connecter →</a>
+          <p>Deja un compte ?</p>
+          <a id="link-login" href="/login">Se connecter →</a>
         </div>
 
       </form>
@@ -386,6 +369,45 @@
 </div>
 
 <script>
+  // ═══════════════════════════════════════════════
+  // GESTION DU REDIRECT
+  // ═══════════════════════════════════════════════
+  var ALLOWED_REDIRECTS = ['/reservation', '/espace-client', '/avis', '/contact', '/carte'];
+
+  function getRedirectFromUrl() {
+    var params = new URLSearchParams(window.location.search);
+    var raw = params.get('redirect');
+    if (!raw) return null;
+    return ALLOWED_REDIRECTS.indexOf(raw) !== -1 ? raw : null;
+  }
+
+  var redirectTo = getRedirectFromUrl();
+
+  if (redirectTo) {
+    var labels = {
+      '/reservation':   'Inscrivez-vous pour finaliser votre reservation',
+      '/espace-client': 'Inscrivez-vous pour acceder a votre espace',
+      '/avis':          'Inscrivez-vous pour laisser un avis',
+      '/contact':       'Inscrivez-vous pour nous contacter',
+      '/carte':         'Inscrivez-vous pour decouvrir notre carte'
+    };
+    document.getElementById('redirect-message').textContent = labels[redirectTo] || 'Inscrivez-vous pour continuer';
+    document.getElementById('redirect-banner').style.display = 'flex';
+  }
+
+  var linkLogin = document.getElementById('link-login');
+  if (linkLogin && redirectTo) {
+    linkLogin.href = '/login?redirect=' + encodeURIComponent(redirectTo);
+  }
+
+  // ═══════════════════════════════════════════════
+  // Helper pour cookies (identique au login)
+  // ═══════════════════════════════════════════════
+  function setCookies(token, user) {
+    document.cookie = 'token=' + token + '; path=/; max-age=86400; SameSite=Lax';
+    document.cookie = 'user=' + encodeURIComponent(JSON.stringify(user)) + '; path=/; max-age=86400; SameSite=Lax';
+  }
+
   // ── Indicateur force mot de passe ────────────────────────
   document.getElementById('pwd-input').addEventListener('input', function() {
     const val = this.value;
@@ -403,7 +425,6 @@
     });
   });
 
-  // ── Message feedback ──────────────────────────────────────
   function showMsg(ok, text) {
     const msg = document.getElementById('message');
     msg.className = 'insc-msg ' + (ok ? 'success' : 'error');
@@ -418,20 +439,18 @@
     const form = e.target;
     const btn  = document.getElementById('btn-submit');
 
-    // Vérification consentement RGPD
     if (!form.rgpd_consent.checked) {
-      showMsg(false, 'Vous devez accepter la politique de confidentialité.');
+      showMsg(false, 'Vous devez accepter la politique de confidentialite.');
       return;
     }
 
-    // Vérification mots de passe
     if (form.mdp_client.value !== form.mdp_confirm.value) {
       showMsg(false, 'Les mots de passe ne correspondent pas.');
       return;
     }
 
     btn.disabled    = true;
-    btn.textContent = 'Création en cours...';
+    btn.textContent = 'Creation en cours...';
 
     const data = {
       email_client:     form.email_client.value.trim(),
@@ -450,18 +469,42 @@
       const result = await res.json();
 
       if (res.ok) {
-        showMsg(true, 'Compte créé avec succès ! Redirection vers la connexion...');
-        form.reset();
-        setTimeout(() => window.location.href = '/login', 2500);
+        // ═══════════════════════════════════════════════════
+        // ✅ CONNEXION AUTOMATIQUE après inscription
+        // Le backend renvoie maintenant token + user
+        // ═══════════════════════════════════════════════════
+        if (result.token && result.user) {
+          // On pose les cookies = utilisateur connecté
+          setCookies(result.token, result.user);
+
+          // Redirection intelligente
+          var destination = redirectTo || '/espace-client';
+          var prenom = result.user.prenom || 'a vous';
+          var msgTxt = redirectTo
+            ? 'Bienvenue ' + prenom + ' ! Retour a votre reservation...'
+            : 'Bienvenue ' + prenom + ' ! Redirection vers votre espace...';
+
+          showMsg(true, msgTxt);
+          form.reset();
+          setTimeout(() => window.location.href = destination, 1500);
+        } else {
+          // Fallback : si pas de token (rare), on redirige vers login
+          var loginUrl = redirectTo
+            ? '/login?redirect=' + encodeURIComponent(redirectTo)
+            : '/login';
+          showMsg(true, 'Compte cree ! Connectez-vous pour continuer...');
+          form.reset();
+          setTimeout(() => window.location.href = loginUrl, 2000);
+        }
       } else {
         showMsg(false, result.error || (result.errors && result.errors.join('<br>')) || 'Une erreur est survenue.');
         btn.disabled    = false;
-        btn.textContent = 'Créer mon compte';
+        btn.textContent = 'Creer mon compte';
       }
     } catch (err) {
       showMsg(false, 'Erreur de connexion au serveur.');
       btn.disabled    = false;
-      btn.textContent = 'Créer mon compte';
+      btn.textContent = 'Creer mon compte';
     }
   });
 </script>

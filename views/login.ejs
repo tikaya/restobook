@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
   .login-page {
     min-height: 100vh;
@@ -10,12 +10,10 @@
     flex-direction: column;
   }
 
-  /* ═════════════════════════════════════════════
-     HERO élargi
-  ═════════════════════════════════════════════ */
+  /* ── Hero compact ── */
   .login-hero {
     background: var(--bordeaux);
-    padding: 5rem 2rem 7rem;
+    padding: 3.5rem 2rem 5rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -24,113 +22,93 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,168,76,0.15), transparent);
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,168,76,0.1), transparent);
   }
   .login-hero::after {
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 70px;
+    height: 50px;
     background: var(--creme);
-    clip-path: ellipse(60% 100% at 50% 100%);
+    clip-path: ellipse(55% 100% at 50% 100%);
   }
-  .login-hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
-
+  .login-hero-content { position: relative; z-index: 1; }
   .login-hero-eyebrow {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--or);
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
   }
   .login-hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
     color: #fff;
     font-weight: 700;
     line-height: 1.1;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   .login-hero h1 em { font-style: italic; color: var(--or); }
   .login-hero p {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.35rem;
-    color: rgba(255,255,255,0.8);
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
     font-style: italic;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.5;
   }
 
-  /* Ornement décoratif */
-  .hero-ornament {
+  /* Bandeau "redirect" affiche si ?redirect=... */
+  .redirect-banner {
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin: 1rem auto 0;
+    max-width: 480px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.95);
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     justify-content: center;
-    gap: 1rem;
-    margin: 1.5rem 0;
-  }
-  .hero-ornament-line {
-    width: 60px;
-    height: 1px;
-    background: var(--or);
-    opacity: 0.6;
-  }
-  .hero-ornament-diamond {
-    width: 8px;
-    height: 8px;
-    background: var(--or);
-    transform: rotate(45deg);
   }
 
-  /* ═════════════════════════════════════════════
-     CONTAINER élargi
-  ═════════════════════════════════════════════ */
+  /* ── Container ── */
   .login-container {
-    max-width: 620px;
-    margin: -2.5rem auto 5rem;
-    padding: 0 2rem;
+    max-width: 480px;
+    margin: -1.5rem auto 4rem;
+    padding: 0 1.5rem;
     position: relative;
     z-index: 10;
     flex: 1;
   }
 
-  /* ═════════════════════════════════════════════
-     TABS améliorés
-  ═════════════════════════════════════════════ */
+  /* ── Tabs ── */
   .login-tabs {
     display: flex;
     background: #fff;
-    border-radius: 16px 16px 0 0;
+    border-radius: 12px 12px 0 0;
     overflow: hidden;
-    box-shadow: 0 -4px 30px rgba(61,43,31,0.06);
+    box-shadow: 0 -4px 20px rgba(61,43,31,0.06);
     border: 1px solid var(--creme-dark);
     border-bottom: none;
   }
   .tab-btn {
     flex: 1;
-    padding: 1.4rem 1rem;
+    padding: 1rem;
     border: none;
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.2s;
     background: var(--creme-dark);
     color: var(--brun-light);
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-  }
-  .tab-btn:hover:not(.tab-active) {
-    background: rgba(255,255,255,0.5);
-    color: var(--brun);
   }
   .tab-btn.tab-active {
     background: #fff;
@@ -140,200 +118,105 @@
   .tab-btn.tab-active::after {
     content: '';
     position: absolute;
-    bottom: 0; left: 25%; right: 25%;
-    height: 3px;
+    bottom: 0; left: 20%; right: 20%;
+    height: 2px;
     background: var(--bordeaux);
-    border-radius: 3px 3px 0 0;
+    border-radius: 2px 2px 0 0;
   }
 
-  /* ═════════════════════════════════════════════
-     CARD agrandie
-  ═════════════════════════════════════════════ */
+  /* ── Card formulaire ── */
   .login-card {
     background: #fff;
     border: 1px solid var(--creme-dark);
     border-top: none;
-    border-radius: 0 0 20px 20px;
-    padding: 3.5rem 3rem;
-    box-shadow: 0 12px 60px rgba(61,43,31,0.12);
-    position: relative;
+    border-radius: 0 0 16px 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 40px rgba(61,43,31,0.1);
   }
 
-  /* Trait doré décoratif au-dessus du formulaire */
-  .login-card::before {
-    content: '';
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    right: 25px;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--or), transparent);
-    opacity: 0.3;
-  }
-
-  /* En-tête du formulaire */
-  .form-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--creme-dark);
-  }
-  .form-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--or);
-    margin-bottom: 0.5rem;
-  }
-  .form-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--bordeaux);
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-  .form-subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    color: var(--brun-light);
-    font-style: italic;
-    line-height: 1.5;
-  }
-
-  /* ═════════════════════════════════════════════
-     MESSAGE feedback
-  ═════════════════════════════════════════════ */
   .login-msg {
     display: none;
-    padding: 1.1rem 1.25rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    font-size: 0.95rem;
+    padding: 0.875rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
     font-weight: 500;
     line-height: 1.5;
-    font-family: 'DM Sans', sans-serif;
   }
-  .login-msg.success { background: #e8f5e9; color: #2e7d32; border: 1px solid rgba(46,125,50,0.25); }
-  .login-msg.error   { background: #fdecea; color: #c62828; border: 1px solid rgba(198,40,40,0.25); }
+  .login-msg.success { background: #e8f5e9; color: #2e7d32; border: 1px solid rgba(46,125,50,0.2); }
+  .login-msg.error   { background: #fdecea; color: #c62828; border: 1px solid rgba(198,40,40,0.2); }
 
-  /* ═════════════════════════════════════════════
-     FORMULAIRE plus aéré
-  ═════════════════════════════════════════════ */
-  .login-form { display: flex; flex-direction: column; gap: 1.5rem; }
+  .login-form { display: flex; flex-direction: column; gap: 1.1rem; }
   .login-form.hidden { display: none; }
 
-  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
   .form-label {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--brun);
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--brun-light);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
   }
-
   .form-input {
     width: 100%;
-    padding: 1rem 1.25rem;
+    padding: 0.7rem 0.9rem;
     border: 1.5px solid var(--creme-dark);
-    border-radius: 10px;
+    border-radius: 8px;
     font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: var(--brun);
     background: var(--creme);
-    transition: all 0.25s ease;
+    transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
-  }
-  .form-input::placeholder {
-    color: var(--brun-light);
-    opacity: 0.5;
-  }
-  .form-input:hover {
-    border-color: rgba(107,26,42,0.3);
   }
   .form-input:focus {
     border-color: var(--bordeaux);
     background: #fff;
-    box-shadow: 0 0 0 4px rgba(107,26,42,0.1);
+    box-shadow: 0 0 0 3px rgba(107,26,42,0.08);
   }
 
-  /* ═════════════════════════════════════════════
-     BOUTON premium
-  ═════════════════════════════════════════════ */
   .btn-submit {
     width: 100%;
-    padding: 1.15rem;
+    padding: 0.85rem;
     background: var(--bordeaux);
     color: #fff;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     cursor: pointer;
-    transition: all 0.25s ease;
-    margin-top: 0.5rem;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.2s;
+    margin-top: 0.25rem;
   }
-  .btn-submit::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.6s ease;
-  }
-  .btn-submit:hover::before { transform: translateX(100%); }
   .btn-submit:hover {
     background: #8B2A3A;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(107,26,42,0.35);
-  }
-  .btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(107,26,42,0.3);
   }
 
-  /* ═════════════════════════════════════════════
-     LIENS secondaires
-  ═════════════════════════════════════════════ */
   .form-links {
     text-align: center;
     margin-top: 0.5rem;
   }
   .form-links a {
-    font-family: 'DM Sans', sans-serif;
     color: var(--bordeaux);
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.82rem;
     text-decoration: none;
     border-bottom: 1px solid rgba(107,26,42,0.3);
-    padding-bottom: 2px;
-    transition: all 0.2s;
+    transition: border-color 0.2s;
   }
-  .form-links a:hover {
-    color: var(--or);
-    border-color: var(--or);
-  }
+  .form-links a:hover { border-color: var(--bordeaux); }
 
   .form-divider {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    margin: 1.25rem 0;
+    gap: 1rem;
+    margin: 0.5rem 0;
     color: var(--brun-light);
-    font-size: 0.78rem;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.75rem;
   }
   .form-divider::before, .form-divider::after {
     content: '';
@@ -344,105 +227,59 @@
 
   .form-register {
     text-align: center;
-    padding-top: 2rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--creme-dark);
   }
   .form-register p {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.05rem;
+    font-size: 0.82rem;
     color: var(--brun-light);
-    margin-bottom: 0.5rem;
-    font-style: italic;
+    margin-bottom: 0.3rem;
   }
   .form-register a {
-    font-family: 'DM Sans', sans-serif;
     color: var(--or);
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    font-size: 1rem;
-    letter-spacing: 0.05em;
+    font-size: 0.875rem;
     transition: color 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
   }
   .form-register a:hover { color: var(--bordeaux); }
-  .form-register a::after {
-    content: '→';
-    transition: transform 0.2s;
-  }
-  .form-register a:hover::after {
-    transform: translateX(4px);
-  }
-
-  /* ═════════════════════════════════════════════
-     RESPONSIVE
-  ═════════════════════════════════════════════ */
-  @media (max-width: 620px) {
-    .login-hero { padding: 3.5rem 1.5rem 5.5rem; }
-    .login-container { padding: 0 1rem; max-width: 100%; }
-    .login-card { padding: 2.5rem 1.75rem; }
-    .form-title { font-size: 1.7rem; }
-    .tab-btn { padding: 1.1rem 0.5rem; font-size: 0.82rem; }
-  }
 </style>
 
 <div class="login-page">
 
-  <!-- ═══════════════════════════════════
-       HERO
-  ═══════════════════════════════════ -->
+  <!-- Hero -->
   <div class="login-hero">
     <div class="login-hero-content">
       <p class="login-hero-eyebrow">Le Gourmet Parisien</p>
       <h1>Bon <em>retour</em></h1>
-      <div class="hero-ornament">
-        <div class="hero-ornament-line"></div>
-        <div class="hero-ornament-diamond"></div>
-        <div class="hero-ornament-line"></div>
+      <p>Accedez a votre espace personnel</p>
+
+      <!-- ✅ Bandeau redirect : invisible par defaut, affiche si ?redirect=... -->
+      <div class="redirect-banner" id="redirect-banner" style="display:none;">
+        <span>📍</span>
+        <span id="redirect-message">Connectez-vous pour continuer</span>
       </div>
-      <p>Accédez à votre espace personnel et gérez vos réservations</p>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════
-       FORMULAIRE
-  ═══════════════════════════════════ -->
+  <!-- Formulaire -->
   <div class="login-container">
 
     <!-- Tabs -->
     <div class="login-tabs">
-      <button id="tab-client" class="tab-btn tab-active" onclick="switchTab('client')">
-        <span>👤</span> Client
-      </button>
-      <button id="tab-employe" class="tab-btn" onclick="switchTab('employe')">
-        <span>💼</span> Employé
-      </button>
+      <button id="tab-client" class="tab-btn tab-active" onclick="switchTab('client')">👤 Client</button>
+      <button id="tab-employe" class="tab-btn" onclick="switchTab('employe')">💼 Employe</button>
     </div>
 
     <div class="login-card">
 
-      <!-- En-tête du formulaire -->
-      <div class="form-header" id="form-header-client">
-        <p class="form-eyebrow">Espace client</p>
-        <h2 class="form-title">Connexion</h2>
-        <p class="form-subtitle">Entrez vos identifiants pour accéder à votre espace</p>
-      </div>
-
-      <div class="form-header" id="form-header-employe" style="display: none;">
-        <p class="form-eyebrow">Espace professionnel</p>
-        <h2 class="form-title">Connexion</h2>
-        <p class="form-subtitle">Connexion réservée à l'équipe du restaurant</p>
-      </div>
-
-      <!-- Message feedback -->
       <div class="login-msg" id="message"></div>
 
       <!-- Form Client -->
       <form id="form-client" class="login-form">
 
         <div class="form-group">
-          <label class="form-label">Adresse e-mail</label>
+          <label class="form-label">Email</label>
           <input type="email" name="email_client" class="form-input" placeholder="votre@email.com" required>
         </div>
 
@@ -454,14 +291,13 @@
         <button type="submit" class="btn-submit">Se connecter</button>
 
         <div class="form-links">
-          <a href="/forgot-password">Mot de passe oublié ?</a>
+          <a href="/forgot-password">Mot de passe oublie ?</a>
         </div>
 
-        <div class="form-divider">— ou —</div>
-
         <div class="form-register">
-          <p>Vous n'avez pas encore de compte ?</p>
-          <a href="/inscription">Créer un compte</a>
+          <p>Pas encore de compte ?</p>
+          <!-- ✅ Lien inscription preserve le redirect -->
+          <a id="link-inscription" href="/inscription">Creer un compte →</a>
         </div>
 
       </form>
@@ -488,30 +324,63 @@
 </div>
 
 <script>
+  // ═══════════════════════════════════════════════
+  // GESTION DU REDIRECT
+  // ═══════════════════════════════════════════════
+  // Whitelist anti "Open Redirect" (CWE-601)
+  var ALLOWED_REDIRECTS = ['/reservation', '/espace-client', '/avis', '/contact', '/carte'];
+
+  function getRedirectFromUrl() {
+    var params = new URLSearchParams(window.location.search);
+    var raw = params.get('redirect');
+    if (!raw) return null;
+    return ALLOWED_REDIRECTS.indexOf(raw) !== -1 ? raw : null;
+  }
+
+  var redirectTo = getRedirectFromUrl();
+
+  // Affiche le bandeau si on a un redirect
+  if (redirectTo) {
+    var labels = {
+      '/reservation':   'Connectez-vous pour finaliser votre reservation',
+      '/espace-client': 'Connectez-vous pour acceder a votre espace',
+      '/avis':          'Connectez-vous pour laisser un avis',
+      '/contact':       'Connectez-vous pour nous contacter',
+      '/carte':         'Connectez-vous pour decouvrir notre carte'
+    };
+    document.getElementById('redirect-message').textContent = labels[redirectTo] || 'Connectez-vous pour continuer';
+    document.getElementById('redirect-banner').style.display = 'flex';
+  }
+
+  // Lien inscription preserve le redirect
+  var linkInscription = document.getElementById('link-inscription');
+  if (linkInscription && redirectTo) {
+    linkInscription.href = '/inscription?redirect=' + encodeURIComponent(redirectTo);
+  }
+
+  // ═══════════════════════════════════════════════
+  // TABS
+  // ═══════════════════════════════════════════════
   function switchTab(type) {
     document.getElementById('message').className = 'login-msg';
     document.getElementById('message').style.display = 'none';
     var isClient = type === 'client';
-
     document.getElementById('form-client').classList.toggle('hidden', !isClient);
     document.getElementById('form-employe').classList.toggle('hidden', isClient);
     document.getElementById('tab-client').classList.toggle('tab-active', isClient);
     document.getElementById('tab-employe').classList.toggle('tab-active', !isClient);
-
-    document.getElementById('form-header-client').style.display  = isClient ? 'block' : 'none';
-    document.getElementById('form-header-employe').style.display = isClient ? 'none'  : 'block';
   }
 
   function showMsg(ok, text) {
-    var msg = document.getElementById('message');
+    const msg = document.getElementById('message');
     msg.className = 'login-msg ' + (ok ? 'success' : 'error');
     msg.style.display = 'block';
     msg.innerHTML = (ok ? '✓ ' : '✗ ') + text;
   }
 
   function setCookies(token, user) {
-    document.cookie = 'token=' + token + '; path=/; max-age=86400; SameSite=Lax';
-    document.cookie = 'user=' + encodeURIComponent(JSON.stringify(user)) + '; path=/; max-age=86400; SameSite=Lax';
+    document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
+    document.cookie = `user=${encodeURIComponent(JSON.stringify(user))}; path=/; max-age=86400; SameSite=Lax`;
   }
 
   // ── Login Client ──────────────────────────────────────────
@@ -542,8 +411,17 @@
 
       if (res.ok) {
         setCookies(data.token, data.user);
-        showMsg(true, 'Connexion réussie ! Redirection...');
-        setTimeout(() => window.location.href = '/espace-client', 1200);
+
+        // ═══════════════════════════════════════════════
+        // ✅ REDIRECTION INTELLIGENTE
+        // ═══════════════════════════════════════════════
+        var destination = redirectTo || '/espace-client';
+        var msgRedirect = redirectTo
+          ? 'Connexion reussie ! Retour a votre reservation...'
+          : 'Connexion reussie ! Redirection...';
+
+        showMsg(true, msgRedirect);
+        setTimeout(() => window.location.href = destination, 1200);
       } else {
         showMsg(false, data.error || 'Identifiants incorrects');
         btn.disabled = false;
@@ -556,7 +434,7 @@
     }
   });
 
-  // ── Login Employé ─────────────────────────────────────────
+  // ── Login Employé (pas de redirect, role-based) ──────────
   document.getElementById('form-employe').addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -577,7 +455,7 @@
 
       if (res.ok) {
         setCookies(data.token, data.user);
-        showMsg(true, 'Connexion réussie ! Redirection...');
+        showMsg(true, 'Connexion reussie ! Redirection...');
         const role = data.user.role;
         setTimeout(() => {
           window.location.href = role === 'gerant' ? '/espace-admin' : '/espace-serveur';

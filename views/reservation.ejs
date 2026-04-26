@@ -142,7 +142,7 @@
   .auth-perks li::before {
     content: ''; flex-shrink: 0;
     width: 18px; height: 18px; border-radius: 50%;
-    background: var(--or); color: #fff;
+    background: var(--or);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M13.485 1.929a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 1 1 1.06-1.06L5.5 8.939l6.97-6.97a.75.75 0 0 1 1.06 0z'/%3E%3C/svg%3E");
     background-position: center; background-repeat: no-repeat; background-size: 60%;
   }
@@ -282,7 +282,7 @@
   <div class="resa-layout">
 
     <!-- ═══════════════════════════════════════════
-         OVERLAY AUTH — affiche si non connecte
+         OVERLAY AUTH avec liens ?redirect=/reservation
     ═══════════════════════════════════════════ -->
     <div class="auth-overlay" id="auth-overlay">
       <div class="auth-overlay-bg"></div>
@@ -303,9 +303,10 @@
         </div>
 
         <div class="auth-actions">
-          <a href="/login" class="auth-btn auth-btn-primary">Se connecter</a>
+          <!-- ✅ Liens avec ?redirect=/reservation -->
+          <a href="/login?redirect=/reservation" class="auth-btn auth-btn-primary">Se connecter</a>
           <div class="auth-divider">ou</div>
-          <a href="/inscription" class="auth-btn auth-btn-secondary">Creer un compte</a>
+          <a href="/inscription?redirect=/reservation" class="auth-btn auth-btn-secondary">Creer un compte</a>
         </div>
 
         <a href="/" class="auth-back">← Retour a l'accueil</a>
@@ -402,6 +403,9 @@
       </form>
     </div>
 
+    <!-- ═══════════════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════════════ -->
     <div class="resa-sidebar">
 
       <div class="sidebar-card">

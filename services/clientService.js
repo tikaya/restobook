@@ -25,20 +25,28 @@ const clientservice = {
         error.status = 400;
         throw error;
         }
+
+        // ⚠️ On garde le mdp en clair AVANT le hash
+        // pour pouvoir éventuellement reconnecter l'utilisateur après création
+        const plainPassword = data.mdp_client;
+
          // Hash du mot de passe avant de le stocker
          const salt = await bcrypt.genSalt(10);
 
          // Hashons le mdp_client concretement
-           data.mdp_client = await bcrypt.hash(data.mdp_client,salt );
+           data.mdp_client = await bcrypt.hash(data.mdp_client, salt);
 
         const newClient = await clientModel.create(data);
 
         // Envoyons un message de confirmation d'inscription au client 
-         emailService.sendSignupEmail(data.email_client,data.prenom_client).catch(
-            err =>console.error("Erreur lors de l'envoi de email:",err.message )
+         emailService.sendSignupEmail(data.email_client, data.prenom_client).catch(
+            err => console.error("Erreur lors de l'envoi de email:", err.message)
          )
 
-        return newClient;
+        // ✅ On retourne aussi le mdp en clair pour que le controller puisse
+        // appeler authService.loginClient juste après. Le controller NE renvoie
+        // PAS ce champ au client final — il sert uniquement en interne.
+        return { ...newClient, _plainPassword: plainPassword };
     },
 
     updateClient: async (id,data) => {
@@ -65,42 +73,26 @@ const clientservice = {
     },
 
     restoreClient: async (id) => {
-        // Appelons la methode restore du model
         const clientRestore = await clientModel.restore(id)
 
-        //Si rien n'est stocké dans la variable
-
         if(!clientRestore) {
-            // Creer un objet error
             const error = new Error('Client non trouvé')
-            //AJoutons cette methode status a l'objet error
             error.status = 404;
-            //Balancons l'erreur au prochain catch
-            
             throw error
         }
-        //Si tous c'est bien passé
         return clientRestore
-
     },
     
     deleteForceClient: async(id) => {
-        // Appelons la methode deleteForceClient du model
         const clientDeleted = await clientModel.deleteForce(id)
 
-        // Soit la suppression à echouée
         if(!clientDeleted) {
-            // On crèe l'objet erreur 
             const error = new Error('Client introuvable !')
-            // Ajoutons la propriété status à la valeur 404
             error.status = 404
-            // Balacons l'erreur  au middleware de gestion d'erreur
             throw error
         }
 
-        // Si tous se passe bien on retourne clientDeleted
         return clientDeleted
-    
     }
 }
 
