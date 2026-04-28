@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= typeof title !== 'undefined' ? title : 'Le Gourmet Parisien' %> — RestoBook</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bordeaux: #722F37;
@@ -16,6 +16,7 @@
             --or-dark: #B08C30;
             --creme: #FAF7F2;
             --creme-dark: #F0EBE3;
+            --creme-darker: #E8E0D5;
             --brun: #2C2220;
             --brun-light: #555555;
         }
@@ -33,123 +34,205 @@
         ::-webkit-scrollbar-track { background: var(--creme-dark); }
         ::-webkit-scrollbar-thumb { background: var(--or); border-radius: 3px; }
 
+        /* ════════════════════════════════════════════
+           NAV — fond clair façon mockup
+        ════════════════════════════════════════════ */
         nav {
-            background: var(--bordeaux-dark);
+            background: #fff;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--creme-dark);
+            box-shadow: 0 2px 12px rgba(44,34,32,0.04);
         }
 
         .nav-inner {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
-            height: 70px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
+        /* ── Logo bicolore sur 2 lignes ── */
         .nav-logo {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+        .nav-logo:hover { transform: translateY(-1px); }
+
+        .nav-logo-main {
             font-family: 'Playfair Display', serif;
             font-size: 1.4rem;
             font-weight: 700;
-            color: var(--or);
-            text-decoration: none;
+            color: var(--bordeaux);
+            letter-spacing: 0.01em;
+        }
+
+        .nav-logo-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--or-dark);
+            margin-top: 3px;
             letter-spacing: 0.02em;
         }
 
-        .nav-links { display: flex; align-items: center; gap: 2.5rem; }
+        /* ── Liens du menu ── */
+        .nav-links { display: flex; align-items: center; gap: 2.25rem; }
 
         .nav-links a {
-            color: rgba(255,255,255,0.85);
+            color: var(--brun-light);
             text-decoration: none;
-            font-size: 0.85rem;
-            letter-spacing: 0.08em;
+            font-family: 'DM Sans', 'Lato', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             transition: color 0.2s;
             position: relative;
+            padding: 0.4rem 0;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -4px; left: 0;
-            width: 0; height: 1px;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
             background: var(--or);
-            transition: width 0.3s;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
         }
 
-        .nav-links a:hover { color: var(--or); }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover {
+            color: var(--bordeaux);
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
 
-        .btn-nav {
-            background: var(--or);
-            color: var(--bordeaux-dark) !important;
-            padding: 0.55rem 1.4rem;
-            border-radius: 3px;
+        /* État actif */
+        .nav-links a.active {
+            color: var(--bordeaux);
             font-weight: 700;
-            font-size: 0.8rem !important;
+        }
+        .nav-links a.active::after { transform: scaleX(1); }
+
+        /* ── Bouton "Se connecter" — bordeaux plein ── */
+        .btn-nav {
+            background: var(--bordeaux);
+            color: #fff !important;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-family: 'DM Sans', 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 0.78rem !important;
             letter-spacing: 0.1em !important;
             text-transform: uppercase !important;
-            transition: background 0.2s, transform 0.15s !important;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s !important;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(114,47,55,0.15);
         }
 
         .btn-nav::after { display: none !important; }
-        .btn-nav:hover { background: var(--or-light) !important; transform: translateY(-1px); }
+        .btn-nav:hover {
+            background: var(--bordeaux-light) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(114,47,55,0.25);
+        }
 
         .btn-nav-logout {
-            color: rgba(255,255,255,0.5) !important;
-            font-size: 0.78rem !important;
-            letter-spacing: 0.06em !important;
+            color: var(--brun-light) !important;
+            font-family: 'DM Sans', 'Lato', sans-serif;
+            font-size: 0.72rem !important;
+            font-weight: 500;
+            letter-spacing: 0.08em !important;
             text-transform: uppercase !important;
             text-decoration: none;
             transition: color 0.2s !important;
         }
-        .btn-nav-logout:hover { color: #fff !important; }
+        .btn-nav-logout:hover { color: var(--bordeaux) !important; }
         .btn-nav-logout::after { display: none !important; }
 
+        /* ── Burger mobile ── */
         .menu-btn {
             display: none;
-            background: none;
+            background: var(--bordeaux);
             border: none;
-            color: #fff;
-            font-size: 1.5rem;
+            color: var(--or);
+            font-size: 1.4rem;
             cursor: pointer;
-            padding: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: background 0.2s;
         }
+        .menu-btn:hover { background: var(--bordeaux-light); }
 
+        /* ── Menu mobile ── */
         #mobile-menu {
             display: none;
-            background: var(--bordeaux-dark);
+            background: #fff;
             padding: 1rem 2rem 1.5rem;
-            border-top: 1px solid rgba(201,168,76,0.2);
+            border-top: 1px solid var(--creme-dark);
+            box-shadow: 0 4px 12px rgba(44,34,32,0.06);
         }
 
         #mobile-menu a {
             display: block;
-            color: rgba(255,255,255,0.8);
+            color: var(--brun-light);
             text-decoration: none;
-            padding: 0.6rem 0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 0.85rem 0;
+            font-family: 'DM Sans', 'Lato', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--creme-dark);
+            transition: color 0.2s, padding-left 0.2s;
+        }
+
+        #mobile-menu a:hover {
+            color: var(--bordeaux);
+            padding-left: 0.5rem;
+        }
+
+        #mobile-menu a.active {
+            color: var(--bordeaux);
+            font-weight: 700;
+            border-left: 3px solid var(--or);
+            padding-left: 0.75rem;
         }
 
         .mobile-cta {
             display: block;
-            background: var(--or);
-            color: var(--bordeaux-dark) !important;
+            background: var(--bordeaux) !important;
+            color: #fff !important;
             text-align: center;
-            padding: 0.8rem !important;
+            padding: 0.9rem !important;
             font-weight: 700;
-            border-radius: 2px;
+            border-radius: 6px;
             border: none !important;
-            margin-top: 0.5rem;
+            margin-top: 0.75rem;
+            box-shadow: 0 2px 8px rgba(114,47,55,0.15);
+        }
+        .mobile-cta:hover {
+            padding-left: 0.9rem !important;
+            background: var(--bordeaux-light) !important;
         }
 
+        /* ════════════════════════════════════════════
+           Reste des styles globaux du site (inchangé)
+        ════════════════════════════════════════════ */
         .btn-primary {
             display: inline-block;
             background: var(--or);
@@ -202,9 +285,13 @@
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* ── Responsive ── */
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .menu-btn { display: block; }
+            .nav-inner { height: 70px; padding: 0 1.25rem; }
+            .nav-logo-main { font-size: 1.2rem; }
+            .nav-logo-sub { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -212,31 +299,53 @@
 
     <nav>
         <div class="nav-inner">
-            <a href="/" class="nav-logo">Le Gourmet Parisien</a>
+            <!-- Logo bicolore Le Gourmet / Parisien -->
+            <a href="/" class="nav-logo" aria-label="Le Gourmet Parisien - Accueil">
+                <span class="nav-logo-main">Le Gourmet</span>
+                <span class="nav-logo-sub">Parisien</span>
+            </a>
+
             <div class="nav-links">
-                <a href="/">Accueil</a>
-                <a href="/carte">Notre Carte</a>
-                <a href="/reservation">Réserver</a>
-                <a href="/avis">Avis</a>
-                <a href="/contact">Contact</a>
-                <!-- Placeholder replaced by JS -->
+                <a href="/" data-route="/">Accueil</a>
+                <a href="/carte" data-route="/carte">Notre Carte</a>
+                <a href="/reservation" data-route="/reservation">Réserver</a>
+                <a href="/avis" data-route="/avis">Avis</a>
+                <a href="/contact" data-route="/contact">Contact</a>
+                <!-- Placeholder remplacé par JS -->
                 <span id="nav-auth-btn"></span>
             </div>
+
             <button class="menu-btn" id="menu-btn" aria-label="Menu">&#9776;</button>
         </div>
+
         <div id="mobile-menu">
-            <a href="/">Accueil</a>
-            <a href="/carte">Notre Carte</a>
-            <a href="/reservation">Réserver</a>
-            <a href="/avis">Avis</a>
-            <a href="/contact">Contact</a>
+            <a href="/" data-route="/">Accueil</a>
+            <a href="/carte" data-route="/carte">Notre Carte</a>
+            <a href="/reservation" data-route="/reservation">Réserver</a>
+            <a href="/avis" data-route="/avis">Avis</a>
+            <a href="/contact" data-route="/contact">Contact</a>
             <span id="mobile-auth-btn"></span>
         </div>
     </nav>
 
     <script>
-      // Detection session depuis cookie
+      // ════════════════════════════════════════════
+      // Détection de la page active + auth
+      // ════════════════════════════════════════════
       (function() {
+
+        // ── 1. Marquer le lien actif selon l'URL courante ──
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.nav-links a[data-route], #mobile-menu a[data-route]').forEach(link => {
+          const route = link.getAttribute('data-route');
+          // "/" actif uniquement si on est exactement sur /
+          // les autres routes : actif si l'URL commence par la route
+          const isActive = (route === '/' && currentPath === '/')
+                        || (route !== '/' && currentPath.startsWith(route));
+          if (isActive) link.classList.add('active');
+        });
+
+        // ── 2. Authentification (cookie) ──
         function getUser() {
           try {
             const raw = document.cookie.split('; ')
@@ -252,7 +361,6 @@
         const mobileBtn = document.getElementById('mobile-auth-btn');
 
         if (user && token) {
-          // Connecte - lien vers Mon espace + deconnexion
           const espaceUrl = user.role === 'client' ? '/espace-client'
                           : user.role === 'gerant' ? '/espace-admin'
                           : '/espace-serveur';
@@ -261,22 +369,21 @@
           navBtn.innerHTML = `
             <span style="display:flex;align-items:center;gap:1rem;">
               <a href="${espaceUrl}" class="btn-nav">&#128100; ${prenom}</a>
-              <a href="/logout" class="btn-nav-logout">Deconnexion</a>
+              <a href="/logout" class="btn-nav-logout">Déconnexion</a>
             </span>`;
 
           mobileBtn.innerHTML = `
             <a href="${espaceUrl}" class="mobile-cta">&#128100; ${prenom}</a>
-            <a href="/logout" style="display:block;color:rgba(255,255,255,0.5);padding:0.6rem 0;font-size:0.85rem;text-decoration:none;border-top:1px solid rgba(255,255,255,0.06);">
-              Deconnexion
+            <a href="/logout" style="display:block;color:var(--brun-light);padding:0.7rem 0;font-size:0.8rem;text-decoration:none;border-top:1px solid var(--creme-dark);text-align:center;text-transform:uppercase;letter-spacing:0.08em;">
+              Déconnexion
             </a>`;
         } else {
-          // Non connecte - Se connecter
-          navBtn.innerHTML    = `<a href="/login" class="btn-nav">Se connecter</a>`;
-          mobileBtn.innerHTML = `<a href="/login" class="mobile-cta">Se connecter</a>`;
+          navBtn.innerHTML    = `<a href="/login" class="btn-nav">&#128100; Se connecter</a>`;
+          mobileBtn.innerHTML = `<a href="/login" class="mobile-cta">&#128100; Se connecter</a>`;
         }
 
-        // Menu mobile toggle
-        const menuBtn = document.getElementById('menu-btn');
+        // ── 3. Menu mobile toggle ──
+        const menuBtn    = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (menuBtn && mobileMenu) {
           menuBtn.addEventListener('click', () => {
@@ -284,7 +391,7 @@
           });
         }
 
-        // Reveal animation
+        // ── 4. Reveal animation ──
         const reveals = document.querySelectorAll('.reveal');
         if (reveals.length) {
           const observer = new IntersectionObserver(entries => {
