@@ -113,43 +113,72 @@
             transition: transform 0.3s ease;
         }
 
-        .nav-links a:hover {
-            color: var(--bordeaux);
-        }
+        .nav-links a:hover { color: var(--bordeaux); }
         .nav-links a:hover::after { transform: scaleX(1); }
 
-        /* État actif */
         .nav-links a.active {
             color: var(--bordeaux);
             font-weight: 700;
         }
         .nav-links a.active::after { transform: scaleX(1); }
 
-        /* ── Bouton "Se connecter" — bordeaux plein ── */
+        /* ════════════════════════════════════════════
+           BOUTON "SE CONNECTER" — version premium
+           Pill + gradient + halo or + shimmer au hover
+        ════════════════════════════════════════════ */
         .btn-nav {
-            background: var(--bordeaux);
+            background: linear-gradient(135deg, var(--bordeaux) 0%, var(--bordeaux-light) 100%);
             color: #fff !important;
-            padding: 0.7rem 1.5rem;
-            border-radius: 6px;
+            padding: 0.75rem 1.7rem;
+            border-radius: 50px;
+            border: 1.5px solid transparent;
             font-family: 'DM Sans', 'Lato', sans-serif;
             font-weight: 700;
             font-size: 0.78rem !important;
-            letter-spacing: 0.1em !important;
+            letter-spacing: 0.14em !important;
             text-transform: uppercase !important;
-            transition: background 0.2s, transform 0.15s, box-shadow 0.2s !important;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 2px 8px rgba(114,47,55,0.15);
+            gap: 0.55rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 2px 8px rgba(114, 47, 55, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(201, 168, 76, 0.35),
+                transparent
+            );
+            transition: left 0.7s ease;
+            pointer-events: none;
         }
 
         .btn-nav::after { display: none !important; }
+
         .btn-nav:hover {
-            background: var(--bordeaux-light) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(114,47,55,0.25);
+            border-color: var(--or) !important;
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 22px rgba(114, 47, 55, 0.32),
+                0 0 0 4px rgba(201, 168, 76, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+            color: #fff !important;
         }
+
+        .btn-nav:hover::before { left: 100%; }
 
         .btn-nav-logout {
             color: var(--brun-light) !important;
@@ -213,25 +242,35 @@
             padding-left: 0.75rem;
         }
 
+        /* CTA mobile — version premium aussi */
         .mobile-cta {
-            display: block;
-            background: var(--bordeaux) !important;
+            display: block !important;
+            background: linear-gradient(135deg, var(--bordeaux) 0%, var(--bordeaux-light) 100%) !important;
             color: #fff !important;
             text-align: center;
-            padding: 0.9rem !important;
+            padding: 0.95rem !important;
+            font-family: 'DM Sans', 'Lato', sans-serif;
             font-weight: 700;
-            border-radius: 6px;
-            border: none !important;
-            margin-top: 0.75rem;
-            box-shadow: 0 2px 8px rgba(114,47,55,0.15);
+            font-size: 0.82rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 50px !important;
+            border: 1.5px solid transparent !important;
+            margin-top: 0.85rem !important;
+            box-shadow:
+                0 2px 10px rgba(114, 47, 55, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            transition: all 0.3s ease;
         }
         .mobile-cta:hover {
-            padding-left: 0.9rem !important;
-            background: var(--bordeaux-light) !important;
+            border-color: var(--or) !important;
+            box-shadow:
+                0 6px 18px rgba(114, 47, 55, 0.3),
+                0 0 0 3px rgba(201, 168, 76, 0.18) !important;
         }
 
         /* ════════════════════════════════════════════
-           Reste des styles globaux du site (inchangé)
+           Reste des styles globaux du site
         ════════════════════════════════════════════ */
         .btn-primary {
             display: inline-block;
@@ -311,7 +350,6 @@
                 <a href="/reservation" data-route="/reservation">Réserver</a>
                 <a href="/avis" data-route="/avis">Avis</a>
                 <a href="/contact" data-route="/contact">Contact</a>
-                <!-- Placeholder remplacé par JS -->
                 <span id="nav-auth-btn"></span>
             </div>
 
@@ -329,17 +367,11 @@
     </nav>
 
     <script>
-      // ════════════════════════════════════════════
-      // Détection de la page active + auth
-      // ════════════════════════════════════════════
       (function() {
-
         // ── 1. Marquer le lien actif selon l'URL courante ──
         const currentPath = window.location.pathname;
         document.querySelectorAll('.nav-links a[data-route], #mobile-menu a[data-route]').forEach(link => {
           const route = link.getAttribute('data-route');
-          // "/" actif uniquement si on est exactement sur /
-          // les autres routes : actif si l'URL commence par la route
           const isActive = (route === '/' && currentPath === '/')
                         || (route !== '/' && currentPath.startsWith(route));
           if (isActive) link.classList.add('active');
@@ -374,7 +406,7 @@
 
           mobileBtn.innerHTML = `
             <a href="${espaceUrl}" class="mobile-cta">&#128100; ${prenom}</a>
-            <a href="/logout" style="display:block;color:var(--brun-light);padding:0.7rem 0;font-size:0.8rem;text-decoration:none;border-top:1px solid var(--creme-dark);text-align:center;text-transform:uppercase;letter-spacing:0.08em;">
+            <a href="/logout" style="display:block;color:var(--brun-light);padding:0.7rem 0;font-size:0.8rem;text-decoration:none;border-top:1px solid var(--creme-dark);text-align:center;text-transform:uppercase;letter-spacing:0.08em;margin-top:0.5rem;">
               Déconnexion
             </a>`;
         } else {
