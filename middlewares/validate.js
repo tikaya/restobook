@@ -67,7 +67,7 @@ const validateClientUpdate = (req, res, next) => {
 }
 
 // ============================================
-// VALIDATION EMPLOYE
+// VALIDATION EMPLOYE.
 // ============================================
 
 const validateEmploye = (req, res, next) => {

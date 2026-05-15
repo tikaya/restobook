@@ -49,4 +49,4 @@ const tableService = {
     }
 }
 
-module.exports = tableService;
+module.exports = tableService;      
